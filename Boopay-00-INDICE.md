@@ -18,6 +18,8 @@ O MVP será completo para uma loja demonstrativa. Isso significa que todas as ca
 4. [Roadmap e critérios de aceite](./Boopay-03-ROADMAP-E-ACEITE.md)
 5. [Backlog pós-MVP](./Boopay-04-BACKLOG.md)
 6. [Dicionário técnico](./Boopay-05-DICIONARIO-TECNICO.md)
+7. [Briefing da primeira reunião com Rogério](./Boopay-06-BRIEFING-REUNIAO-ROGERIO-2026-08-24.md)
+8. [PDF de apoio para a reunião](./Boopay-Apoio-Reuniao-Rogerio-2026-08-24.pdf)
 
 ## Decisões centrais
 
