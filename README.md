@@ -1,106 +1,125 @@
 # Boopay
 
-Documentação, decisões e evolução do MVP de *Agentic Commerce* desenvolvido pelo Squad 45.
+O Boopay conecta lojas virtuais a jornadas de compra mediadas por agentes de IA: **prontidão GEO → catálogo estruturado → recomendação → revisão → confirmação do comprador → pagamento → pedido → receita conciliada**. É o projeto de Agentic Commerce do Squad 45, na residência com a KeyCore Tech Hub.
 
-> **Estado atual:** planejamento, validação do escopo e preparação da Entrega Parcial. Este repositório ainda não contém uma aplicação executável. Quando o código for adicionado, os comandos de instalação e execução serão documentados aqui.
+**Estado atual, conferido em 05/10/2026:** há plataforma, plugin WooCommerce e landing implementados em repositórios privados. O fluxo próprio funciona em ambiente local e nos ensaios documentados. O MVP completo continua aberto: faltam validações com lojas, contas e serviços externos autorizados. A centralização destes documentos não representa implantação ou homologação.
 
-## Recebeu este link agora?
+Este README apresenta o estado consolidado. Os detalhes estão organizados por repositório, sem snapshots antigos, instruções de agentes ou relatórios das ferramentas do Codex.
 
-Não é necessário instalar nada para conhecer o projeto.
+## Navegação
 
-1. Leia o [índice da documentação](./Boopay-00-INDICE.md).
-2. Consulte o [escopo do MVP](./Boopay-01-ESCOPO-MVP.md) para entender o que entra e o que fica para depois.
-3. Abra a [arquitetura e os fluxos](./Boopay-02-ARQUITETURA-E-FLUXOS.md) para conhecer o funcionamento proposto.
-4. Use o [dicionário técnico](./Boopay-05-DICIONARIO-TECNICO.md) sempre que encontrar um termo desconhecido.
-5. Se você faz parte do squad, acompanhe tarefas e prazos no [Notion do Boopay](https://app.notion.com/p/3c56abcea22681a299f3ddb2684ff684).
+- [Produto, escopo e arquitetura](Boopay/_INDICE.md)
+- [Plataforma, APIs e integrações](boopay-platform/_INDICE.md)
+- [Plugin WooCommerce](pluginboopay/_INDICE.md)
+- [Landing e identidade visual](boopay-landing/_INDICE.md)
+- [Estado validado e pendências](boopay-platform/docs/ESTADO-ATUAL.md)
+- [Critérios para concluir o MVP](boopay-platform/docs/CRITERIOS-DE-ACEITE.md)
+- [Todos os documentos](INDICE-CENTRAL.md)
 
-## O que é o Boopay?
+## Problema, público e objetivo
 
-O Boopay é uma proposta de plataforma que conecta lojas virtuais, dados de clientes, agentes de inteligência artificial e meios de pagamento. O objetivo é permitir jornadas de compra conversacionais: a IA consulta catálogo, estoque, regras comerciais e perfil do consumidor, recomenda produtos e conduz o checkout com confirmação do usuário.
+Lojas operam com páginas, catálogos, eventos, pedidos e pagamentos dispersos. Um agente precisa de dados confiáveis para interpretar um produto e conduzir a compra, enquanto o gestor precisa entender de onde veio uma recomendação, o que foi confirmado e se houve receita comprovada.
 
-O primeiro MVP será demonstrado com uma loja controlada e deve funcionar de ponta a ponta antes da evolução para múltiplas lojas e planos comerciais.
+O público principal são gestores de e-commerce responsáveis por catálogo, operação e receita. O comprador participa de uma conversa de compra com revisão e confirmação explícitas. O objetivo do MVP é demonstrar essa jornada completa para **uma loja controlada**, começando por WooCommerce e usando o mesmo núcleo nos adaptadores Shopify e VTEX.
 
-## Escopo atual do MVP
+A proposta de valor combina preparação para descoberta, catálogo consultável, compra no contexto da conversa e atribuição auditável. A validação comercial com lojistas e métricas de resultado permanece pendente; score GEO não garante citação, recomendação ou venda. [Escopo](Boopay/Boopay-01-ESCOPO-MVP.md) · [GEO e checkout](Boopay/Boopay-08-GEO-E-CHECKOUT-INVISIVEL.md).
 
-- coleta confiável de eventos da loja;
-- integrações planejadas com WooCommerce, Shopify e VTEX;
-- perfil 360° e dashboard completos para a loja demonstrativa;
-- recomendações e fluxos com IA por uma camada de provedores;
-- Qwen na Groq para desenvolvimento e testes, com GPT e Gemini validados em *staging* e previstos para produção;
-- ACP e UCP implementados e testados em ambiente controlado;
-- Stripe e Google Pay inicialmente em sandbox;
-- recuperação controlada de carrinho pelo WhatsApp;
-- critérios de aceite, falhas, segurança, custos e evidências documentados.
+## Escopo e jornada do MVP
 
-CDP completo, rastreamento avançado, publicação nas superfícies oficiais, operação multiloja, planos e cobrança SaaS permanecem no backlog futuro.
+1. O gestor conecta a loja e prepara as páginas que serão auditadas.
+2. O GEO Readiness Audit da KeyCore fornece evidências de prontidão; o Boopay relaciona URLs, SKUs e catálogo, sem modificar automaticamente a loja.
+3. Produtos, variações, preços e estoque são normalizados. O feed é validado e versionado; gerar o arquivo não comprova distribuição externa.
+4. A IA consulta o catálogo e recomenda produtos rastreáveis. A seleção preserva produto, revisão, preço e origem da recomendação.
+5. O Checkout Core recalcula os valores na autoridade comercial e apresenta itens, quantidade, entrega, pagamento e total.
+6. O comprador confirma o resumo exato. Mudanças de preço, estoque ou prazo exigem nova revisão.
+7. A operação cria ou recupera a mesma tentativa de pagamento/pedido, com idempotência e conciliação.
+8. O painel relaciona descoberta, sessão, pedido, pagamento e estorno, distinguindo receita paga de operações pendentes.
 
-## Mapa do repositório
+Checkout “invisível” significa permanecer no contexto da experiência controlada, com revisão e confirmação humanas. O agente não recebe permissão irrestrita para comprar. A ativação oficial em ChatGPT, Gemini ou outras superfícies depende das capacidades, programas e aprovações externas. [Checkout conversacional](Boopay/Boopay-07-CHECKOUT-CONVERSACIONAL.md) · [Trilha de descoberta](boopay-platform/docs/DISCOVERY.md).
 
-| Arquivo | Para que serve |
-|---|---|
-| [Boopay-00-INDICE.md](./Boopay-00-INDICE.md) | Porta de entrada e decisões centrais |
-| [Boopay-01-ESCOPO-MVP.md](./Boopay-01-ESCOPO-MVP.md) | Escopo, limites e trade-offs do MVP |
-| [Boopay-02-ARQUITETURA-E-FLUXOS.md](./Boopay-02-ARQUITETURA-E-FLUXOS.md) | Componentes, dados, integrações e fluxos |
-| [Boopay-03-ROADMAP-E-ACEITE.md](./Boopay-03-ROADMAP-E-ACEITE.md) | Cronograma e critérios de aceite |
-| [Boopay-04-BACKLOG.md](./Boopay-04-BACKLOG.md) | Itens posteriores ao MVP |
-| [Boopay-05-DICIONARIO-TECNICO.md](./Boopay-05-DICIONARIO-TECNICO.md) | Explicação dos termos técnicos |
-| [Boopay-06-BRIEFING-REUNIAO-ROGERIO-2026-08-24.md](./Boopay-06-BRIEFING-REUNIAO-ROGERIO-2026-08-24.md) | Briefing da primeira reunião com Rogério |
-| [Boopay-Apoio-Reuniao-Rogerio-2026-08-24.pdf](./Boopay-Apoio-Reuniao-Rogerio-2026-08-24.pdf) | Apresentação visual de apoio à reunião |
-| [Boopay.md](./Boopay.md) | Visão inicial preservada para contexto histórico |
+Ficam fora do MVP: WhatsApp e recuperação por mensagens, CDP enterprise, resolução avançada entre dispositivos, operação comercial multiloja, planos/cobrança SaaS, WebMCP e compras autônomas sem revisão. Publicação em marketplaces e pagamentos em produção têm requisitos próprios. [Backlog](Boopay/Boopay-04-BACKLOG.md).
 
-## Onde cada informação deve ficar
+## Funcionalidades atuais
 
-- **GitHub:** documentação versionada, arquitetura, código, testes e entregáveis.
-- **Notion:** responsáveis, tarefas, prazos, evidências e decisões das mentorias.
-- **Briefing:** perguntas e hipóteses que ainda precisam de confirmação externa.
-- **Backlog:** itens reconhecidos, mas fora do escopo atual.
+- **Gestão da loja:** conexões revogáveis, catálogo, sessões de checkout, pedidos, cotação e acompanhamento de falhas.
+- **GEO e feed:** fila persistida de auditorias, evidências por página/produto, prontidão e geração de JSONL versionado.
+- **IA e perfil:** adaptadores OpenAI/Gemini, busca por catálogo/embeddings, recomendações verificadas, consumo e falhas; perfil consentido com exportação, exclusão e revogação.
+- **Compra:** revisão e confirmação, assinatura, tentativas duráveis, recuperação de resposta perdida e bloqueio de duplicidade.
+- **Pagamentos de teste:** integração Stripe/Connect, tokenização e autenticação pelo SDK, autorização/captura separadas, estorno, Google Pay TEST e retomada com novo aceite.
+- **Painel:** receita e conciliação em destaque, funil, conversão/abandono de checkout, filtros por período/origem/moeda, CSV, catálogo, integrações, IA, audiência e privacidade.
+- **Pós-compra e operação:** consulta do estado comprovado, notificações autorizadas, acompanhamento/cancelamento VTEX, tratamento de rascunhos Shopify, outbox e backup cifrado com restauração em quarentena.
 
-O [painel do Notion](https://app.notion.com/p/3c56abcea22681a299f3ddb2684ff684) exige permissão do responsável pelo workspace. O [quadro de tarefas](https://app.notion.com/p/0b878d9b606f424a9ea58de321420391) é a referência operacional do squad.
+O painel usa dados das APIs; números ilustrativos não representam resultados comerciais. `exit_intent` é um sinal de navegação, não abandono comprovado. Moedas permanecem separadas, e pedido criado não equivale a pagamento recebido. [Guia do painel](boopay-platform/docs/DASHBOARD.md) · [Receita por origem](boopay-platform/docs/REPORTING-ORIGINS.md).
 
-## Como colaborar
+## Arquitetura e componentes
 
-1. Escolha uma tarefa no Notion e confirme o responsável.
-2. Atualize sua cópia antes de começar.
-3. Crie uma branch curta, como `docs/ajustar-arquitetura` ou `feat/coleta-eventos`.
-4. Faça alterações pequenas e relacionadas a uma única tarefa.
-5. Registre testes ou evidências antes de concluir.
-6. Abra um pull request explicando o que mudou, por que mudou e como foi validado.
-7. Atualize a tarefa e vincule o pull request ou arquivo produzido.
+A plataforma usa **TypeScript, Node.js 24+, Fastify, React e Vite**. O Core mantém regras comerciais independentes do protocolo e do e-commerce. Adaptadores conectam lojas, GEO, IA e pagamentos; ACP/UCP transportam operações do mesmo núcleo. A landing usa Next.js, TypeScript, CSS e Three.js. O conector WooCommerce usa PHP, APIs nativas do WordPress/WooCommerce e Action Scheduler.
 
-Para baixar o repositório:
+- `src/core`: contratos, catálogo, cotação e regras comerciais.
+- `src/services`: checkout, identidade, consentimento, eventos, auditoria e analytics.
+- `src/adapters` e integrações: ligação com lojas e serviços externos.
+- `src/protocols`: descoberta, delegação, assinaturas, checkout, pedidos e notificações ACP/UCP.
+- `src/storage` e `src/data`: persistência, outbox, projeções e clientes Google.
+- `web/src`: painel, revisão do comprador e controles operacionais.
 
-```bash
-git clone https://github.com/ThiagoVenturaV/Boopay.git
-cd Boopay
+As chamadas externas ocorrem fora das transações. Registros, leituras, idempotência e autorização são limitados por tenant; a aplicação não oferece contas SaaS multiloja prontas para comercialização. [Arquitetura](Boopay/Boopay-02-ARQUITETURA-E-FLUXOS.md) · [Núcleo transacional](boopay-platform/docs/ADR-001-transactional-core.md).
+
+## Dados, API e segurança
+
+**PostgreSQL** é a fonte transacional prevista para staging; **SQLite** atende às demos e testes locais. A implementação persiste registros canônicos com tenant, tipo e revisão. **Firestore** e **BigQuery** recebem projeções específicas por outbox, mediante habilitação e configuração: Firestore para estado/perfil operacional e BigQuery para análises. Não são três cópias indiscriminadas da mesma informação.
+
+A API local abre em `http://127.0.0.1:9510`. Payloads são JSON estritos, valores monetários usam centavos e datas usam UTC ISO-8601. Rotas administrativas cobrem sessão, catálogo, integrações, pedidos, GEO, métricas e relatórios; rotas do comprador cobrem catálogo, checkout, revisão, confirmação e acompanhamento. A ingestão de catálogo/eventos mantém o contrato do plugin. [API](boopay-platform/docs/API.md) · [Projeções](boopay-platform/docs/DATA-PROJECTIONS.md).
+
+O operador usa sessão administrativa ou Bearer; o comprador tem sessão limitada à loja e à própria identidade. Códigos temporários conectam o plugin, tokens são armazenados como hash e segredos privados são cifrados. HMAC e assinaturas vinculam conteúdo, prazo e autoridade; dados brutos de cartão e segredos do PSP não chegam ao navegador ou ao Git. A confirmação registra o resumo aceito, e a idempotência preserva a tentativa original.
+
+A coleta de analytics e o vínculo ao perfil são permissões distintas. Atividade de vitrine só alimenta perfil após o aceite específico; revogação interrompe a coleta autorizada. Backup é cifrado/autenticado e restaura em destino vazio, com quarentena e reaplicação das exclusões mais recentes antes de uma retomada. Políticas legais, retenção física e recuperação externa ainda exigem definição operacional. [Privacidade](boopay-platform/docs/PROFILE.md) · [Backup](boopay-platform/docs/BACKUP-RESTORE.md) · [Recuperação](boopay-platform/docs/RECOVERY-PRIVACY.md).
+
+## Integrações: alcance atual
+
+**WooCommerce — plugin 0.7.2.** Conexão, catálogo, estoque, cotação, confirmação assinada, tentativa durável, coleta/reenvio e perfil consentido estão implementados. Há ensaios em WordPress/PHP/MySQL reais; Stripe nesses ensaios é sintético. Instalação e homologação em loja autorizada continuam pendentes. A versão foi conferida no cabeçalho do plugin, corrigindo a indicação 0.6.0 do README anterior. [Plugin](pluginboopay/boopay-woocommerce/README.md).
+
+**Shopify.** Catálogo, cálculo, rascunho/pedido pendente, consulta da tentativa original, webhooks, coleta e limpeza opt-in estão implementados com transporte sintético nos testes. Pagamento nativo e a prova atômica entre resumo, expiração e conclusão continuam abertos. [Adaptador](boopay-platform/docs/SHOPIFY.md) · [Lacunas da confirmação](boopay-platform/docs/SHOPIFY-CONFIRMATION.md).
+
+**VTEX.** Inspeção de catálogo, cotação, promissória de teste, pedido pendente, conciliação, acompanhamento, cancelamento e catálogo incremental estão implementados. A ponte de catálogo é candidata **0.2.6**; os ensaios de loja são sintéticos. A instalação está bloqueada pelos achados do SDK/runtime e pela homologação pendente; captura e estorno PSP não estão comprovados. [VTEX](boopay-platform/docs/VTEX.md) · [Ponte e runtime](boopay-platform/docs/VTEX-BRIDGE-RUNTIME.md).
+
+**ACP/UCP.** Descoberta, assinaturas ES256, delegação, sessão canônica, confirmação própria do comprador, recuperação e notificações opt-in estão implementadas. WooCommerce passou pela jornada nativa; Shopify/VTEX usam transportes sintéticos. Isso não comprova ativação oficial em ChatGPT ou Gemini. [Protocolos](boopay-platform/docs/PROTOCOLS.md).
+
+**GEO, IA, pagamentos e Google Cloud.** Há clientes e contratos implementados. GEO externo está qualificado como parcial; as três páginas da loja ainda precisam de validação completa. IA, Stripe e Google Pay usam provas sintéticas; Firestore foi testado no emulador oficial e BigQuery com respostas sintéticas. As contas externas e a demonstração integrada autorizada permanecem pendentes.
+
+## Validação e próximos requisitos
+
+A [CI funcional de referência](https://github.com/ThiagoVenturaV/boopay-platform/actions/runs/34628418872) foi reconfirmada como concluída com sucesso. A evidência documenta **390 cenários distintos de backend, 53 percursos do painel, quatro dos pixels e 21 testes da ponte VTEX**. A branch atual acrescenta documentação das lacunas nativas Shopify; nenhuma nova validação funcional foi executada para esta centralização.
+
+O candidato VTEX continua com achados de dependências: a evidência da revisão 0.2.6 registra três entradas altas no npm e avisos no Yarn. Os jobs admitem falha de auditoria; CI aprovada não libera instalação ou certifica os backports. As contagens são daquela revisão, sem nova auditoria de dependências nesta atualização documental.
+
+Para fechar o MVP, faltam contas/lojas e permissões de teste, configuração de IA/pagamentos/Google/GEO, instalação e validação nativa dos coletores, confirmação/pagamento Shopify, composição segura da ponte VTEX e uma demonstração integral com páginas e serviços autorizados. Conciliação, privacidade, retenção e retomada precisam ser comprovadas nesse ambiente. [Estado detalhado](boopay-platform/docs/ESTADO-ATUAL.md) · [Critérios de aceite](boopay-platform/docs/CRITERIOS-DE-ACEITE.md).
+
+## Executar e operar
+
+Na plataforma, use Node.js 24 ou superior:
+
+```powershell
+npm ci
+npm run check
+npm run demo
+npm start
 ```
 
-## Regras importantes
+O painel abre na porta **9510**. A chave administrativa local é gerada fora do Git; o painel inicia sem vendas inventadas. `npm run discovery:demo` reproduz a jornada integrada **simulada**. Os demais comandos de operação, staging, dados, pagamentos e backup estão no [guia operacional](boopay-platform/docs/OPERATIONS.md).
 
-- Não publique senhas, tokens, chaves de API, dados de clientes ou credenciais de sandbox.
-- Não apresente integrações em sandbox como se estivessem homologadas para produção.
-- Não trate a implementação de ACP ou UCP como garantia de publicação nas superfícies oficiais.
-- Mudanças de escopo devem atualizar o escopo, o roadmap e o backlog de forma consistente.
-- Novos termos técnicos devem ser incluídos no dicionário.
-- Links e entregáveis devem funcionar para alguém fora do computador de quem os criou.
+Integrações externas e workers sensíveis são opt-in e precisam de configuração por ambiente. Segredos pertencem ao ambiente/secret manager. Credenciais de produção, loja real e aprovação de parceiro não podem ser substituídas por fixtures.
 
-## Marcos atuais
+## Landing, identidade e comercialização
 
-- **24/08/2026:** primeira reunião com Rogério e mentor.
-- **18/09/2026:** meta interna de fechamento do conteúdo da Entrega Parcial.
-- **21/09/2026:** meta interna de pacote pronto.
-- **21 a 25/09/2026:** janela oficial da Entrega Parcial.
-- **Dezembro de 2026:** horizonte do MVP final.
+A landing apresenta o mecanismo de GEO até compra e atribuição. Boo percorre o scroll, com proteção das áreas de leitura, controle de movimento e alternativas para WebGL indisponível/movimento reduzido. A identidade usa creme, petróleo, menta e laranja. O repositório contém a implementação; a documentação não comprova hospedagem pública. [Landing](boopay-landing/README.md) · [Modelo e movimento](boopay-landing/docs/boo-v2.md).
 
-A data e o canal exatos da entrega final ainda precisam ser confirmados com o Porto Digital ou com a mentoria.
+O kit Woo Marketplace permanece em preparação. Vendor, monetização, termos, privacidade, suporte, URLs e infraestrutura pública dependem do responsável pelo produto. Documentos comerciais com marcadores são rascunhos vigentes para completar, e não aprovação de lançamento. [Pendências comerciais](pluginboopay/marketplace/DECISIONS-NEEDED.md) · [Processo de submissão](pluginboopay/marketplace/EXTERNAL-PROCESS.md).
 
-## Antes de alterar o escopo
+## Repositórios e documentação
 
-Registre:
+- **Boopay:** esta central pública e os documentos atuais de produto.
+- **boopay-platform:** implementação privada do Core, API, painel, adaptadores, dados, IA e protocolos.
+- **pluginboopay:** implementação privada do plugin WooCommerce e documentos de operação/submissão.
+- **boopay-landing:** implementação privada da landing e seus detalhes visuais.
 
-1. a decisão atual;
-2. a mudança proposta;
-3. a justificativa;
-4. o impacto técnico e no prazo;
-5. o item que será simplificado, removido ou movido para o backlog.
-
-Assim o repositório continua compreensível para o squad, mentores e novas pessoas que receberem o link.
+Os Markdown foram copiados e organizados por origem; os arquivos das origens permanecem intactos. Links entre documentos ficam nesta central. Links para implementação/evidências apontam aos commits originais e exigem acesso quando a origem é privada. [Índice completo](INDICE-CENTRAL.md) · [Conferência do conjunto](CONFERENCIA.md).

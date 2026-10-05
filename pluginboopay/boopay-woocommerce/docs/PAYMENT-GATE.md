@@ -1,0 +1,15 @@
+# Gateway de pagamento sandbox
+
+Versão 0.4.0. Contrato interno `boopay-payment-v1`; desabilitado por padrão. Não é um gateway Stripe de produção nem uma homologação do provedor. Não recebe cartão, token de carteira ou chave privada do PSP.
+
+Em ambiente isolado, o operador configura `BOOPAY_PSP_TEST_ENABLED=true` e `BOOPAY_PSP_TEST_ACCOUNT` com a conta conectada de teste. A integração Boopay deve estar ativa. O checkout assinado escolhe explicitamente `boopay_stripe_test`, em vez de transformar um pedido BACS existente em pagamento online. O gateway exige autorização válida na mesma execução PHP e cria pedido `on-hold`. WooCommerce reduz estoque pelo hook nativo; autorização/captura ficam a cargo do backend.
+
+As rotas POST `/boopay/v1/commerce/payments/reserve`, `/verify` e `/settle` autenticam os bytes exatos com HMAC SHA-256/base64. Entrada assinada: `boopay-payment-v1\nPOST\n{action}\n{timestamp}\n{rawBody}`. Cabeçalhos `X-Boopay-Payment-Timestamp` e `X-Boopay-Payment-Signature`. Tolerância temporal de cinco minutos, corpo de até 4096 bytes, separação de ação e campos estritos. O segredo é o da integração, nunca uma chave Stripe.
+
+O corpo vincula `checkoutRef`, `externalOrderId`, `quoteHash` Woo, `reference` da tentativa PSP, `bindingHash` do core, `accountId`, `amount` inteiro em centavos e `currency`; `verify`/`settle` acrescentam `intentId`. Uma tabela própria mantém unicidade de pedido, referência e intent por conta. Registros mínimos são retidos; uma referência nova não substitui pagamento incerto. O fingerprint comercial detecta alteração de itens, endereços, moeda, total e método sem armazenar endereços nessa tabela.
+
+`reserve` exige pedido on-hold com estoque reduzido. `verify` vincula o intent antes da captura. O comprovante vale 120 segundos e revalida o pedido; não oferece uma transação distribuída com o PSP. Após captura integral verificada pelo backend, `settle` chama `WC_Order::payment_complete(intentId)`. Uma repetição reconhece o mesmo pedido pago e não reentra no hook nem reduz estoque novamente. GET_LOCK do MySQL serializa chamadas deste protocolo; ausência do lock falha fechada. Nenhuma tabela de pedidos Woo é consultada ou modificada por SQL do plugin.
+
+Limites: o plugin confia no backend autenticado para comprovar captura sandbox. O lock não controla edições externas por administradores/outros plugins e não impede alteração entre verificação e captura; alteração detectada exige conciliação/compensação. Cancelamento, estorno com objetos Woo e devolução de estoque ainda não são oferecidos por este contrato. Não habilitar pagamentos de produção até concluir compensação, recuperação operacional, Stripe.js/Google Pay TEST, credenciais reais de homologação e matriz de compatibilidade. A declaração HPOS usa CRUD; não substitui ensaio de todas as combinações suportadas.
+
+Base técnica: [API de gateways](https://developer.woocommerce.com/docs/features/payments/payment-gateway-api/) e [payment_complete no WooCommerce 11.0.1](https://github.com/woocommerce/woocommerce/blob/11.0.1/plugins/woocommerce/includes/class-wc-order.php).
