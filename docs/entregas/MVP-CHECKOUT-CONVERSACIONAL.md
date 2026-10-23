@@ -18,6 +18,15 @@ O MVP do **Boopay** integra as duas frentes estratégicas do produto em uma expe
 - Node.js 20+
 - Banco SQLite local gerenciado via Prisma
 
+### Configuração da IA (Groq + Qwen 3.8 27B)
+No arquivo `.env` na raiz do projeto, configure sua chave da Groq:
+
+```env
+BOOPAY_AI_PROVIDER=groq
+GROQ_API_KEY=gsk_sua_chave_aqui
+GROQ_MODEL=qwen/qwen3.8-27b
+```
+
 ### Passo a passo
 
 ```bash

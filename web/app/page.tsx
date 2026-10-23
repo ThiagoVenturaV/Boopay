@@ -892,7 +892,7 @@ export default function BoopayConversationalCheckoutPage() {
               <span className="rail-user-chev">›</span>
             </button>
 
-            <p className="rail-demo">Boopay MVP · Protocolos UCP / ACP</p>
+            <p className="rail-demo">Boopay MVP · Groq (Qwen 3.8 27B) · UCP / ACP</p>
           </div>
         </aside>
 
@@ -913,7 +913,7 @@ export default function BoopayConversationalCheckoutPage() {
               <span className="live-mark" aria-hidden="true" />
               <div>
                 <h1>Compra Assistida Boopay</h1>
-                <p>Catálogo GEO (Score 96/100) · Checkout Invisível integrado</p>
+                <p>Groq · Qwen 3.8 27B · Catálogo GEO (96/100) · Checkout Invisível</p>
               </div>
             </div>
 
@@ -1166,7 +1166,7 @@ export default function BoopayConversationalCheckoutPage() {
                       </span>
                       <div className="assistant-body">
                         <div className="assistant-meta">
-                          <strong>Boopay AI</strong>
+                          <strong>Boopay AI · Qwen 3.8 27B (Groq)</strong>
                           <span>Agora</span>
                         </div>
 
@@ -2180,9 +2180,10 @@ export default function BoopayConversationalCheckoutPage() {
                       JSON-LD e disponibilidade em tempo real.
                     </p>
                     <p>
-                      2. <strong>Checkout Invisível com Guarda-Rails</strong>: O cliente descobre,
-                      monta combos e paga sem sair do chat, com cotação determinística SHA-256 e
-                      confirmação humana explícita obrigatória.
+                      2. <strong>Checkout Invisível com Guarda-Rails (Groq · Qwen 3.8 27B)</strong>: O
+                      agente roda sobre a API da Groq com o modelo <code>qwen/qwen3.8-27b</code>,
+                      enquanto preço, estoque e descontos vêm exclusivamente da cotação determinística
+                      SHA-256 com confirmação humana explícita obrigatória.
                     </p>
                     <button
                       className="secondary"

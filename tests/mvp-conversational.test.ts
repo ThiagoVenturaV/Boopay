@@ -20,11 +20,13 @@ test('MVP Checkout Conversacional: busca SSE, kit IA, fila de sacola idempotente
   const { app } = buildApp({ db, credentialKey: '1'.repeat(64), adminToken: 'a'.repeat(40) });
 
   try {
-    // 1. Session creation
+    // 1. Session creation + Groq Qwen 3.8 27B default model check
     const sessRes = await app.inject({ method: 'GET', url: '/api/session' });
     assert.equal(sessRes.statusCode, 200);
     const sessData = sessRes.json();
     assert.ok(sessData.conversationId);
+    assert.equal(sessData.aiEngine, 'groq');
+    assert.equal(sessData.aiModel, 'qwen/qwen3.8-27b');
     const convId = sessData.conversationId as string;
 
     // 2. SSE Chat Stream: product search + idempotent replay on same requestId

@@ -3,7 +3,7 @@ import { FastifyInstance } from 'fastify';
 import { PrismaClient } from '@prisma/client';
 import { z } from 'zod';
 import { CheckoutService } from '../checkout/checkout-service';
-import { ConversationalAgent } from '../chat/agent';
+import { ConversationalAgent, DEFAULT_GROQ_MODEL } from '../chat/agent';
 import { createCommerceAdapter } from '../commerce/adapter';
 
 const chatStreamSchema = z.object({
@@ -108,15 +108,18 @@ export async function chatRoutes(app: FastifyInstance, options: { db: PrismaClie
       process.env.WOO_STORE_URL && process.env.WOO_CONSUMER_KEY && process.env.WOO_CONSUMER_SECRET
     );
     const syncedCount = await db.catalogItem.count({ where: { deleted: false } });
+    const configuredGroqModel = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
     return {
       conversationId: conv.id,
       tenantId: conv.tenantId,
       storeSource: conv.storeSource,
       cep: conv.customerCep || '50030-230',
       cart,
+      aiEngine: 'groq',
+      aiModel: configuredGroqModel,
       aiProvider: process.env.GROQ_API_KEY
-        ? `groq (${process.env.GROQ_MODEL || 'qwen/qwen3-32b'})`
-        : 'boopay-deterministic (sandbox)',
+        ? `groq (${configuredGroqModel})`
+        : `groq (${configuredGroqModel} · guardrail)`,
       connectors: [
         {
           id: 'demo',

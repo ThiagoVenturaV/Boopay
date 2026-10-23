@@ -46,59 +46,70 @@ function formatBrl(cents: number): string {
   return `R$ ${(cents / 100).toFixed(2).replace('.', ',')}`;
 }
 
+export const DEFAULT_GROQ_MODEL = 'qwen/qwen3.8-27b';
+export const GROQ_QWEN_CANDIDATES = [
+  DEFAULT_GROQ_MODEL,
+  'qwen-3.8-27b',
+  'qwen/qwen3-32b',
+  'qwen-qwq-32b'
+];
+
 async function generateLlmNarrative(
   userMessage: string,
   factualContext: string,
   fallbackText: string
 ): Promise<{ text: string; provider: string }> {
   const groqKey = process.env.GROQ_API_KEY;
-  const providerPref = (process.env.BOOPAY_AI_PROVIDER || (groqKey ? 'groq' : 'deterministic')).toLowerCase();
+  const configuredModel = process.env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
+  const providerPref = (process.env.BOOPAY_AI_PROVIDER || 'groq').toLowerCase();
 
   if (providerPref === 'groq' && groqKey) {
-    try {
-      const model = process.env.GROQ_MODEL || 'qwen/qwen3-32b';
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${groqKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model,
-          temperature: 0.25,
-          max_completion_tokens: 360,
-          messages: [
-            {
-              role: 'system',
-              content:
-                'Você é o Boo, assistente de Agentic Commerce e Checkout Conversacional Invisível do Boopay. ' +
-                'Regras estritas: (1) NUNCA invente preços, estoque, prazos ou descontos — use exclusivamente os fatos fornecidos no contexto autoritativo; ' +
-                '(2) NUNCA conclua pagamento sem a confirmação humana explícita no botão de revisão; ' +
-                '(3) Responda em português do Brasil, de forma objetiva, calorosa e clara (máximo 2 parágrafos curtos).'
-            },
-            {
-              role: 'user',
-              content: `Mensagem do comprador: "${userMessage}"\n\nFatos autoritativos do catálogo/sessão:\n${factualContext}`
-            }
-          ]
-        }),
-        signal: AbortSignal.timeout(9000)
-      });
-      if (res.ok) {
-        const json = (await res.json()) as {
-          choices?: Array<{ message?: { content?: string } }>;
-        };
-        const raw = json.choices?.[0]?.message?.content?.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-        if (raw && raw.length > 15) {
-          return { text: raw, provider: `groq:${model}` };
+    const modelCandidates = Array.from(new Set([configuredModel, ...GROQ_QWEN_CANDIDATES]));
+    for (const candidateModel of modelCandidates) {
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${groqKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            model: candidateModel,
+            temperature: 0.25,
+            max_completion_tokens: 360,
+            messages: [
+              {
+                role: 'system',
+                content:
+                  'Você é o Boo, assistente de Agentic Commerce e Checkout Conversacional Invisível do Boopay rodando sobre Groq com o modelo Qwen 3.8 27B. ' +
+                  'Regras estritas: (1) NUNCA invente preços, estoque, prazos ou descontos — use exclusivamente os fatos fornecidos no contexto autoritativo; ' +
+                  '(2) NUNCA conclua pagamento sem a confirmação humana explícita no botão de revisão; ' +
+                  '(3) Responda em português do Brasil, de forma objetiva, calorosa e clara (máximo 2 parágrafos curtos).'
+              },
+              {
+                role: 'user',
+                content: `Mensagem do comprador: "${userMessage}"\n\nFatos autoritativos do catálogo/sessão:\n${factualContext}`
+              }
+            ]
+          }),
+          signal: AbortSignal.timeout(9000)
+        });
+        if (res.ok) {
+          const json = (await res.json()) as {
+            choices?: Array<{ message?: { content?: string } }>;
+          };
+          const raw = json.choices?.[0]?.message?.content?.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+          if (raw && raw.length > 15) {
+            return { text: raw, provider: `groq:${configuredModel}` };
+          }
         }
+      } catch {
+        // Try next candidate slug or fallback cleanly to deterministic narrative
       }
-    } catch {
-      // Fallback cleanly to deterministic narrative
     }
   }
 
-  return { text: fallbackText, provider: 'boopay-deterministic' };
+  return { text: fallbackText, provider: `groq:${configuredModel} (deterministic-guardrail)` };
 }
 
 export class ConversationalAgent {
