@@ -10,6 +10,7 @@
     "build:web": "npm --prefix web run build",
     "check:web": "npm --prefix web run typecheck",
     "test": "tsx --test tests/*.test.ts",
+    "test:e2e": "python scripts/e2e-playwright.py",
     "check:js": "node scripts/check-javascript.mjs",
     "check:php": "node scripts/check-php.mjs",
     "check:docs": "node scripts/check-docs.mjs",
