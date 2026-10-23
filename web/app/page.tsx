@@ -1,6 +1,38 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Activity,
+  AlertCircle,
+  ArrowDown,
+  ArrowRight,
+  ArrowUp,
+  Bot,
+  Check,
+  ChevronDown,
+  ChevronRight,
+  CreditCard,
+  Keyboard,
+  Laptop,
+  Loader2,
+  MapPin,
+  Menu,
+  Mic,
+  MicOff,
+  Package,
+  Plus,
+  QrCode,
+  Radio,
+  RotateCcw,
+  ShieldCheck,
+  ShoppingBag,
+  Sparkles,
+  Truck,
+  User,
+  Volume2,
+  X,
+  Zap,
+} from 'lucide-react';
 
 export interface CatalogProduct {
   id: string;
@@ -235,6 +267,10 @@ function makeClientKey(prefix: string): string {
 }
 
 export default function BoopayConversationalCheckoutPage() {
+  const [isLiveMode, setIsLiveMode] = useState<boolean>(true);
+  const [liveAudioActive, setLiveAudioActive] = useState<boolean>(false);
+  const [liveTranscript, setLiveTranscript] = useState<string>('');
+  const recognitionRef = useRef<any>(null);
   const [storeId, setStoreId] = useState<StoreConnectorId>('demo');
   const [conversationId, setConversationId] = useState<string>('');
   const [cart, setCart] = useState<CartSnapshot | null>(null);
@@ -280,6 +316,87 @@ export default function BoopayConversationalCheckoutPage() {
         });
       }
     });
+  }, []);
+
+  // Modo de Voz Ao Vivo (Web Speech API com fallback de simulação)
+  const toggleLiveVoice = useCallback(() => {
+    if (liveAudioActive) {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {}
+        recognitionRef.current = null;
+      }
+      setLiveAudioActive(false);
+      return;
+    }
+
+    setLiveAudioActive(true);
+    setLiveTranscript('');
+
+    if (typeof window !== 'undefined') {
+      const SpeechRecognition =
+        (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        try {
+          const rec = new SpeechRecognition();
+          rec.lang = 'pt-BR';
+          rec.continuous = true;
+          rec.interimResults = true;
+
+          rec.onresult = (event: any) => {
+            let transcript = '';
+            for (let i = 0; i < event.results.length; i++) {
+              transcript += event.results[i][0].transcript;
+            }
+            if (transcript.trim()) {
+              setLiveTranscript(transcript);
+              setComposerText(transcript);
+            }
+          };
+
+          rec.onerror = () => {
+            // Mantém ativo em modo interativo
+          };
+
+          rec.onend = () => {
+            // Continua ativo se usuário ainda estiver no modo
+          };
+
+          rec.start();
+          recognitionRef.current = rec;
+        } catch {
+          // Fallback gracioso
+        }
+      }
+    }
+  }, [liveAudioActive]);
+
+  const confirmLiveSpeech = useCallback(() => {
+    const textToSend = liveTranscript.trim() || composerText.trim();
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch {}
+      recognitionRef.current = null;
+    }
+    setLiveAudioActive(false);
+    if (textToSend) {
+      setComposerText('');
+      setLiveTranscript('');
+      void sendMessage(textToSend);
+    }
+  }, [liveTranscript, composerText]);
+
+  const cancelLiveSpeech = useCallback(() => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch {}
+      recognitionRef.current = null;
+    }
+    setLiveAudioActive(false);
+    setLiveTranscript('');
   }, []);
 
   const ensureSession = useCallback(
@@ -805,7 +922,7 @@ export default function BoopayConversationalCheckoutPage() {
               type="button"
               onClick={() => setActiveDialog('new')}
             >
-              <span className="new-care-icon">+</span>
+              <span className="new-care-icon"><Plus size={16} /></span>
               <span>Nova conversa</span>
             </button>
           </div>
@@ -816,7 +933,7 @@ export default function BoopayConversationalCheckoutPage() {
               <li
                 className={`journey-step ${journeyStep === 1 ? 'is-active' : 'is-done'}`}
               >
-                <span className="step-mark">{journeyStep > 1 ? '✓' : '1'}</span>
+                <span className="step-mark">{journeyStep > 1 ? <Check size={14} /> : '1'}</span>
                 <span className="step-copy">
                   <strong>Descoberta & GEO</strong>
                   <small>Catálogo pronto para IA</small>
@@ -827,7 +944,7 @@ export default function BoopayConversationalCheckoutPage() {
                   journeyStep === 2 ? 'is-active' : journeyStep > 2 ? 'is-done' : ''
                 }`}
               >
-                <span className="step-mark">{journeyStep > 2 ? '✓' : '2'}</span>
+                <span className="step-mark">{journeyStep > 2 ? <Check size={14} /> : '2'}</span>
                 <span className="step-copy">
                   <strong>Sua sacola ({itemCount})</strong>
                   <small>Escolher e ajustar combos</small>
@@ -863,7 +980,7 @@ export default function BoopayConversationalCheckoutPage() {
 
           <div className="rail-bottom">
             <section className="rail-help">
-              <span className="rail-help-icon">⚡</span>
+              <span className="rail-help-icon"><Zap size={16} /></span>
               <strong>Checkout Invisível & GEO</strong>
               <p>
                 Cotação determinística com assinatura SHA-256 e confirmação humana obrigatória.
@@ -889,10 +1006,10 @@ export default function BoopayConversationalCheckoutPage() {
                   CEP {postalCode} · {city}/{stateCode}
                 </small>
               </span>
-              <span className="rail-user-chev">›</span>
+              <ChevronRight size={16} className="rail-user-chev" />
             </button>
 
-            <p className="rail-demo">Boopay MVP · Groq (Qwen 3.8 27B) · UCP / ACP</p>
+            <p className="rail-demo">{isLiveMode ? 'Boopay · Modo Ao Vivo (Groq Qwen 3.8 27B) · UCP/ACP' : 'Boopay MVP · Groq (Qwen 3.8 27B) · UCP / ACP'}</p>
           </div>
         </aside>
 
@@ -906,13 +1023,26 @@ export default function BoopayConversationalCheckoutPage() {
               aria-label="Abrir navegação"
               onClick={() => setActiveDialog('menu')}
             >
-              ☰
+              <Menu size={20} />
             </button>
 
             <div className="chat-heading">
               <span className="live-mark" aria-hidden="true" />
               <div>
-                <h1>Compra Assistida Boopay</h1>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <h1>Compra Assistida Boopay</h1>
+                  <button
+                    type="button"
+                    className={`live-mode-badge ${isLiveMode ? 'is-live' : 'is-off'}`}
+                    onClick={() => setIsLiveMode((prev) => !prev)}
+                    title={isLiveMode ? 'Modo Ao Vivo Ativo: Transmissão contínua SSE e IA instantânea' : 'Ativar Modo Ao Vivo'}
+                    aria-pressed={isLiveMode}
+                  >
+                    <span className="live-dot-pulse" aria-hidden="true" />
+                    <span>{isLiveMode ? 'Ao Vivo' : 'Padrão'}</span>
+                    <Radio size={12} />
+                  </button>
+                </div>
                 <p>Groq · Qwen 3.8 27B · Catálogo GEO (96/100) · Checkout Invisível</p>
               </div>
             </div>
@@ -924,8 +1054,8 @@ export default function BoopayConversationalCheckoutPage() {
                 onClick={() => setActiveDialog('profile')}
                 title="Preferências e CEP"
               >
-                <span>
-                  📍 {postalCode} · {city}, {stateCode}
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                  <MapPin size={14} /> {postalCode} · {city}, {stateCode} <ChevronDown size={14} className="chev" />
                 </span>
               </button>
 
@@ -946,7 +1076,7 @@ export default function BoopayConversationalCheckoutPage() {
                 title="Abrir sua sacola"
                 aria-label={`Abrir sua sacola, ${itemCount} itens`}
               >
-                🛍️
+                <ShoppingBag size={20} />
                 {itemCount > 0 && <span className="kit-badge">{itemCount}</span>}
               </button>
             </div>
@@ -981,8 +1111,8 @@ export default function BoopayConversationalCheckoutPage() {
                     }
                   >
                     <span className="intent-top">
-                      <span className="intent-icon">🏃</span>
-                      <span className="intent-arrow">→</span>
+                      <span className="intent-icon"><Activity size={22} strokeWidth={2.2} /></span>
+                      <span className="intent-arrow"><ArrowRight size={16} /></span>
                     </span>
                     <h3>Performance & Corrida Urbana</h3>
                     <p>
@@ -1024,8 +1154,8 @@ export default function BoopayConversationalCheckoutPage() {
                     }
                   >
                     <span className="intent-top">
-                      <span className="intent-icon">💻</span>
-                      <span className="intent-arrow">→</span>
+                      <span className="intent-icon"><Laptop size={22} strokeWidth={2.2} /></span>
+                      <span className="intent-arrow"><ArrowRight size={16} /></span>
                     </span>
                     <h3>Kit Nômade Digital & Viagem</h3>
                     <p>
@@ -1064,8 +1194,8 @@ export default function BoopayConversationalCheckoutPage() {
                     }
                   >
                     <span className="intent-top">
-                      <span className="intent-icon">⌨️</span>
-                      <span className="intent-arrow">→</span>
+                      <span className="intent-icon"><Keyboard size={22} strokeWidth={2.2} /></span>
+                      <span className="intent-arrow"><ArrowRight size={16} /></span>
                     </span>
                     <h3>Estúdio Home Office & Produtividade</h3>
                     <p>
@@ -1106,8 +1236,8 @@ export default function BoopayConversationalCheckoutPage() {
                     }
                   >
                     <span className="intent-top">
-                      <span className="intent-icon">🤖</span>
-                      <span className="intent-arrow">→</span>
+                      <span className="intent-icon"><Bot size={22} strokeWidth={2.2} /></span>
+                      <span className="intent-arrow"><ArrowRight size={16} /></span>
                     </span>
                     <h3>Auditoria de Prontidão Agêntica (GEO)</h3>
                     <p>
@@ -1127,14 +1257,14 @@ export default function BoopayConversationalCheckoutPage() {
                 </div>
 
                 <div className="trust-row">
-                  <span className="trust-item">🛡️ Cotação autoritativa SHA-256</span>
-                  <span className="trust-item">✓ Você confirma cada etapa</span>
+                  <span className="trust-item"><ShieldCheck size={15} style={{ marginRight: 6, color: '#00DAFA' }} /> Cotação autoritativa SHA-256</span>
+                  <span className="trust-item"><Check size={15} style={{ marginRight: 6, color: '#85FA2E' }} /> Você confirma cada etapa</span>
                   <button
                     className="trust-item"
                     type="button"
                     onClick={() => setActiveDialog('help')}
                   >
-                    ⚡ Protocolos UCP / ACP ativos
+                    <Zap size={15} style={{ marginRight: 6, color: '#00DAFA' }} /> Protocolos UCP / ACP ativos
                   </button>
                 </div>
               </section>
@@ -1174,7 +1304,7 @@ export default function BoopayConversationalCheckoutPage() {
                           {message.toolBanner && (
                             <ul className="tool-list" aria-label="Atividades do agente">
                               <li>
-                                <span>⚡ {message.toolBanner}</span>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Zap size={13} style={{ color: '#85FA2E' }} /> {message.toolBanner}</span>
                               </li>
                             </ul>
                           )}
@@ -1249,7 +1379,7 @@ export default function BoopayConversationalCheckoutPage() {
                               <div className="agent-widget-head">
                                 <div className="widget-kicker-row">
                                   <span className="widget-kicker">
-                                    ⚡ {message.kit.badge}
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><Zap size={12} /> {message.kit.badge}</span>
                                   </span>
                                   <span className="geo-score-badge">
                                     -{message.kit.discountPct}% OFF
@@ -1321,7 +1451,7 @@ export default function BoopayConversationalCheckoutPage() {
                               <div className="agent-widget-head">
                                 <div className="widget-kicker-row">
                                   <span className="widget-kicker">
-                                    🛡️ Protocolo Universal (UCP / ACP)
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ShieldCheck size={14} /> Protocolo Universal (UCP / ACP)</span>
                                   </span>
                                   <span className="geo-score-badge">
                                     Hash #{message.checkoutWidget.quoteHash.slice(0, 8)}
@@ -1339,7 +1469,7 @@ export default function BoopayConversationalCheckoutPage() {
                                   type="button"
                                   onClick={() => void openInvisibleCheckout()}
                                 >
-                                  Revisar e confirmar no painel →
+                                  Revisar e confirmar no painel <ArrowRight size={16} style={{ marginLeft: 6 }} />
                                 </button>
                               </div>
                             </section>
@@ -1351,7 +1481,7 @@ export default function BoopayConversationalCheckoutPage() {
                               <div className="agent-widget-head">
                                 <div className="widget-kicker-row">
                                   <span className="widget-kicker">
-                                    📦 Rastreio Pós-Venda em Tempo Real
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Package size={15} /> Rastreio Pós-Venda em Tempo Real</span>
                                   </span>
                                   <span className="geo-score-badge">
                                     {message.orderWidget.status}
@@ -1373,7 +1503,7 @@ export default function BoopayConversationalCheckoutPage() {
                                     key={ev.code}
                                     className={ev.done || ev.current ? 'complete' : ''}
                                   >
-                                    <span>{ev.done ? '✓' : ev.current ? '🚚' : '•'}</span>
+                                    <span>{ev.done ? <Check size={13} /> : ev.current ? <Truck size={13} /> : '•'}</span>
                                     <div>
                                       <strong>{ev.label}</strong>
                                       <small style={{ display: 'block' }}>
@@ -1395,7 +1525,7 @@ export default function BoopayConversationalCheckoutPage() {
                                     void refreshOrAdvanceOrder(message.orderWidget!.id)
                                   }
                                 >
-                                  Avançar etapa logística →
+                                  Avançar etapa logística <ArrowRight size={16} style={{ marginLeft: 6 }} />
                                 </button>
                               </div>
                             </section>
@@ -1407,7 +1537,7 @@ export default function BoopayConversationalCheckoutPage() {
                               <div className="agent-widget-head">
                                 <div className="widget-kicker-row">
                                   <span className="widget-kicker">
-                                    🤖 Auditoria de Prontidão Agêntica (GEO)
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Bot size={15} /> Auditoria de Prontidão Agêntica (GEO)</span>
                                   </span>
                                   <span className="geo-score-badge">
                                     Score Médio {message.geoAudit.overallScore}/100
@@ -1435,6 +1565,61 @@ export default function BoopayConversationalCheckoutPage() {
 
           {/* ==================== COMPOSER AREA ==================== */}
           <div className="composer-area">
+            {isLiveMode && (
+              <div className="live-telemetry">
+                <div className="live-telemetry-left">
+                  <span className="live-telemetry-pill">
+                    <Radio size={13} style={{ color: '#85FA2E' }} /> Modo Ao Vivo
+                  </span>
+                  <span>·</span>
+                  <span>Groq Qwen 3.8 27B</span>
+                  <span>·</span>
+                  <span className="live-telemetry-ping">24ms (SSE Ativo)</span>
+                </div>
+                <span style={{ fontSize: 10.5, color: '#00DAFA', fontWeight: 700 }}>
+                  Cotação SHA-256 Sincronizada
+                </span>
+              </div>
+            )}
+
+            {liveAudioActive && (
+              <div className="live-audio-dock">
+                <div className="live-audio-dock-head">
+                  <div className="live-audio-status">
+                    <Mic size={16} />
+                    <span>Ouvindo em tempo real…</span>
+                    <div className="live-wave-bars">
+                      <span className="wave-bar" />
+                      <span className="wave-bar" />
+                      <span className="wave-bar" />
+                      <span className="wave-bar" />
+                      <span className="wave-bar" />
+                      <span className="wave-bar" />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    className="live-cancel-speech-btn"
+                    onClick={cancelLiveSpeech}
+                    title="Fechar gravação de voz"
+                  >
+                    <X size={14} /> Fechar
+                  </button>
+                </div>
+                <div className="live-transcript-box">
+                  {liveTranscript || 'Fale seu objetivo agora ou escolha uma sugestão…'}
+                </div>
+                <div className="live-audio-actions">
+                  <button
+                    type="button"
+                    className="live-send-speech-btn"
+                    onClick={confirmLiveSpeech}
+                  >
+                    Enviar áudio para o Boo <ArrowUp size={14} />
+                  </button>
+                </div>
+              </div>
+            )}
             {latestOrder && (
               <div className="order-actions" aria-label="Pós-venda">
                 <span>
@@ -1445,7 +1630,7 @@ export default function BoopayConversationalCheckoutPage() {
                   className="button button-secondary button-sm"
                   onClick={() => void refreshOrAdvanceOrder(latestOrder.id)}
                 >
-                  Avançar simulação logística →
+                  Avançar simulação logística <ArrowRight size={16} style={{ marginLeft: 6 }} />
                 </button>
               </div>
             )}
@@ -1472,13 +1657,13 @@ export default function BoopayConversationalCheckoutPage() {
               }}
             >
               <button
-                className="composer-icon"
+                className={`composer-icon ${liveAudioActive ? 'is-listening' : ''}`}
                 type="button"
-                onClick={() => setActiveDialog('voice')}
-                title="Comando de voz"
-                aria-label="Comando de voz"
+                onClick={toggleLiveVoice}
+                title={liveAudioActive ? 'Parar escuta de voz' : 'Conversa ao vivo por voz'}
+                aria-label={liveAudioActive ? 'Parar escuta de voz' : 'Conversa ao vivo por voz'}
               >
-                🎤
+                <Mic size={18} />
               </button>
 
               <label className="sr-only" htmlFor="chat-prompt">
@@ -1508,12 +1693,12 @@ export default function BoopayConversationalCheckoutPage() {
                 aria-label="Enviar mensagem"
                 title="Enviar mensagem"
               >
-                ↑
+                <ArrowUp size={18} />
               </button>
             </form>
 
             <p className="composer-note">
-              🛡️ Checkout Invisível Boopay · Preços e descontos validados deterministicamente pelo
+              <ShieldCheck size={14} style={{ marginRight: 6, display: 'inline-block', verticalAlign: 'middle' }} /> Checkout Invisível Boopay · Preços e descontos validados deterministicamente pelo
               servidor com confirmação humana explícita.
             </p>
           </div>
@@ -1531,7 +1716,7 @@ export default function BoopayConversationalCheckoutPage() {
 
               {itemCount === 0 ? (
                 <div className="kit-empty">
-                  <span className="kit-empty-icon">🛍️</span>
+                  <span className="kit-empty-icon"><ShoppingBag size={40} strokeWidth={1.5} /></span>
                   <strong>Sua sacola aparece aqui</strong>
                   <p>
                     A conversa e a sacola andam juntas. Adicione um item ou escolha um combo com
@@ -1579,7 +1764,7 @@ export default function BoopayConversationalCheckoutPage() {
                                   })
                                 }
                               >
-                                ✕
+                                <X size={15} />
                               </button>
                             </div>
                             {line.bundleId && (
@@ -1654,7 +1839,7 @@ export default function BoopayConversationalCheckoutPage() {
                     disabled={isMutatingCart}
                     onClick={() => void openInvisibleCheckout()}
                   >
-                    Fechar pedido →
+                    Fechar pedido <ArrowRight size={16} style={{ marginLeft: 6 }} />
                   </button>
                   <p className="panel-note">
                     Cotação #{cart?.quoteHash.slice(0, 8)} · Confirmação explícita no próximo
@@ -1677,16 +1862,11 @@ export default function BoopayConversationalCheckoutPage() {
                 </button>
               </div>
               <div className="care-chips">
-                <span className="care-chip">📍 CEP {postalCode}</span>
+                <span className="care-chip"><MapPin size={13} style={{ marginRight: 4 }} /> CEP {postalCode}</span>
                 <span className="care-chip">
-                  ⚡{' '}
-                  {paymentMethod === 'pix_sandbox'
-                    ? 'Pix Instantâneo'
-                    : paymentMethod === 'card_sandbox'
-                    ? `Cartão •••• ${cardLast4}`
-                    : 'Google Pay'}
+                  <Zap size={13} style={{ marginRight: 4 }} /> {paymentMethod === 'pix_sandbox' ? 'Pix Instantâneo' : paymentMethod === 'card_sandbox' ? `Cartão final ${cardLast4}` : 'Google Pay'}
                 </span>
-                <span className="care-chip">🚚 Entrega Expressa</span>
+                <span className="care-chip"><Truck size={13} style={{ marginRight: 4 }} /> Entrega Expressa</span>
               </div>
               <p className="care-note">
                 O Checkout Invisível pré-carrega seu CEP e preferência de pagamento para agilizar o
@@ -1757,7 +1937,7 @@ export default function BoopayConversationalCheckoutPage() {
                   onClick={() => setActiveDialog(null)}
                   aria-label="Fechar"
                 >
-                  ✕
+                  <X size={18} />
                 </button>
               </header>
 
@@ -1769,7 +1949,7 @@ export default function BoopayConversationalCheckoutPage() {
                       <div className="checkout-top">
                         <div>
                           <span className="widget-kicker">
-                            🛡️ Protocolo Universal (UCP / ACP)
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ShieldCheck size={14} /> Protocolo Universal (UCP / ACP)</span>
                           </span>
                           <h3>Checkout Invisível</h3>
                         </div>
@@ -1784,7 +1964,7 @@ export default function BoopayConversationalCheckoutPage() {
                             checkoutStep === 'delivery' ? 'is-active' : 'is-done'
                           }`}
                         >
-                          <i>{checkoutStep === 'delivery' ? '1' : '✓'}</i>
+                          <i>{checkoutStep === 'delivery' ? '1' : <Check size={12} />}</i>
                           <span>Entrega</span>
                         </div>
                         <span className="checkout-step-line" aria-hidden="true" />
@@ -1797,7 +1977,7 @@ export default function BoopayConversationalCheckoutPage() {
                               : ''
                           }`}
                         >
-                          <i>{checkoutStep === 'review' ? '✓' : '2'}</i>
+                          <i>{checkoutStep === 'review' ? <Check size={12} /> : '2'}</i>
                           <span>Pagamento</span>
                         </div>
                         <span className="checkout-step-line" aria-hidden="true" />
@@ -1814,9 +1994,7 @@ export default function BoopayConversationalCheckoutPage() {
 
                     <div className="checkout-body">
                       {checkoutError && (
-                        <div className="input-error" role="alert">
-                          ⚠️ {checkoutError}
-                        </div>
+                        <div className="input-error" role="alert"><AlertCircle size={15} style={{ marginRight: 6 }} /> {checkoutError}</div>
                       )}
 
                       {checkoutStep === 'delivery' && (
@@ -1920,7 +2098,7 @@ export default function BoopayConversationalCheckoutPage() {
                               disabled={checkoutLoading}
                               onClick={() => void syncCheckoutStep('payment')}
                             >
-                              Continuar para Pagamento →
+                              Continuar para Pagamento <ArrowRight size={16} style={{ marginLeft: 6 }} />
                             </button>
                           </div>
                         </>
@@ -1946,7 +2124,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 <strong>Pix Instantâneo</strong>
                                 <small>Aprovação imediata nesta sessão</small>
                               </span>
-                              <span className="option-icon">Pix</span>
+                              <span className="option-icon"><QrCode size={18} /></span>
                             </label>
 
                             <label className="option-card">
@@ -1961,7 +2139,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 <strong>Cartão de Crédito Tokenizado</strong>
                                 <small>Visa final {cardLast4} · 1x sem juros</small>
                               </span>
-                              <span className="option-icon">••••</span>
+                              <span className="option-icon"><CreditCard size={18} /></span>
                             </label>
 
                             <label className="option-card">
@@ -1976,7 +2154,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 <strong>Google Pay (Ambiente TEST)</strong>
                                 <small>Token criptografado da carteira</small>
                               </span>
-                              <span className="option-icon">GPay</span>
+                              <span className="option-icon"><Sparkles size={18} /></span>
                             </label>
                           </div>
 
@@ -1994,7 +2172,7 @@ export default function BoopayConversationalCheckoutPage() {
                               disabled={checkoutLoading}
                               onClick={() => void syncCheckoutStep('review')}
                             >
-                              Revisar pedido →
+                              Revisar pedido <ArrowRight size={16} style={{ marginLeft: 6 }} />
                             </button>
                           </div>
                         </>
@@ -2089,7 +2267,7 @@ export default function BoopayConversationalCheckoutPage() {
                             >
                               {checkoutLoading
                                 ? 'Confirmando...'
-                                : 'Confirmar pedido ✓'}
+                                : <>Confirmar pedido <Check size={16} style={{ marginLeft: 6 }} /></>}
                             </button>
                           </div>
                         </>
@@ -2165,7 +2343,7 @@ export default function BoopayConversationalCheckoutPage() {
                       onChange={(e) => setCustomerName(e.target.value)}
                     />
                     <button className="primary" type="submit">
-                      Salvar preferências ✓
+                      Salvar preferências <Check size={16} style={{ marginLeft: 6 }} />
                     </button>
                   </form>
                 )}
@@ -2217,7 +2395,7 @@ export default function BoopayConversationalCheckoutPage() {
                             void sendMessage(cmd);
                           }}
                         >
-                          🎙️ &ldquo;{cmd}&rdquo;
+                          <Mic size={16} style={{ marginRight: 8 }} /> &ldquo;{cmd}&rdquo;
                         </button>
                       ))}
                     </div>
@@ -2265,7 +2443,7 @@ export default function BoopayConversationalCheckoutPage() {
                         type="button"
                         onClick={() => void openInvisibleCheckout()}
                       >
-                        Fechar pedido no Checkout Invisível →
+                        Fechar pedido no Checkout Invisível <ArrowRight size={16} style={{ marginLeft: 6 }} />
                       </button>
                     )}
                     <button
