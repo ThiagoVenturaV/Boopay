@@ -17,7 +17,10 @@ import {
   Loader2,
   MapPin,
   Menu,
+  MessageSquare,
   Mic,
+  PanelLeftClose,
+  PanelLeftOpen,
   MicOff,
   Package,
   Plus,
@@ -28,6 +31,7 @@ import {
   ShoppingBag,
   Sparkles,
   Truck,
+  Trash2,
   User,
   Volume2,
   X,
@@ -267,6 +271,49 @@ function makeClientKey(prefix: string): string {
 }
 
 export default function BoopayConversationalCheckoutPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
+  const [conversations, setConversations] = useState<Array<{
+    id: string;
+    title: string;
+    updatedAt: string;
+    preview: string;
+    itemCount: number;
+    totalCents: number;
+  }>>([
+    {
+      id: 'conv-corrida',
+      title: 'Performance & Corrida Urbana',
+      updatedAt: 'Agora',
+      preview: 'Tênis Pulse Carbon Pro + Smartband',
+      itemCount: 4,
+      totalCents: 107780,
+    },
+    {
+      id: 'conv-nomade',
+      title: 'Kit Nômade Digital & Viagem',
+      updatedAt: 'Hoje',
+      preview: 'Mochila 24L + Fone Bluetooth ANC',
+      itemCount: 3,
+      totalCents: 94700,
+    },
+    {
+      id: 'conv-homeoffice',
+      title: 'Setup Home Office & Café V60',
+      updatedAt: 'Ontem',
+      preview: 'Teclado Mecânico 75% + Suporte Alumínio',
+      itemCount: 3,
+      totalCents: 73710,
+    },
+    {
+      id: 'conv-geo',
+      title: 'Auditoria de Prontidão GEO',
+      updatedAt: '23 out',
+      preview: 'Score 96/100 · 12 SKUs elegíveis',
+      itemCount: 0,
+      totalCents: 0,
+    },
+  ]);
+  const [activeConvId, setActiveConvId] = useState<string>('conv-corrida');
   const [isLiveMode, setIsLiveMode] = useState<boolean>(true);
   const [liveAudioActive, setLiveAudioActive] = useState<boolean>(false);
   const [liveTranscript, setLiveTranscript] = useState<string>('');
@@ -399,6 +446,18 @@ export default function BoopayConversationalCheckoutPage() {
     setLiveTranscript('');
   }, []);
 
+
+  // Atalho global Ctrl+B / Cmd+B para alternar barra lateral
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        setIsSidebarOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
   const ensureSession = useCallback(
     async (forceNew = false, targetStoreId: StoreConnectorId = storeId): Promise<string> => {
       if (!forceNew && conversationId) {
@@ -898,33 +957,120 @@ export default function BoopayConversationalCheckoutPage() {
         Ir para a conversa
       </a>
 
-      <div className="workspace app">
+      <div className={`workspace app ${isSidebarOpen ? '' : 'sidebar-collapsed'}`}>
+
         {/* ==================== COLUNA ESQUERDA: RAIL ==================== */}
-        <aside className="rail" aria-label="Navegação Boopay">
+        <aside
+          className={`rail ${isSidebarOpen ? '' : 'is-collapsed'}`}
+          aria-label="Navegação Boopay"
+        >
           <div className="rail-top">
-            <a
-              className="brand brand-plate"
-              href="#top"
-              onClick={(e) => e.preventDefault()}
-              aria-label="Boopay, início"
-            >
-              <img
-                src="/brand/boopay-dark-transparent.svg"
-                alt="Boopay"
-                width={142}
-                height={42}
-              />
-              <span className="geo-score-badge">GEO 96%</span>
-            </a>
+            <div className="sidebar-top-row">
+              <a
+                className="brand brand-plate"
+                href="#top"
+                onClick={(e) => e.preventDefault()}
+                aria-label="Boopay, início"
+              >
+                <img
+                  src="/brand/boopay-dark-transparent.svg"
+                  alt="Boopay"
+                  width={132}
+                  height={38}
+                />
+                <span className="geo-score-badge">GEO 96%</span>
+              </a>
+
+              <button
+                type="button"
+                className="sidebar-close-btn"
+                onClick={() => setIsSidebarOpen(false)}
+                title="Recolher barra lateral (Ctrl+B)"
+                aria-label="Recolher barra lateral"
+              >
+                <PanelLeftClose size={18} />
+              </button>
+            </div>
 
             <button
               className="new-care"
               type="button"
-              onClick={() => setActiveDialog('new')}
+              onClick={() => {
+                const newId = `conv-${Date.now()}`;
+                const newConv = {
+                  id: newId,
+                  title: 'Nova conversa assistida',
+                  updatedAt: 'Agora',
+                  preview: 'Iniciando atendimento…',
+                  itemCount: 0,
+                  totalCents: 0,
+                };
+                setConversations((prev) => [newConv, ...prev]);
+                setActiveConvId(newId);
+                void ensureSession(true, storeId);
+              }}
+              title="Nova conversa (Ctrl+B abre/fecha o painel)"
             >
               <span className="new-care-icon"><Plus size={16} /></span>
               <span>Nova conversa</span>
+              <kbd className="sidebar-kbd">Ctrl B</kbd>
             </button>
+          </div>
+
+          {/* LISTA DE CONVERSAS FEITAS (HISTÓRICO) */}
+          <div className="sidebar-history-container">
+            <div className="sidebar-history-header">
+              <span className="eyebrow rail-eyebrow" style={{ margin: 0 }}>Conversas feitas</span>
+              <span className="geo-score-badge" style={{ fontSize: 10 }}>{conversations.length}</span>
+            </div>
+
+            <div className="sidebar-history-list" role="list">
+              {conversations.map((c) => {
+                const isActive = activeConvId === c.id;
+                return (
+                  <div
+                    key={c.id}
+                    className={`sidebar-conv-item ${isActive ? 'is-active' : ''}`}
+                    onClick={() => {
+                      setActiveConvId(c.id);
+                      if (!isActive) {
+                        void ensureSession(true, storeId);
+                        if (c.title.includes('Corrida')) {
+                          void sendMessage('Quero montar um kit de corrida de rua e academia');
+                        } else if (c.title.includes('Nômade')) {
+                          void sendMessage('Preciso de um kit para viagem e rotina híbrida');
+                        } else if (c.title.includes('Home Office')) {
+                          void sendMessage('Me recomende um kit para meu setup home office');
+                        } else if (c.title.includes('GEO')) {
+                          void sendMessage('Auditar prontidão GEO e protocolos agênticos do catálogo');
+                        }
+                      }
+                    }}
+                    role="button"
+                    tabIndex={0}
+                  >
+                    <MessageSquare size={15} className="sidebar-conv-icon" />
+                    <div className="sidebar-conv-info">
+                      <span className="sidebar-conv-title">{c.title}</span>
+                      <span className="sidebar-conv-meta">
+                        {c.itemCount > 0 ? `${c.itemCount} itens` : c.updatedAt} · {c.preview}
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className="sidebar-conv-del"
+                      title="Excluir conversa"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setConversations((prev) => prev.filter((item) => item.id !== c.id));
+                      }}
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           <nav className="rail-journey" aria-label="Sua jornada">
@@ -1016,6 +1162,16 @@ export default function BoopayConversationalCheckoutPage() {
         {/* ==================== COLUNA CENTRAL: CHAT SHELL ==================== */}
         <section className="chat-shell" aria-label="Atendimento Conversacional Boopay">
           <header className="chat-header">
+            <button
+              className="sidebar-toggle-header-btn"
+              type="button"
+              onClick={() => setIsSidebarOpen((prev) => !prev)}
+              title={isSidebarOpen ? 'Recolher barra lateral (Ctrl+B)' : 'Abrir barra lateral (Ctrl+B)'}
+              aria-label="Alternar barra lateral"
+            >
+              {isSidebarOpen ? <PanelLeftClose size={18} /> : <PanelLeftOpen size={18} />}
+            </button>
+
             <button
               className="icon-button icon-btn mobile-menu"
               type="button"
@@ -1122,21 +1278,21 @@ export default function BoopayConversationalCheckoutPage() {
                     <span className="intent-thumbs" aria-hidden="true">
                       <img
                         className="intent-thumb"
-                        src="/products/pulse-runner.svg"
+                        src="/products/pulse-runner.png"
                         alt=""
                         width={40}
                         height={40}
                       />
                       <img
                         className="intent-thumb"
-                        src="/products/smartband-gps.svg"
+                        src="/products/smartband-gps.png"
                         alt=""
                         width={40}
                         height={40}
                       />
                       <img
                         className="intent-thumb"
-                        src="/products/thermo-bottle.svg"
+                        src="/products/thermo-bottle.png"
                         alt=""
                         width={40}
                         height={40}
@@ -1164,21 +1320,21 @@ export default function BoopayConversationalCheckoutPage() {
                     <span className="intent-thumbs" aria-hidden="true">
                       <img
                         className="intent-thumb"
-                        src="/products/commuter-backpack.svg"
+                        src="/products/commuter-backpack.png"
                         alt=""
                         width={40}
                         height={40}
                       />
                       <img
                         className="intent-thumb"
-                        src="/products/anc-headphones.svg"
+                        src="/products/anc-headphones.png"
                         alt=""
                         width={40}
                         height={40}
                       />
                       <img
                         className="intent-thumb"
-                        src="/products/powerbank-mag.svg"
+                        src="/products/powerbank-mag.png"
                         alt=""
                         width={40}
                         height={40}
@@ -1204,21 +1360,21 @@ export default function BoopayConversationalCheckoutPage() {
                     <span className="intent-thumbs" aria-hidden="true">
                       <img
                         className="intent-thumb"
-                        src="/products/mech-keyboard.svg"
+                        src="/products/mech-keyboard.png"
                         alt=""
                         width={40}
                         height={40}
                       />
                       <img
                         className="intent-thumb"
-                        src="/products/laptop-stand.svg"
+                        src="/products/laptop-stand.png"
                         alt=""
                         width={40}
                         height={40}
                       />
                       <img
                         className="intent-thumb"
-                        src="/products/coffee-kit.svg"
+                        src="/products/coffee-kit.png"
                         alt=""
                         width={40}
                         height={40}

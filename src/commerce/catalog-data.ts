@@ -53,7 +53,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 52990,
     stock: 18,
     inStock: true,
-    imageUrl: '/products/pulse-runner.svg',
+    imageUrl: '/products/pulse-runner.png',
     description: 'Tênis de corrida e uso diário com entressola de dupla densidade, malha respirável knit e placa estabilizadora leve.',
     highlights: ['Drop 8mm equilibrado', 'Cabedal respirável ultra leve (228g)', 'Solado de borracha de alta tração'],
     attributes: { cor: 'Navy / Verde Pulso', peso: '228g', indicacao: 'Corrida e treino diário', garantia: '12 meses' },
@@ -72,7 +72,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 36900,
     stock: 25,
     inStock: true,
-    imageUrl: '/products/commuter-backpack.svg',
+    imageUrl: '/products/commuter-backpack.png',
     description: 'Mochila urbana impermeável com compartimento acolchoado para notebook até 16", bolso antifurto traseiro e passagem para mala de bordo.',
     highlights: ['Tecido ripstop impermeável IPX4', 'Divisória suspensa para notebook 16"', 'Abertura 180° estilo mala de cabine'],
     attributes: { capacidade: '24 Litros', material: 'Nylon Ballistic Impermeável', notebook: 'Até 16 polegadas' },
@@ -91,7 +91,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 57900,
     stock: 14,
     inStock: true,
-    imageUrl: '/products/anc-headphones.svg',
+    imageUrl: '/products/anc-headphones.png',
     description: 'Headphone over-ear com cancelamento ativo de ruído híbrido (-42dB), bateria de 45 horas e conexão multiponto para notebook e celular.',
     highlights: ['ANC híbrido de -42dB com modo transparência', '45h de autonomia + carga rápida USB-C', 'Pareamento simultâneo em 2 dispositivos'],
     attributes: { bateria: '45 horas', conectividade: 'Bluetooth 5.4 Multiponto', peso: '255g' },
@@ -110,7 +110,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 14990,
     stock: 42,
     inStock: true,
-    imageUrl: '/products/thermo-bottle.svg',
+    imageUrl: '/products/thermo-bottle.png',
     description: 'Garrafa térmica em aço inox 304 com parede dupla isolada a vácuo: mantém líquidos gelados por 24h ou quentes por 12h sem condensar.',
     highlights: ['Inox 304 livre de BPA', 'Tampa hermética com alça de transporte', 'Pintura eletrostática antiderrapante'],
     attributes: { volume: '750ml', conservacao: '24h frio / 12h quente', material: 'Aço Inox 304' },
@@ -129,7 +129,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 15990,
     stock: 35,
     inStock: true,
-    imageUrl: '/products/tech-tshirt.svg',
+    imageUrl: '/products/tech-tshirt.png',
     description: 'Camiseta ultraleve em poliamida biodegradável com proteção solar UV50+, secagem rápida e tratamento antiodor.',
     highlights: ['Poliamida com toque gelado', 'Proteção solar permanente UV50+', 'Costuras planas anti-atrito'],
     attributes: { tecido: '92% Poliamida / 8% Elastano', protecao: 'UV50+', modelagem: 'Regular Athletic' },
@@ -148,7 +148,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 25900,
     stock: 22,
     inStock: true,
-    imageUrl: '/products/powerbank-mag.svg',
+    imageUrl: '/products/powerbank-mag.png',
     description: 'Bateria externa magnética de 10.000mAh com saída USB-C Power Delivery de 30W e carregamento sem fio Qi2 de 15W.',
     highlights: ['Homologado para embarque em voos (37Wh)', 'Carregamento rápido PD 30W bidirectional', 'Display LED de percentual exato'],
     attributes: { capacidade: '10.000mAh (37Wh)', potencia: '30W USB-C + 15W Wireless', peso: '185g' },
@@ -167,7 +167,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 12900,
     stock: 50,
     inStock: true,
-    imageUrl: '/products/cable-organizer.svg',
+    imageUrl: '/products/cable-organizer.png',
     description: 'Estojo semi-rígido resistente à água com divisórias elásticas moduláveis para carregadores, cabos, SSD, mouse e itens pessoais.',
     highlights: ['Zíper duplo YKK selado', 'Divisórias internas ajustáveis em velcro', 'Bolso com malha para cartões e adaptadores'],
     attributes: { dimensoes: '23 x 15 x 7 cm', material: 'EVA revestido em Oxford 900D', peso: '160g' },
@@ -186,7 +186,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 62900,
     stock: 11,
     inStock: true,
-    imageUrl: '/products/mech-keyboard.svg',
+    imageUrl: '/products/mech-keyboard.png',
     description: 'Teclado mecânico compacto 75% com switches táteis silenciosos, chassi em alumínio anodizado e conexão tri-mode (Bluetooth, 2.4GHz e USB-C).',
     highlights: ['Switches low-profile silenciosos', 'Compatível com Windows, macOS e Linux', 'Keycaps PBT double-shot resistentes a brilho'],
     attributes: { layout: '75% Compacto ABNT/ANSI', conexao: 'Bluetooth 5.3 + Dongle 2.4GHz + USB-C', estrutura: 'Alumínio CNC' },
@@ -205,7 +205,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 16900,
     stock: 30,
     inStock: true,
-    imageUrl: '/products/laptop-stand.svg',
+    imageUrl: '/products/laptop-stand.png',
     description: 'Suporte articulado em liga de alumínio com 7 níveis de altura, apoios em silicone antiderrapante e bolsa de transporte inclusa.',
     highlights: ['Suporta até 15kg com estabilidade total', 'Aberto favorece dissipação térmica', 'Dobrável: cabe no bolso da mochila'],
     attributes: { material: 'Liga de Alumínio Aeroespacial', ajustes: '7 níveis de inclinação', compatibilidade: 'Notebooks 10" a 17"' },
@@ -224,7 +224,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 33900,
     stock: 19,
     inStock: true,
-    imageUrl: '/products/smartband-gps.svg',
+    imageUrl: '/products/smartband-gps.png',
     description: 'Pulseira inteligente com GPS integrado, monitor contínuo de frequência cardíaca, SpO2, recuperação de sono e resistência à água 5ATM.',
     highlights: ['GPS autônomo sem depender do celular', 'Bateria para até 12 dias de uso', '120 modos esportivos + resistência 5ATM'],
     attributes: { tela: 'AMOLED 1.64" 60Hz', gps: 'GNSS Dual-Band integrado', resistencia: '5ATM (natação)' },
@@ -243,7 +243,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 29990,
     stock: 21,
     inStock: true,
-    imageUrl: '/products/windbreaker.svg',
+    imageUrl: '/products/windbreaker.png',
     description: 'Jaqueta corta-vento ultraleve com acabamento hidro-repelente DWR, capuz ajustável, detalhes refletivos e bolso que vira bolsa compacta.',
     highlights: ['Dobra no próprio bolso (packable)', 'Detalhes refletivos 360° para corrida noturna', 'Aberturas estratégicas de ventilação'],
     attributes: { peso: '145g', acabamento: 'DWR Hidro-repelente', detalhes: 'Refletivo noturno' },
@@ -262,7 +262,7 @@ export const DEMO_PRODUCTS: CatalogProduct[] = [
     originalPriceCents: 19900,
     stock: 16,
     inStock: true,
-    imageUrl: '/products/coffee-kit.svg',
+    imageUrl: '/products/coffee-kit.png',
     description: 'Conjunto com prensa francesa térmica em inox (600ml) de parede dupla e pacote de café especial 100% arábica pontuação 86 SCA com notas de caramelo.',
     highlights: ['Prensa em inox inquebrável com filtro duplo', 'Café 100% Arábica da Mantiqueira (86 pontos)', 'Mantém o café quente por 2x mais tempo'],
     attributes: { capacidade: '600ml (4 xícaras)', grao: '100% Arábica Catuaí Amarelo', torra: 'Média fresca' },
@@ -290,7 +290,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'KeyCore Gear',
         priceCents: 28070,
         qty: 1,
-        imageUrl: '/products/commuter-backpack.svg',
+        imageUrl: '/products/commuter-backpack.png',
         category: 'Viagem & Rotina'
       },
       {
@@ -299,7 +299,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'KeyCore Gear',
         priceCents: 19270,
         qty: 1,
-        imageUrl: '/products/powerbank-mag.svg',
+        imageUrl: '/products/powerbank-mag.png',
         category: 'Tech & Setup'
       },
       {
@@ -308,7 +308,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'BooLab Athletics',
         priceCents: 10550,
         qty: 1,
-        imageUrl: '/products/thermo-bottle.svg',
+        imageUrl: '/products/thermo-bottle.png',
         category: 'Viagem & Rotina'
       },
       {
@@ -317,7 +317,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'KeyCore Gear',
         priceCents: 8710,
         qty: 1,
-        imageUrl: '/products/cable-organizer.svg',
+        imageUrl: '/products/cable-organizer.png',
         category: 'Viagem & Rotina'
       }
     ],
@@ -340,7 +340,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'Aura Acoustics',
         priceCents: 44010,
         qty: 1,
-        imageUrl: '/products/anc-headphones.svg',
+        imageUrl: '/products/anc-headphones.png',
         category: 'Tech & Setup'
       },
       {
@@ -349,7 +349,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'Aura Acoustics',
         priceCents: 49410,
         qty: 1,
-        imageUrl: '/products/mech-keyboard.svg',
+        imageUrl: '/products/mech-keyboard.png',
         category: 'Tech & Setup'
       },
       {
@@ -358,7 +358,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'KeyCore Gear',
         priceCents: 12510,
         qty: 1,
-        imageUrl: '/products/laptop-stand.svg',
+        imageUrl: '/products/laptop-stand.png',
         category: 'Tech & Setup'
       }
     ],
@@ -381,7 +381,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'BooLab Athletics',
         priceCents: 39590,
         qty: 1,
-        imageUrl: '/products/pulse-runner.svg',
+        imageUrl: '/products/pulse-runner.png',
         category: 'Calçados & Performance'
       },
       {
@@ -390,7 +390,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'BooLab Athletics',
         priceCents: 25430,
         qty: 1,
-        imageUrl: '/products/smartband-gps.svg',
+        imageUrl: '/products/smartband-gps.png',
         category: 'Calçados & Performance'
       },
       {
@@ -399,7 +399,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'BooLab Athletics',
         priceCents: 11430,
         qty: 1,
-        imageUrl: '/products/tech-tshirt.svg',
+        imageUrl: '/products/tech-tshirt.png',
         category: 'Calçados & Performance'
       },
       {
@@ -408,7 +408,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         brand: 'BooLab Athletics',
         priceCents: 10550,
         qty: 1,
-        imageUrl: '/products/thermo-bottle.svg',
+        imageUrl: '/products/thermo-bottle.png',
         category: 'Viagem & Rotina'
       }
     ],

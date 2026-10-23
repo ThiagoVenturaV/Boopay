@@ -96,6 +96,17 @@ def run_desktop_e2e(playwright) -> Path:
     page.wait_for_timeout(1000)
     assert page.locator(".brand-plate img").is_visible(), "Boopay vector logo must be visible"
     assert page.locator(".intent-card").count() == 4, "Must render 4 intent cards"
+    assert page.locator(".sidebar-conv-item").count() >= 4, "Must list past conversations in sidebar"
+    assert page.locator(".intent-thumb").first.get_attribute("src").endswith(".png"), "Must use generated PNG product images"
+
+    # Test Ctrl+B keyboard shortcut to collapse and expand sidebar
+    page.keyboard.press("Control+b")
+    page.wait_for_timeout(600)
+    assert "sidebar-collapsed" in (page.locator(".workspace.app").get_attribute("class") or "")
+    page.keyboard.press("Control+b")
+    page.wait_for_timeout(600)
+    assert "sidebar-collapsed" not in (page.locator(".workspace.app").get_attribute("class") or "")
+
     page.screenshot(path=str(EVIDENCE_DIR / "mvp-01-welcome-desktop.png"))
 
     # 2. Switch connectors briefly to demonstrate multi-store adapter readiness
