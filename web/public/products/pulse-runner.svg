@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 104" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="114" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2F7FB"/>
+      <stop offset="100%" stop-color="#E4EFF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="114" height="104" rx="18" fill="url(#bg)"/>
+  <circle cx="88" cy="22" r="14" fill="#85FA2E" fill-opacity="0.22"/>
+  <circle cx="26" cy="76" r="18" fill="#00DAFA" fill-opacity="0.18"/>
+  
+      <path d="M22 68 C32 68 38 46 48 44 L66 56 L84 58 C91 58 94 64 94 70 L20 70 Z" fill="#032541"/>
+      <path d="M18 70 L96 70 C96 75 92 78 86 78 L24 78 C19 78 18 74 18 70 Z" fill="#85FA2E"/>
+      <path d="M36 58 L56 58 M42 52 L58 52" stroke="#00DAFA" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="32" cy="74" r="2.5" fill="#032541"/>
+      <circle cx="82" cy="74" r="2.5" fill="#032541"/>
+    
+  <rect x="12" y="10" width="46" height="14" rx="7" fill="#032541"/>
+  <text x="35" y="19.5" text-anchor="middle" fill="#85FA2E" font-family="Poppins, sans-serif" font-size="7" font-weight="700">RUNNER X1</text>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 104" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="114" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2F7FB"/>
+      <stop offset="100%" stop-color="#E4EFF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="114" height="104" rx="18" fill="url(#bg)"/>
+  <circle cx="88" cy="22" r="14" fill="#00DAFA" fill-opacity="0.22"/>
+  <circle cx="26" cy="76" r="18" fill="#85FA2E" fill-opacity="0.18"/>
+  
+      <path d="M26 68 L84 42 L88 46 L34 72 Z" fill="#032541"/>
+      <path d="M30 72 H86" stroke="#032541" stroke-width="5" stroke-linecap="round"/>
+      <path d="M48 60 L64 72" stroke="#85FA2E" stroke-width="4" stroke-linecap="round"/>
+      <circle cx="48" cy="60" r="3.5" fill="#00DAFA"/>
+    
+  <rect x="12" y="10" width="46" height="14" rx="7" fill="#032541"/>
+  <text x="35" y="19.5" text-anchor="middle" fill="#85FA2E" font-family="Poppins, sans-serif" font-size="7" font-weight="700">STAND ALU</text>
+</svg>

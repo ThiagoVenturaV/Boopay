@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 104" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="114" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2F7FB"/>
+      <stop offset="100%" stop-color="#E4EFF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="114" height="104" rx="18" fill="url(#bg)"/>
+  <circle cx="88" cy="22" r="14" fill="#85FA2E" fill-opacity="0.22"/>
+  <circle cx="26" cy="76" r="18" fill="#00DAFA" fill-opacity="0.18"/>
+  
+      <rect x="37" y="24" width="40" height="58" rx="9" fill="#032541"/>
+      <circle cx="57" cy="50" r="12" stroke="#00DAFA" stroke-width="2.5" fill="none"/>
+      <path d="M59 42 L52 52 H58 L55 60 L63 49 H57 Z" fill="#85FA2E"/>
+    
+  <rect x="12" y="10" width="46" height="14" rx="7" fill="#032541"/>
+  <text x="35" y="19.5" text-anchor="middle" fill="#85FA2E" font-family="Poppins, sans-serif" font-size="7" font-weight="700">MAG 10K</text>
+</svg>

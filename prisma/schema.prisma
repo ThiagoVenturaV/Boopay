@@ -109,3 +109,138 @@ model StoreEvent {
   integration   Integration @relation(fields: [integrationId], references: [id])
   @@unique([integrationId, eventId])
 }
+
+
+model Conversation {
+  id              String             @id @default(uuid())
+  tenantId        String             @default("demo-tenant")
+  storeSource     String             @default("demo")
+  cartVersion     Int                @default(0)
+  customerName    String?
+  customerCep     String?
+  preferencesJson String?
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+  turns           ConversationTurn[]
+  cartLines       CartLine[]
+  mutations       CartMutation[]
+  sessions        CheckoutSession[]
+  orders          ChatOrder[]
+  @@index([tenantId])
+}
+
+model ConversationTurn {
+  id             String       @id @default(uuid())
+  conversationId String
+  requestId      String
+  userMessage    String
+  assistantText  String
+  uiBlocksJson   String
+  provider       String
+  latencyMs      Int          @default(0)
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@unique([conversationId, requestId])
+}
+
+model CartLine {
+  id                 String       @id @default(uuid())
+  conversationId     String
+  productRef         String
+  name               String
+  brand              String       @default("Boopay Store")
+  category           String       @default("Geral")
+  priceCents         Int
+  originalPriceCents Int?
+  qty                Int          @default(1)
+  stock              Int          @default(20)
+  imageUrl           String       @default("/products/placeholder.svg")
+  source             String       @default("demo")
+  bundleId           String?
+  bundleTitle        String?
+  geoScore           Int          @default(92)
+  whyRecommended     String?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  conversation       Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@unique([conversationId, productRef])
+}
+
+model CartMutation {
+  id             String       @id @default(uuid())
+  conversationId String
+  requestId      String
+  action         String
+  resultJson     String
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@unique([conversationId, requestId])
+}
+
+model CheckoutSession {
+  id             String       @id @default(uuid())
+  conversationId String
+  tenantId       String       @default("demo-tenant")
+  protocol       String       @default("chat")
+  surface        String       @default("boopay_sandbox")
+  status         String       @default("draft")
+  deliveryType   String?
+  cep            String?
+  addressJson    String?
+  paymentMethod  String?
+  paymentToken   String?
+  subtotalCents  Int          @default(0)
+  discountCents  Int          @default(0)
+  shippingCents  Int          @default(0)
+  taxCents       Int          @default(0)
+  totalCents     Int          @default(0)
+  itemsJson      String       @default("[]")
+  quoteVersion   Int          @default(1)
+  quoteHash      String       @default("")
+  confirmedAt    DateTime?
+  termsVersion   String?
+  orderId        String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@index([conversationId, status])
+}
+
+model ChatOrder {
+  id                String       @id
+  conversationId    String
+  checkoutSessionId String
+  tenantId          String       @default("demo-tenant")
+  source            String       @default("demo")
+  externalOrderId   String?
+  protocol          String       @default("chat")
+  surface           String       @default("boopay_sandbox")
+  status            String       @default("CONFIRMADO")
+  simulated         Boolean      @default(true)
+  deliveryType      String
+  addressJson       String
+  paymentMethod     String
+  paymentStatus     String       @default("PAID_SANDBOX")
+  subtotalCents     Int
+  discountCents     Int          @default(0)
+  shippingCents     Int
+  totalCents        Int
+  itemsJson         String
+  quoteHash         String
+  confirmedAt       DateTime
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  conversation      Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@index([conversationId])
+}
+
+model CustomBundle {
+  id          String   @id
+  tenantId    String   @default("demo-tenant")
+  title       String
+  subtitle    String
+  goal        String
+  discountPct Int      @default(10)
+  itemsJson   String
+  createdAt   DateTime @default(now())
+}

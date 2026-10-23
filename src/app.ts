@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { ZodError } from 'zod';
 import { boopayRoutes } from './http/routes';
 import { connectionRoutes } from './http/connection-routes';
+import { chatRoutes } from './http/chat-routes';
 import { AccessError, CredentialService } from './security/credentials';
 import { verifySignedRequest } from './security/signed-request';
 
@@ -33,5 +34,6 @@ export function buildApp(options: { db: PrismaClient; credentialKey: string; adm
   });
   connectionRoutes(app, credentials, options.adminToken);
   app.register(boopayRoutes, { db: options.db });
+  app.register(chatRoutes, { db: options.db });
   return { app, credentials };
 }

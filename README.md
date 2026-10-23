@@ -2,6 +2,18 @@
 
 Repositório de desenvolvimento do MVP do Boopay. Este é o tutorial padrão do time: use o mesmo roteiro em todas as tarefas, desde assumir uma issue até entregar e receber revisão.
 
+## MVP — Checkout Conversacional & Catálogo Pronto para IA (GEO)
+
+O MVP completo do **Boopay** (Backend Fastify + Prisma + Frontend Next.js em `web/`) está disponível e documentado em [Entrega MVP — Checkout Conversacional & Prontidão Agêntica (GEO)](docs/entregas/MVP-CHECKOUT-CONVERSACIONAL.md).
+
+```bash
+# Iniciar API Fastify (:3333)
+npm run dev
+
+# Iniciar Frontend Next.js (:3000)
+npm run dev:web
+```
+
 ## Planejamento e acordos do time
 
 Entrega final: **04/11/2026**; versão integrada, testes, documentação e pacote prontos até **03/11**, America/Fortaleza. O plano contém **83 tarefas na entrega** e **2 futuras**; datas/contagens não comprovam capacidade ou conclusão.
@@ -15,10 +27,10 @@ Entrega final: **04/11/2026**; versão integrada, testes, documentação e pacot
 
 | Período | Meta | Quadro |
 | --- | --- | --- |
-| 14–20/10 | Fundação integrada e base multiloja — 40 tarefas, incluindo 22 do plugin em revisão | [S1](https://github.com/users/Pedro-Lucas001/projects/2/views/8) |
-| 21–27/10 | Compra conversacional em sandbox — 20 tarefas | [S2](https://github.com/users/Pedro-Lucas001/projects/2/views/9) |
-| 28/10–03/11 | Produto completo, CDP, multitoque, QA, documentos e pacote — 21 tarefas | [S3](https://github.com/users/Pedro-Lucas001/projects/2/views/10) |
-| 04/11 | Submissão/comprovante e contribuições — 2 tarefas | [Entrega](https://github.com/users/Pedro-Lucas001/projects/2/views/11) |
+| 14–20/10 | Fundação integrada e base multiloja — 40 tarefas, incluindo 22 do plugin em revisão | [S1](https://github.com/orgs/KeyCoreSH/projects/7/views/8) |
+| 21–27/10 | Compra conversacional em sandbox — 20 tarefas | [S2](https://github.com/orgs/KeyCoreSH/projects/7/views/9) |
+| 28/10–03/11 | Produto completo, CDP, multitoque, QA, documentos e pacote — 21 tarefas | [S3](https://github.com/orgs/KeyCoreSH/projects/7/views/10) |
+| 04/11 | Submissão/comprovante e contribuições — 2 tarefas | [Entrega](https://github.com/orgs/KeyCoreSH/projects/7/views/11) |
 
 Cada integrante confirma sua disponibilidade na planning. Uma história descreve necessidade/benefício; task descreve trabalho; RFC registra proposta/decisão técnica; critério de aceite verifica a tarefa/história; DoD define qualidade comum. O JSON em `docs/planejamento/backlog.json` registra o mapa, sem criar ou importar issues automaticamente.
 
@@ -26,11 +38,11 @@ Cada integrante confirma sua disponibilidade na planning. Uma história descreve
 
 Entrega WooCommerce: comece pelo [índice do plugin](docs/entregas/INDICE-PLUGIN.md), siga o [tutorial de ambiente e instalação](docs/entregas/AMBIENTE-PLUGIN.md) e consulte a [QA executada](docs/entregas/RB-020.md). `npm run package:plugin` gera ZIP/manifesto; o workflow do PR disponibiliza ambos como artefato. Validação local não substitui revisão e aceite do time.
 
-- [Quadro — execução do MVP](https://github.com/users/Pedro-Lucas001/projects/2/views/1)
-- [Quadro — foco WooCommerce](https://github.com/users/Pedro-Lucas001/projects/2/views/6)
-- [Backlog futuro](https://github.com/users/Pedro-Lucas001/projects/2/views/7)
-- [Issues — tarefas e critérios de aceite](https://github.com/Pedro-Lucas001/boopay/issues)
-- [Pull requests — entregas em revisão](https://github.com/Pedro-Lucas001/boopay/pulls)
+- [Quadro — execução do MVP](https://github.com/orgs/KeyCoreSH/projects/7/views/1)
+- [Quadro — foco WooCommerce](https://github.com/orgs/KeyCoreSH/projects/7/views/6)
+- [Backlog futuro](https://github.com/orgs/KeyCoreSH/projects/7/views/7)
+- [Issues — tarefas e critérios de aceite](https://github.com/KeyCoreSH/Boopay/issues)
+- [Pull requests — entregas em revisão](https://github.com/KeyCoreSH/Boopay/pulls)
 - [RFCs — uma proposta por issue, com abordagem e validação](docs/rfcs/README.md)
 - [Modelo de documentação da entrega](docs/entregas/MODELO.md)
 - [Modelo de pull request](.github/PULL_REQUEST_TEMPLATE.md)
@@ -68,12 +80,12 @@ Deve aparecer uma versão. Os comandos deste guia funcionam no PowerShell ou no 
 Abra o terminal na pasta onde deseja guardar o projeto:
 
 ```bash
-git clone https://github.com/Pedro-Lucas001/boopay.git
+git clone https://github.com/KeyCoreSH/Boopay.git
 cd boopay
 git remote -v
 ```
 
-`clone` cria a pasta do projeto; `cd` entra nela. `remote -v` deve mostrar `origin` apontando para **Pedro-Lucas001/boopay**. Todos os próximos comandos são executados dentro dessa pasta.
+`clone` cria a pasta do projeto; `cd` entra nela. `remote -v` deve mostrar `origin` apontando para **KeyCoreSH/Boopay**. Todos os próximos comandos são executados dentro dessa pasta.
 
 Se já clonou, abra o terminal na pasta existente. Não precisa clonar a cada tarefa.
 
@@ -208,8 +220,8 @@ Adapte a mensagem e o nome da branch. O commit registra as alterações no compu
 
 ### 6. Abrir o PR e pedir revisão
 
-1. Entre em [Pull requests → New pull request](https://github.com/Pedro-Lucas001/boopay/pulls). Se aparecer **Compare & pull request** para sua branch, pode usá-lo.
-2. Confira o repositório de destino: **Pedro-Lucas001/boopay**.
+1. Entre em [Pull requests → New pull request](https://github.com/KeyCoreSH/Boopay/pulls). Se aparecer **Compare & pull request** para sua branch, pode usá-lo.
+2. Confira o repositório de destino: **KeyCoreSH/Boopay**.
 3. Selecione **base: main** e **compare: sua branch**.
 4. Confira a comparação dos arquivos e clique em **Create pull request** para abrir o formulário, quando necessário.
 5. Escreva um título como `[RB-001] Documentar criterios de aceite do plugin`, adaptado à sua entrega.

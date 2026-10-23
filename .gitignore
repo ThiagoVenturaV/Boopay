@@ -1,4 +1,8 @@
 node_modules/
+web/node_modules/
+web/.next/
+web/tsconfig.tsbuildinfo
+web/next-env.d.ts
 .env
 *.sqlite
 *.sqlite-journal

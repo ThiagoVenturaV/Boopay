@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 114 104" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="114" y2="104" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F2F7FB"/>
+      <stop offset="100%" stop-color="#E4EFF8"/>
+    </linearGradient>
+  </defs>
+  <rect width="114" height="104" rx="18" fill="url(#bg)"/>
+  <circle cx="88" cy="22" r="14" fill="#00DAFA" fill-opacity="0.22"/>
+  <circle cx="26" cy="76" r="18" fill="#85FA2E" fill-opacity="0.18"/>
+  
+      <rect x="43" y="28" width="28" height="54" rx="8" fill="#032541"/>
+      <rect x="48" y="18" width="18" height="10" rx="3" fill="#083b66" stroke="#85FA2E" stroke-width="2"/>
+      <path d="M43 44 H71" stroke="#85FA2E" stroke-width="3"/>
+      <circle cx="57" cy="60" r="6" stroke="#00DAFA" stroke-width="2.5" fill="none"/>
+    
+  <rect x="12" y="10" width="46" height="14" rx="7" fill="#032541"/>
+  <text x="35" y="19.5" text-anchor="middle" fill="#85FA2E" font-family="Poppins, sans-serif" font-size="7" font-weight="700">THERMO 750</text>
+</svg>

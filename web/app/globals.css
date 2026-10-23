@@ -1,0 +1,3693 @@
+@import url('https://fonts.googleapis.com/css2?family=Chewy&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #f3f7fb;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* === reference-layout.scss === */
+.boopay-chat-page {
+  --blue: #032541;
+  --blue-dark: #021b30;
+  --blue-deep: #032541;
+  --blue-night: #011627;
+  --blue-soft: #eef0ff;
+  --blue-line: #d9ddff;
+  --red: #85FA2E;
+  --red-deep: #68d317;
+  --red-soft: #fff0f3;
+  --ink: #12142b;
+  --ink-soft: #30344d;
+  --muted: #5b6075;
+  --muted-2: #7b8094;
+  --line: #e2e5ef;
+  --line-strong: #d2d7e5;
+  --bg: #f5f6fa;
+  --bg-warm: #fbfbfe;
+  --surface: #ffffff;
+  --green: #0b7358;
+  --green-soft: #e8f7f1;
+  --amber: #8a5a00;
+  --amber-soft: #fff6e3;
+  --shadow-sm: 0 1px 2px rgba(12, 15, 45, 0.05);
+  --shadow-md: 0 14px 40px rgba(12, 15, 45, 0.09);
+  --shadow-lg: 0 30px 80px rgba(4, 5, 47, 0.22);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --font: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  --rail-w: 268px;
+  --context-w: 344px;
+  --header-h: 68px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.boopay-chat-page *,
+.boopay-chat-page *::before,
+.boopay-chat-page *::after {
+  box-sizing: border-box;
+}
+
+.boopay-chat-page {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.boopay-chat-page.has-dialog {
+  overflow: hidden;
+}
+
+.boopay-chat-page button,
+.boopay-chat-page input,
+.boopay-chat-page textarea,
+.boopay-chat-page select {
+  font: inherit;
+  color: inherit;
+}
+
+.boopay-chat-page button {
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.boopay-chat-page button:disabled {
+  cursor: not-allowed;
+}
+
+.boopay-chat-page a {
+  color: var(--blue);
+}
+
+.boopay-chat-page img {
+  display: block;
+  max-width: 100%;
+}
+
+.boopay-chat-page p,
+.boopay-chat-page h1,
+.boopay-chat-page h2,
+.boopay-chat-page h3,
+.boopay-chat-page h4,
+.boopay-chat-page ul,
+.boopay-chat-page ol,
+.boopay-chat-page dl,
+.boopay-chat-page dd {
+  margin: 0;
+}
+.boopay-chat-page ul,
+.boopay-chat-page ol {
+  padding: 0;
+  list-style: none;
+}
+
+.boopay-chat-page :focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.boopay-chat-page .rail :focus-visible,
+.boopay-chat-page .rail-help-btn:focus-visible {
+  outline-color: #ffffff;
+}
+
+.boopay-chat-page ::selection {
+  background: var(--blue);
+  color: #fff;
+}
+
+.boopay-chat-page .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.boopay-chat-page .skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 200;
+  background: #fff;
+  color: var(--blue);
+  padding: 10px 16px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+  font-weight: 700;
+}
+.boopay-chat-page .skip-link:focus {
+  top: 12px;
+}
+
+.boopay-chat-page .icon {
+  display: inline-block;
+  inline-size: var(--icon-size, 20px);
+  block-size: var(--icon-size, 20px);
+  flex: none;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.boopay-chat-page [data-icon] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+
+.boopay-chat-page .hidden {
+  display: none !important;
+}
+.boopay-chat-page .nowrap {
+  white-space: nowrap;
+}
+
+.boopay-chat-page .app {
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr) var(--context-w);
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.boopay-chat-page .rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 18px 14px 16px;
+  background: var(--blue-deep);
+  color: #fff;
+  overflow: hidden;
+}
+
+.boopay-chat-page .rail::after {
+  content: '+';
+  position: absolute;
+  right: -42px;
+  bottom: 132px;
+  font-size: 260px;
+  line-height: 1;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.035);
+  pointer-events: none;
+}
+
+.boopay-chat-page .rail-top {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 14px;
+}
+
+.boopay-chat-page .brand-plate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 176px;
+  padding: 10px 12px;
+  background: #fff;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.boopay-chat-page .brand-plate img {
+  width: 148px;
+  height: auto;
+}
+
+.boopay-chat-page .new-care {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
+}
+.boopay-chat-page .new-care:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.36);
+}
+.boopay-chat-page .new-care-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+}
+
+.boopay-chat-page .rail-journey {
+  position: relative;
+  z-index: 1;
+  margin-top: 30px;
+  padding: 0 4px;
+}
+
+.boopay-chat-page .rail-eyebrow,
+.boopay-chat-page .dialog-eyebrow {
+  margin: 0 0 12px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.boopay-chat-page .journey {
+  display: grid;
+  gap: 0;
+}
+
+.boopay-chat-page .journey-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 11px;
+  align-items: start;
+  padding-bottom: 22px;
+  color: rgba(255, 255, 255, 0.58);
+}
+.boopay-chat-page .journey-step::before {
+  content: '';
+  position: absolute;
+  left: 14px;
+  top: 30px;
+  bottom: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.16);
+}
+.boopay-chat-page .journey-step:last-child {
+  padding-bottom: 0;
+}
+.boopay-chat-page .journey-step:last-child::before {
+  display: none;
+}
+
+.boopay-chat-page .step-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.7);
+  background: var(--blue-deep);
+  transition:
+    background 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
+}
+
+.boopay-chat-page .step-copy {
+  display: grid;
+  gap: 1px;
+  padding-top: 2px;
+}
+.boopay-chat-page .step-copy strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+.boopay-chat-page .step-copy small {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1.35;
+}
+
+.boopay-chat-page .journey-step.is-active .step-mark {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.boopay-chat-page .journey-step.is-active .step-copy strong {
+  color: #fff;
+}
+.boopay-chat-page .journey-step.is-active .step-copy small {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.boopay-chat-page .journey-step.is-done .step-mark {
+  background: #fff;
+  border-color: #fff;
+  color: var(--blue-deep);
+}
+.boopay-chat-page .journey-step.is-done .step-copy strong {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.boopay-chat-page .rail-bottom {
+  position: relative;
+  z-index: 1;
+  margin-top: auto;
+  display: grid;
+  gap: 12px;
+}
+
+.boopay-chat-page .rail-help {
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+}
+.boopay-chat-page .rail-help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  margin-bottom: 10px;
+}
+.boopay-chat-page .rail-help strong {
+  display: block;
+  font-size: 13.5px;
+  margin-bottom: 3px;
+}
+.boopay-chat-page .rail-help p {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.58);
+}
+.boopay-chat-page .rail-help-btn {
+  margin-top: 11px;
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--blue-deep);
+  font-size: 12px;
+  font-weight: 700;
+}
+.boopay-chat-page .rail-help-btn:hover {
+  background: var(--blue-soft);
+}
+
+.boopay-chat-page .rail-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 6px;
+  border-radius: 12px;
+  color: #fff;
+  text-align: left;
+}
+.boopay-chat-page .rail-user:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+.boopay-chat-page .rail-user-copy {
+  display: grid;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+.boopay-chat-page .rail-user-copy strong {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.boopay-chat-page .rail-user-copy small {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+.boopay-chat-page .rail-user-chev {
+  color: rgba(255, 255, 255, 0.44);
+}
+
+.boopay-chat-page .rail-demo {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.32);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.boopay-chat-page .avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  flex: none;
+}
+.boopay-chat-page .avatar-sm {
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.13);
+  color: #fff;
+}
+.boopay-chat-page .avatar-button {
+  transition: box-shadow 160ms ease;
+}
+.boopay-chat-page .avatar-button:hover {
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.boopay-chat-page .chat-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  min-width: 0;
+  min-height: 0;
+  background: var(--surface);
+}
+
+.boopay-chat-page .chat-header {
+  position: relative;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  min-height: var(--header-h);
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.boopay-chat-page .chat-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.boopay-chat-page .chat-heading > div {
+  min-width: 0;
+}
+.boopay-chat-page .chat-heading h1 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.boopay-chat-page .chat-heading p {
+  font-size: 11.5px;
+  color: var(--muted-2);
+  line-height: 1.2;
+}
+
+.boopay-chat-page .live-mark {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px var(--green-soft);
+  flex: none;
+}
+
+.boopay-chat-page .header-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.boopay-chat-page .pill-button,
+.boopay-chat-page .delivery-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+.boopay-chat-page .pill-button:hover,
+.boopay-chat-page .delivery-pill:hover {
+  border-color: var(--blue-line);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .safety-pill svg {
+  color: var(--blue);
+}
+.boopay-chat-page .delivery-pill {
+  max-width: 210px;
+}
+.boopay-chat-page .delivery-pill span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.boopay-chat-page .delivery-pill .chev {
+  color: var(--muted-2);
+}
+
+.boopay-chat-page .icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition:
+    background 160ms ease,
+    color 160ms ease;
+}
+.boopay-chat-page .icon-btn:hover {
+  background: var(--bg);
+  color: var(--blue);
+}
+.boopay-chat-page .mobile-menu,
+.boopay-chat-page .mobile-kit-btn {
+  display: none;
+}
+
+.boopay-chat-page .kit-badge {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-size: 9.5px;
+  font-weight: 700;
+}
+.boopay-chat-page .mobile-kit-btn {
+  position: relative;
+}
+
+.boopay-chat-page .chat-scroll {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: smooth;
+  background: var(--surface);
+}
+
+.boopay-chat-page .welcome {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: clamp(44px, 7vh, 86px) 40px 32px;
+  overflow: hidden;
+}
+.boopay-chat-page .welcome::before {
+  content: '';
+  position: absolute;
+  top: 24px;
+  right: 12px;
+  width: 230px;
+  height: 230px;
+  background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 12v16M12 20h16' stroke='%230000BE' stroke-opacity='.09' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  mask-image: linear-gradient(135deg, #000 0%, transparent 72%);
+  -webkit-mask-image: linear-gradient(135deg, #000 0%, transparent 72%);
+  pointer-events: none;
+}
+
+.boopay-chat-page .welcome-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px 7px 9px;
+  border: 1px solid var(--blue-line);
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.boopay-chat-page .welcome-kicker svg {
+  color: var(--red);
+}
+
+.boopay-chat-page .welcome h2 {
+  position: relative;
+  max-width: 760px;
+  margin: 22px 0 16px;
+  font-size: clamp(40px, 5.1vw, 62px);
+  font-weight: 700;
+  line-height: 0.99;
+  letter-spacing: -0.055em;
+  color: var(--ink);
+}
+.boopay-chat-page .welcome h2 em {
+  font-style: normal;
+  color: var(--blue);
+}
+.boopay-chat-page .welcome h2 .title-plus {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.54em;
+  height: 0.54em;
+  margin-left: 0.08em;
+  border-radius: 0.14em;
+  background: var(--red);
+  color: #fff;
+  font-size: 0.44em;
+  font-weight: 500;
+  vertical-align: 0.12em;
+  letter-spacing: 0;
+}
+
+.boopay-chat-page .welcome-lede {
+  max-width: 590px;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.boopay-chat-page .welcome-lede strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.boopay-chat-page .intent-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.boopay-chat-page .intent-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 208px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: #fff;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform 200ms var(--ease),
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+.boopay-chat-page .intent-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--blue-line);
+  box-shadow: 0 14px 34px rgba(12, 15, 45, 0.08);
+}
+.boopay-chat-page .intent-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.boopay-chat-page .intent-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .intent-card:nth-child(2) .intent-icon {
+  background: var(--red-soft);
+  color: var(--red-deep);
+}
+.boopay-chat-page .intent-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+.boopay-chat-page .intent-card:hover .intent-arrow {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.boopay-chat-page .intent-card h3 {
+  font-size: 17px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 5px;
+}
+.boopay-chat-page .intent-card p {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.boopay-chat-page .intent-thumbs {
+  display: flex;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 16px;
+}
+.boopay-chat-page .intent-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  border: 2px solid #fff;
+  background: #f6f7fb;
+  object-fit: contain;
+  margin-left: -8px;
+  box-shadow: 0 0 0 1px rgba(12, 15, 45, 0.05);
+}
+.boopay-chat-page .intent-thumb:first-child {
+  margin-left: 0;
+}
+.boopay-chat-page .intent-thumb-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: -8px;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.boopay-chat-page .trust-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 22px;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.boopay-chat-page .trust-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--muted);
+}
+.boopay-chat-page .trust-item svg {
+  color: var(--blue);
+}
+
+.boopay-chat-page .thread {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px 40px 42px;
+}
+
+.boopay-chat-page .msg {
+  animation: rise 280ms var(--ease) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.boopay-chat-page .msg-user {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  max-width: 78%;
+  margin-left: auto;
+}
+.boopay-chat-page .user-bubble {
+  padding: 11px 17px;
+  border-radius: 18px 18px 4px 18px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1.45;
+  box-shadow: 0 6px 18px rgba(0, 0, 190, 0.14);
+}
+.boopay-chat-page .user-bubble p + p {
+  margin-top: 6px;
+}
+.boopay-chat-page .user-bubble ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+.boopay-chat-page .user-bubble li {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 11.5px;
+}
+.boopay-chat-page .msg-meta {
+  font-size: 10.5px;
+  color: var(--muted-2);
+  padding-right: 4px;
+}
+
+.boopay-chat-page .msg-assistant {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+.boopay-chat-page .agent-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 0 4px var(--blue-soft);
+}
+.boopay-chat-page .assistant-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.boopay-chat-page .assistant-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 22px;
+}
+.boopay-chat-page .assistant-meta strong {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+.boopay-chat-page .assistant-meta span {
+  font-size: 10.5px;
+  color: var(--muted-2);
+}
+.boopay-chat-page .assistant-tag {
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.boopay-chat-page .assistant-text {
+  font-size: 15px;
+  line-height: 1.62;
+  color: var(--ink-soft);
+  max-width: 700px;
+}
+.boopay-chat-page .assistant-text p + p {
+  margin-top: 9px;
+}
+.boopay-chat-page .assistant-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+.boopay-chat-page .assistant-text .text-muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.boopay-chat-page .typing {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 34px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.boopay-chat-page .typing-dots {
+  display: inline-flex;
+  gap: 4px;
+}
+.boopay-chat-page .typing-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--blue);
+  opacity: 0.3;
+  animation: blink 1.1s infinite ease-in-out;
+}
+.boopay-chat-page .typing-dots i:nth-child(2) {
+  animation-delay: 120ms;
+}
+.boopay-chat-page .typing-dots i:nth-child(3) {
+  animation-delay: 240ms;
+}
+@keyframes blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0.22;
+    transform: translateY(0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+
+/* === reference-controls.scss === */
+.boopay-chat-page .button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease,
+    box-shadow 160ms ease;
+}
+.boopay-chat-page .button:active {
+  transform: scale(0.985);
+}
+.boopay-chat-page .button-primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 190, 0.16);
+}
+.boopay-chat-page .button-primary:hover {
+  background: var(--blue-dark);
+}
+.boopay-chat-page .button-secondary {
+  border: 1px solid var(--line-strong);
+  background: #fff;
+  color: var(--ink-soft);
+}
+.boopay-chat-page .button-secondary:hover {
+  border-color: var(--blue-line);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .button-quiet {
+  padding: 0 12px;
+  color: var(--blue);
+  background: transparent;
+}
+.boopay-chat-page .button-quiet:hover {
+  background: var(--blue-soft);
+}
+.boopay-chat-page .button-danger {
+  background: var(--red-soft);
+  color: var(--red-deep);
+}
+.boopay-chat-page .button-danger:hover {
+  background: #ffe1e7;
+}
+.boopay-chat-page .button-sm {
+  min-height: 38px;
+  padding: 0 14px;
+  font-size: 12.5px;
+}
+.boopay-chat-page .button[disabled] {
+  opacity: 0.55;
+  box-shadow: none;
+}
+.boopay-chat-page .button .icon {
+  --icon-size: 17px;
+}
+
+.boopay-chat-page .product-rail {
+  display: flex;
+  gap: 10px;
+  padding: 16px 22px 20px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x;
+  user-select: none;
+}
+.boopay-chat-page .product-rail.is-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+.boopay-chat-page .product-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.boopay-chat-page .product-card {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  flex: none;
+  width: 206px;
+  padding: 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: #fff;
+  scroll-snap-align: start;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.boopay-chat-page .product-card:hover {
+  border-color: var(--blue-line);
+  box-shadow: var(--shadow-sm);
+}
+.boopay-chat-page .product-media {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  padding: 10px;
+  border-radius: 10px;
+  background: #f7f8fc;
+  overflow: hidden;
+}
+.boopay-chat-page .product-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.boopay-chat-page .product-flag {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink-soft);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 1px 4px rgba(12, 15, 45, 0.08);
+}
+.boopay-chat-page .product-brand {
+  margin-top: 10px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.boopay-chat-page .product-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-top: 3px;
+  min-height: 37px;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.boopay-chat-page .product-name button {
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+.boopay-chat-page .product-name button:hover {
+  color: var(--blue);
+}
+.boopay-chat-page .product-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 8px;
+}
+.boopay-chat-page .product-price {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+.boopay-chat-page .product-price small {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.boopay-chat-page .product-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 100%;
+  min-height: 34px;
+  margin-top: 9px;
+  border-radius: 9px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 11.5px;
+  font-weight: 700;
+  transition:
+    background 150ms ease,
+    color 150ms ease;
+}
+.boopay-chat-page .product-add:hover {
+  background: #e2e6ff;
+}
+.boopay-chat-page .product-add.is-added {
+  background: var(--green-soft);
+  color: var(--green);
+}
+.boopay-chat-page .product-add .icon {
+  --icon-size: 14px;
+}
+
+.boopay-chat-page .context {
+  min-width: 0;
+  min-height: 0;
+  border-left: 1px solid var(--line);
+  background: #fafbfe;
+  overflow: hidden;
+}
+.boopay-chat-page .context-scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: 20px 16px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: #d7dbe8 transparent;
+}
+.boopay-chat-page .panel-card {
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: #fff;
+}
+.boopay-chat-page .panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.boopay-chat-page .panel-head h2 {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.boopay-chat-page .panel-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 700;
+}
+.boopay-chat-page .panel-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--blue);
+}
+.boopay-chat-page .panel-edit svg {
+  --icon-size: 13px;
+}
+
+.boopay-chat-page .kit-empty {
+  padding: 8px 2px 4px;
+  text-align: center;
+}
+.boopay-chat-page .kit-empty-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-bottom: 8px;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .kit-empty strong {
+  display: block;
+  font-size: 12.5px;
+}
+.boopay-chat-page .kit-empty p {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.boopay-chat-page .kit-empty button {
+  margin-top: 10px;
+}
+
+.boopay-chat-page .kit-lines {
+  display: grid;
+  gap: 10px;
+}
+.boopay-chat-page .kit-line {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 9px;
+}
+.boopay-chat-page .kit-line-media {
+  width: 46px;
+  height: 46px;
+  padding: 4px;
+  border-radius: 9px;
+  background: #f7f8fc;
+}
+.boopay-chat-page .kit-line-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.boopay-chat-page .kit-line-copy {
+  min-width: 0;
+}
+.boopay-chat-page .kit-line-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 6px;
+}
+.boopay-chat-page .kit-line-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 500;
+}
+.boopay-chat-page .kit-line-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin: -4px -5px 0 0;
+  border-radius: 50%;
+  color: var(--muted-2);
+  flex: none;
+}
+.boopay-chat-page .kit-line-remove:hover {
+  background: var(--red-soft);
+  color: var(--red-deep);
+}
+.boopay-chat-page .kit-line-remove svg {
+  --icon-size: 13px;
+}
+.boopay-chat-page .kit-line-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 5px;
+}
+.boopay-chat-page .kit-line-price {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.boopay-chat-page .qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 2px;
+}
+.boopay-chat-page .qty button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: var(--blue);
+}
+.boopay-chat-page .qty button:hover {
+  background: var(--blue-soft);
+}
+.boopay-chat-page .qty button:disabled {
+  color: var(--line-strong);
+}
+.boopay-chat-page .qty span {
+  min-width: 18px;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.boopay-chat-page .kit-summary {
+  display: grid;
+  gap: 6px;
+  margin-top: 12px;
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+}
+.boopay-chat-page .summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.boopay-chat-page .summary-row strong {
+  color: var(--ink-soft);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.boopay-chat-page .summary-row.total {
+  font-size: 13px;
+  color: var(--ink);
+}
+.boopay-chat-page .summary-row.total strong {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.boopay-chat-page .panel-cta {
+  margin-top: 10px;
+  width: 100%;
+  min-height: 42px;
+  font-size: 12.5px;
+}
+.boopay-chat-page .panel-note {
+  margin-top: 7px;
+  font-size: 9.5px;
+  line-height: 1.4;
+  color: var(--muted-2);
+  text-align: center;
+}
+
+.boopay-chat-page .care-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.boopay-chat-page .care-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+.boopay-chat-page .care-chip svg {
+  --icon-size: 11px;
+  color: var(--blue);
+}
+.boopay-chat-page .care-note {
+  margin-top: 8px;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--muted-2);
+}
+
+.boopay-chat-page .pharm-card {
+  position: relative;
+  overflow: hidden;
+  padding: 15px;
+  border-radius: var(--r-md);
+  background: var(--blue-deep);
+  color: #fff;
+}
+.boopay-chat-page .pharm-card::after {
+  content: '+';
+  position: absolute;
+  right: -10px;
+  bottom: -34px;
+  font-size: 120px;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.05);
+}
+.boopay-chat-page .pharm-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.boopay-chat-page .pharm-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--red);
+  color: #fff;
+  flex: none;
+}
+.boopay-chat-page .pharm-card strong {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+.boopay-chat-page .pharm-card small {
+  display: block;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.56);
+}
+.boopay-chat-page .pharm-card p {
+  position: relative;
+  z-index: 1;
+  font-size: 10.5px;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
+}
+.boopay-chat-page .pharm-card button {
+  position: relative;
+  z-index: 1;
+  margin-top: 10px;
+  width: 100%;
+  min-height: 36px;
+  font-size: 11px;
+}
+
+.boopay-chat-page .composer-area {
+  position: relative;
+  z-index: 9;
+  min-width: 0;
+  padding: 8px 32px 12px;
+  border-top: 1px solid var(--line);
+  background: #fff;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+}
+.boopay-chat-page .quick-row {
+  display: flex;
+  gap: 6px;
+  max-width: 900px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 2px 0 9px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.boopay-chat-page .quick-row::-webkit-scrollbar {
+  display: none;
+}
+.boopay-chat-page .quick-chip {
+  flex: none;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--ink-soft);
+  font-size: 11.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease,
+    color 150ms ease;
+}
+.boopay-chat-page .quick-chip:hover {
+  border-color: var(--blue-line);
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .quick-chip.is-primary {
+  border-color: var(--blue-line);
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-weight: 600;
+}
+
+.boopay-chat-page .composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  max-width: 900px;
+  min-height: 54px;
+  margin: 0 auto;
+  padding: 5px 6px 5px 9px;
+  border: 1px solid var(--line-strong);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(12, 15, 45, 0.05);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+.boopay-chat-page .composer:focus-within {
+  border-color: var(--blue);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 190, 0.08),
+    0 3px 14px rgba(12, 15, 45, 0.05);
+}
+.boopay-chat-page .composer textarea {
+  flex: 1;
+  min-width: 0;
+  max-height: 132px;
+  min-height: 42px;
+  padding: 10px 4px;
+  border: 0;
+  outline: 0;
+  resize: none;
+  background: transparent;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.boopay-chat-page .composer textarea::placeholder {
+  color: var(--muted-2);
+}
+.boopay-chat-page .composer-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--muted);
+  flex: none;
+}
+.boopay-chat-page .composer-icon:hover {
+  background: var(--bg);
+  color: var(--blue);
+}
+.boopay-chat-page .send-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  flex: none;
+  transition:
+    background 160ms ease,
+    transform 120ms ease;
+}
+.boopay-chat-page .send-button:hover {
+  background: var(--blue-dark);
+}
+.boopay-chat-page .send-button:active {
+  transform: scale(0.95);
+}
+.boopay-chat-page .send-button svg {
+  --icon-size: 20px;
+}
+.boopay-chat-page .send-button[disabled] {
+  background: #e4e6f0;
+  color: var(--muted-2);
+}
+.boopay-chat-page .composer-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  max-width: 900px;
+  margin: 7px auto 0;
+  color: var(--muted-2);
+  font-size: 9.5px;
+  line-height: 1.4;
+  text-align: center;
+}
+.boopay-chat-page .composer-note svg {
+  --icon-size: 11px;
+  color: var(--muted);
+}
+
+.boopay-chat-page .mobile-kit-bar {
+  display: none;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 7px;
+  padding: 9px 11px;
+  border: 1px solid var(--blue-line);
+  border-radius: 12px;
+  background: var(--blue-soft);
+  color: var(--ink);
+  text-align: left;
+}
+.boopay-chat-page .mobile-kit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  flex: none;
+}
+.boopay-chat-page .mobile-kit-copy {
+  display: grid;
+  gap: 0;
+  flex: 1;
+  min-width: 0;
+}
+.boopay-chat-page .mobile-kit-copy small {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.boopay-chat-page .mobile-kit-copy strong {
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.boopay-chat-page .mobile-kit-total {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.boopay-chat-page .dialog {
+  width: min(600px, calc(100vw - 28px));
+  max-height: min(88dvh, 920px);
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.boopay-chat-page .dialog::backdrop {
+  background: rgba(4, 5, 47, 0.44);
+  backdrop-filter: blur(2px);
+}
+.boopay-chat-page .dialog-shell {
+  display: flex;
+  flex-direction: column;
+  max-height: min(88dvh, 920px);
+}
+.boopay-chat-page .dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 22px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.boopay-chat-page .dialog-eyebrow {
+  color: var(--muted-2);
+  margin-bottom: 4px;
+}
+.boopay-chat-page .dialog-head h2 {
+  font-size: 22px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+.boopay-chat-page .dialog-close {
+  margin: -6px -8px 0 0;
+}
+.boopay-chat-page .dialog-body {
+  padding: 20px 22px 24px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.boopay-chat-page .dialog-lead {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.boopay-chat-page .sheet-dialog {
+  width: 100%;
+  max-width: 620px;
+  margin: auto auto 0;
+  border-radius: 20px 20px 0 0;
+  max-height: 88dvh;
+}
+.boopay-chat-page .sheet-dialog .dialog-shell {
+  max-height: 88dvh;
+}
+.boopay-chat-page .sheet-grab {
+  width: 38px;
+  height: 4px;
+  margin: 8px auto 0;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
+.boopay-chat-page .drawer-dialog {
+  width: min(340px, 88vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  margin: 0;
+  border-radius: 0 18px 18px 0;
+}
+.boopay-chat-page .drawer-dialog::backdrop {
+  background: rgba(4, 5, 47, 0.5);
+}
+.boopay-chat-page .drawer-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 16px;
+  background: #fff;
+}
+.boopay-chat-page .drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+.boopay-chat-page .drawer-head img {
+  width: 132px;
+  height: auto;
+}
+.boopay-chat-page .drawer-new {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  margin: 16px 0;
+  border-radius: 999px;
+  background: var(--blue);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+.boopay-chat-page .drawer-nav {
+  display: grid;
+  gap: 2px;
+}
+.boopay-chat-page .drawer-nav button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 10px;
+  border-radius: 10px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+}
+.boopay-chat-page .drawer-nav button:hover {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .drawer-nav svg {
+  color: var(--blue);
+}
+.boopay-chat-page .drawer-note {
+  margin-top: auto;
+  padding-top: 18px;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--muted-2);
+}
+
+.boopay-chat-page .detail-product {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 18px;
+}
+.boopay-chat-page .detail-media {
+  padding: 13px;
+  border-radius: 14px;
+  background: #f7f8fc;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.boopay-chat-page .detail-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.boopay-chat-page .detail-brand {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+}
+.boopay-chat-page .detail-name {
+  margin-top: 4px;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.boopay-chat-page .detail-price {
+  margin-top: 9px;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.boopay-chat-page .detail-desc {
+  margin-top: 12px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+.boopay-chat-page .detail-note {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: var(--amber-soft);
+  color: #5f4300;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.boopay-chat-page .detail-note svg {
+  color: var(--amber);
+}
+.boopay-chat-page .detail-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.boopay-chat-page .detail-blocked {
+  margin-top: 12px;
+  padding: 10px 11px;
+  border-radius: 10px;
+  background: var(--red-soft);
+  color: #6b2431;
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.boopay-chat-page .profile-form {
+  display: grid;
+  gap: 16px;
+}
+.boopay-chat-page .profile-form .field-group {
+  gap: 7px;
+}
+.boopay-chat-page .profile-form .choice span {
+  min-height: 36px;
+  font-size: 12px;
+}
+.boopay-chat-page .switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+}
+.boopay-chat-page .switch-row:first-of-type {
+  border-top: 0;
+}
+.boopay-chat-page .switch-copy strong {
+  display: block;
+  font-size: 12.5px;
+}
+.boopay-chat-page .switch-copy small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.boopay-chat-page .switch {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+.boopay-chat-page .switch input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.boopay-chat-page .switch span {
+  display: block;
+  width: 42px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: background 160ms ease;
+  cursor: pointer;
+}
+.boopay-chat-page .switch span::after {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 160ms ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+.boopay-chat-page .switch input:checked + span {
+  background: var(--blue);
+}
+.boopay-chat-page .switch input:checked + span::after {
+  transform: translateX(18px);
+}
+.boopay-chat-page .switch input:focus-visible + span {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+}
+
+.boopay-chat-page .info-list {
+  display: grid;
+  gap: 12px;
+}
+.boopay-chat-page .info-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 11px;
+}
+.boopay-chat-page .info-item-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.boopay-chat-page .info-item strong {
+  display: block;
+  font-size: 12.5px;
+}
+.boopay-chat-page .info-item p {
+  margin-top: 2px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.boopay-chat-page .pharm-list {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 16px;
+}
+.boopay-chat-page .pharm-list li {
+  display: flex;
+  gap: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.boopay-chat-page .pharm-list svg {
+  color: var(--blue);
+  margin-top: 2px;
+}
+
+.boopay-chat-page .location-fields {
+  display: grid;
+  gap: 10px;
+}
+.boopay-chat-page .location-note {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--bg);
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.boopay-chat-page .toast {
+  position: fixed;
+  left: 50%;
+  bottom: 22px;
+  z-index: 120;
+  transform: translateX(-50%);
+  max-width: min(460px, calc(100vw - 32px));
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: var(--blue-deep);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: var(--shadow-md);
+  animation: toast-in 220ms var(--ease) both;
+}
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+
+/* === reference-responsive.scss === */
+﻿@media (max-width: 1240px) {
+  .boopay-chat-page {
+    --context-w: 318px;
+    --rail-w: 252px;
+  }
+  .boopay-chat-page .thread,
+  .boopay-chat-page .welcome {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .boopay-chat-page .composer-area {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .boopay-chat-page {
+    --rail-w: 238px;
+  }
+  .boopay-chat-page .welcome h2 {
+    font-size: clamp(38px, 4.7vw, 54px);
+  }
+  .boopay-chat-page .intent-card {
+    padding: 16px;
+  }
+  .boopay-chat-page .intent-card h3 {
+    font-size: 16px;
+  }
+  .boopay-chat-page .header-actions {
+    gap: 6px;
+  }
+  .boopay-chat-page .safety-pill span:last-child {
+    display: none;
+  }
+  .boopay-chat-page .safety-pill {
+    padding: 0 11px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .boopay-chat-page .app {
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  }
+  .boopay-chat-page .context {
+    display: none;
+  }
+  .boopay-chat-page .mobile-kit-btn {
+    display: inline-flex;
+  }
+  .boopay-chat-page .mobile-kit-bar {
+    display: flex;
+  }
+  .boopay-chat-page .welcome {
+    padding-top: 48px;
+  }
+  .boopay-chat-page .builder-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .boopay-chat-page .app {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .boopay-chat-page .rail {
+    display: none;
+  }
+  .boopay-chat-page .mobile-menu {
+    display: inline-flex;
+  }
+  .boopay-chat-page .chat-header {
+    padding: 10px 14px;
+    min-height: 62px;
+    gap: 10px;
+  }
+  .boopay-chat-page .chat-heading h1 {
+    font-size: 13px;
+  }
+  .boopay-chat-page .chat-heading p {
+    font-size: 10.5px;
+  }
+  .boopay-chat-page .header-actions {
+    gap: 4px;
+  }
+  .boopay-chat-page .delivery-pill {
+    display: none;
+  }
+  .boopay-chat-page .avatar-button {
+    display: none;
+  }
+  .boopay-chat-page .safety-pill {
+    min-height: 36px;
+  }
+  .boopay-chat-page .welcome {
+    padding: 40px 22px 26px;
+  }
+  .boopay-chat-page .welcome::before {
+    width: 160px;
+    height: 160px;
+    opacity: 0.7;
+  }
+  .boopay-chat-page .welcome h2 {
+    font-size: clamp(36px, 8.8vw, 48px);
+    margin-top: 18px;
+  }
+  .boopay-chat-page .welcome-lede {
+    font-size: 15.5px;
+  }
+  .boopay-chat-page .intent-grid {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 24px;
+  }
+  .boopay-chat-page .intent-card {
+    min-height: 0;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr) 30px;
+    grid-template-rows: auto auto auto;
+    column-gap: 12px;
+  }
+  .boopay-chat-page .intent-top {
+    display: contents;
+  }
+  .boopay-chat-page .intent-icon {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 42px;
+    height: 42px;
+    margin: 0;
+  }
+  .boopay-chat-page .intent-arrow {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    width: 30px;
+    height: 30px;
+    align-self: center;
+  }
+  .boopay-chat-page .intent-card h3 {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 15px;
+    margin: 0;
+  }
+  .boopay-chat-page .intent-card p {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 2px;
+  }
+  .boopay-chat-page .intent-thumbs {
+    grid-column: 2 / -1;
+    grid-row: 3;
+    padding-top: 10px;
+  }
+  .boopay-chat-page .intent-thumb,
+  .boopay-chat-page .intent-thumb-count {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+  .boopay-chat-page .trust-row {
+    gap: 7px 16px;
+    margin-top: 22px;
+    padding-top: 15px;
+  }
+  .boopay-chat-page .thread {
+    padding: 8px 16px 30px;
+    gap: 24px;
+  }
+  .boopay-chat-page .msg-user {
+    max-width: 88%;
+  }
+  .boopay-chat-page .msg-assistant {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .boopay-chat-page .agent-avatar {
+    width: 30px;
+    height: 30px;
+  }
+  .boopay-chat-page .composer-area {
+    padding: 6px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+  .boopay-chat-page .composer-note {
+    font-size: 9px;
+  }
+  .boopay-chat-page .quick-row {
+    padding-bottom: 7px;
+  }
+  .boopay-chat-page .quick-chip {
+    min-height: 38px;
+  }
+  .boopay-chat-page .widget-head {
+    padding: 16px 16px 0;
+  }
+  .boopay-chat-page .widget-body {
+    padding: 15px 16px 17px;
+  }
+  .boopay-chat-page .product-rail {
+    padding: 13px 16px 17px;
+  }
+  .boopay-chat-page .product-card {
+    width: 182px;
+  }
+  .boopay-chat-page .kit-foot {
+    padding: 14px 16px 16px;
+  }
+  .boopay-chat-page .why-box summary {
+    padding: 12px 16px;
+  }
+  .boopay-chat-page .why-list {
+    padding: 0 16px 15px;
+  }
+  .boopay-chat-page .builder-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .boopay-chat-page .builder-slot {
+    min-height: 130px;
+  }
+  .boopay-chat-page .detail-product {
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .boopay-chat-page .detail-name {
+    font-size: 17px;
+  }
+  .boopay-chat-page .dialog {
+    width: calc(100vw - 20px);
+    max-height: 90dvh;
+    border-radius: 18px;
+  }
+  .boopay-chat-page .dialog-shell {
+    max-height: 90dvh;
+  }
+  .boopay-chat-page .dialog-head {
+    padding: 18px 16px 12px;
+  }
+  .boopay-chat-page .dialog-body {
+    padding: 16px;
+  }
+  .boopay-chat-page .sheet-dialog {
+    width: 100%;
+    max-width: none;
+    margin: auto auto 0;
+    border-radius: 18px 18px 0 0;
+  }
+  .boopay-chat-page .catalog-grid {
+    grid-template-columns: 1fr;
+  }
+  .boopay-chat-page .toast {
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-width: 560px) {
+  .boopay-chat-page .welcome {
+    padding-top: 32px;
+  }
+  .boopay-chat-page .welcome h2 {
+    font-size: 36px;
+  }
+  .boopay-chat-page .welcome-lede {
+    font-size: 14.5px;
+  }
+  .boopay-chat-page .trust-item {
+    font-size: 10.5px;
+  }
+  .boopay-chat-page .trust-row {
+    display: grid;
+    gap: 7px;
+  }
+  .boopay-chat-page .kit-head-top {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .boopay-chat-page .kit-tabs {
+    width: 100%;
+  }
+  .boopay-chat-page .kit-tab {
+    flex: 1;
+  }
+  .boopay-chat-page .kit-actions .button {
+    width: 100%;
+  }
+  .boopay-chat-page .kit-actions .button-primary {
+    flex: none;
+  }
+  .boopay-chat-page .product-card {
+    width: 168px;
+  }
+  .boopay-chat-page .product-name {
+    font-size: 12.5px;
+  }
+  .boopay-chat-page .checkout-body {
+    padding: 16px;
+  }
+  .boopay-chat-page .checkout-widget .widget-head { padding-left: 16px; padding-right: 16px; }
+  .boopay-chat-page .checkout-body { padding: 16px; }
+  .boopay-chat-page .checkout-field-grid { grid-template-columns: 1fr; }
+  .boopay-chat-page .checkout-field.full { grid-column: auto; }
+  .boopay-chat-page .checkout-step span { font-size: 10px; }
+  .boopay-chat-page .checkout-actions .button { flex: 1 1 auto; }
+  .boopay-chat-page .checkout-field-grid {
+    grid-template-columns: 1fr;
+  }
+  .boopay-chat-page .checkout-field.full {
+    grid-column: auto;
+  }
+  .boopay-chat-page .checkout-steps {
+    gap: 4px;
+  }
+  .boopay-chat-page .checkout-step span {
+    display: none;
+  }
+  .boopay-chat-page .checkout-step-line {
+    max-width: none;
+  }
+  .boopay-chat-page .builder-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .boopay-chat-page .builder-slot {
+    min-height: 138px;
+  }
+  .boopay-chat-page .mini-product {
+    grid-template-columns: 54px minmax(0, 1fr) auto;
+  }
+  .boopay-chat-page .mini-product-media {
+    width: 54px;
+    height: 54px;
+  }
+  .boopay-chat-page .msg-assistant {
+    gap: 8px;
+  }
+  .boopay-chat-page .assistant-text {
+    font-size: 14.5px;
+  }
+  .boopay-chat-page .user-bubble {
+    font-size: 14.5px;
+  }
+  .boopay-chat-page .composer-icon[data-action='attach'] {
+    display: inline-flex;
+  }
+  .boopay-chat-page .composer {
+    border-radius: 18px;
+    padding-left: 12px;
+  }
+  .boopay-chat-page .composer textarea {
+    font-size: 15px;
+  }
+  .boopay-chat-page .mobile-kit-copy small {
+    display: none;
+  }
+  .boopay-chat-page .mobile-kit-bar {
+    padding: 8px 10px;
+  }
+  .boopay-chat-page .detail-product {
+    grid-template-columns: 1fr;
+  }
+  .boopay-chat-page .detail-media {
+    max-width: 180px;
+  }
+  .boopay-chat-page .order-code {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .boopay-chat-page .success-head,
+  .boopay-chat-page .success-body {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+@media (max-width: 390px) {
+  .boopay-chat-page .welcome h2 {
+    font-size: 33px;
+  }
+  .boopay-chat-page .send-button {
+    width: 38px;
+    height: 38px;
+  }
+  .boopay-chat-page .composer-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .boopay-chat-page .quick-chip {
+    font-size: 11px;
+  }
+  .boopay-chat-page .product-card {
+    width: 158px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boopay-chat-page *,
+  .boopay-chat-page *::before,
+  .boopay-chat-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.boopay-chat-page [hidden] {
+  display: none !important;
+}
+
+.boopay-chat-page .assistant-content {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  min-width: 0;
+}
+
+.boopay-chat-page .product-add:disabled,
+.boopay-chat-page .mini-add:disabled,
+.boopay-chat-page .catalog-item .mini-add:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.boopay-chat-page .order-panel {
+  border-color: #bfe8da;
+  background: #fbfffd;
+}
+.boopay-chat-page .order-mini {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px;
+  border-radius: 10px;
+  background: var(--green-soft);
+}
+.boopay-chat-page .order-mini-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  flex: none;
+}
+.boopay-chat-page .order-mini-copy {
+  min-width: 0;
+}
+.boopay-chat-page .order-mini-copy strong {
+  display: block;
+  font-size: 12px;
+}
+.boopay-chat-page .order-mini-copy small {
+  display: block;
+  margin-top: 1px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+.boopay-chat-page .order-panel .panel-cta {
+  margin-top: 8px;
+}
+.boopay-chat-page .order-panel .button-secondary {
+  margin-top: 7px;
+  width: 100%;
+}
+
+.boopay-chat-page .catalog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 15px;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+}
+.boopay-chat-page .catalog-count {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.boopay-chat-page .sheet-kit-body {
+  min-height: 80px;
+}
+
+.boopay-chat-page .avatar-button {
+  font-family: var(--font);
+}
+
+
+/* === chat-adapter.scss === */
+.boopay-chat-page {
+  display: block;
+  height: var(--pm-chat-height, 100dvh);
+  box-sizing: border-box;
+
+  .app {
+    height: 100%;
+  }
+  pm-chat-blocks {
+    display: block;
+    min-width: 0;
+  }
+  .agent-widget {
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background: white;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  .agent-widget-head {
+    padding: 20px 22px 0;
+  }
+  .agent-widget-head h3 {
+    font-size: 20px;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+  .agent-widget-head p {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    overflow-wrap: anywhere;
+  }
+  .agent-widget-foot {
+    padding: 16px 22px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .agent-widget-foot > strong {
+    flex: none;
+    font-size: 22px;
+    font-variant-numeric: tabular-nums;
+  }
+  .agent-widget-foot > p {
+    font-size: 12px;
+    color: var(--muted);
+    flex: 1 1 140px;
+  }
+  .tracking-events {
+    padding: 22px;
+    display: grid;
+    gap: 18px;
+  }
+  .tracking-events li {
+    position: relative;
+    display: grid;
+    grid-template-columns: 20px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    min-height: 30px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .tracking-events li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 9px;
+    bottom: -12px;
+    width: 1px;
+    background: var(--line);
+  }
+  .tracking-events li.complete {
+    color: var(--green);
+  }
+  .tracking-events small {
+    display: block;
+    margin-top: 4px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .composer-icon.is-listening {
+    background: var(--red-soft);
+    color: var(--red-deep);
+    box-shadow: 0 0 0 2px var(--red);
+  }
+  .voice-status,
+  .input-error {
+    max-width: 900px;
+    margin: 8px auto;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .voice-status {
+    color: var(--green);
+  }
+  .input-error {
+    color: var(--red-deep);
+  }
+  .attachment-panel {
+    max-width: 900px;
+    margin: 10px auto;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg-warm);
+  }
+  .attachment-panel ul {
+    display: grid;
+    gap: 6px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+  .attachment-panel li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .attachment-name {
+    min-width: 0;
+    flex: 1;
+    overflow-wrap: anywhere;
+  }
+  .attachment-name small {
+    display: block;
+    color: var(--muted);
+    font-size: 10px;
+  }
+  .attachment-panel > p {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .attachment-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 1.5;
+    margin-top: 12px;
+  }
+  .attachment-consent input {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--blue);
+    margin-top: 2px;
+  }
+  .sent-attachments {
+    display: grid;
+    gap: 5px;
+    font-size: 12px;
+  }
+  .sent-attachments li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow-wrap: anywhere;
+  }
+  .resolution-note {
+    margin: 0 22px;
+    padding: 10px 12px;
+    border-left: 3px solid var(--blue);
+    background: var(--blue-soft);
+    color: var(--ink-soft);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .order-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 10px;
+  }
+  .order-actions > span {
+    font-size: 11px;
+    color: var(--muted);
+    flex: 1 1 100%;
+    overflow-wrap: anywhere;
+  }
+  .checkout-choice {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    border: 0;
+    min-width: 0;
+    padding: 16px 0 0;
+    margin: 0;
+  }
+
+  .checkout-widget { margin-top: 14px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--r-lg); background: #fff; box-shadow: 0 10px 28px rgba(8, 13, 70, .06); }
+  .checkout-widget .widget-head { padding: 18px 22px 0; background: linear-gradient(135deg, #fbfbff, #fff); }
+  .checkout-top, .checkout-section-title, .checkout-actions, .review-row { display: flex; align-items: center; gap: 10px; }
+  .checkout-top { justify-content: space-between; }
+  .widget-kicker { display: flex; align-items: center; gap: 5px; color: var(--blue); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
+  .widget-kicker pm-icon, .secure-tag pm-icon, .checkout-note pm-icon { width: 13px !important; height: 13px !important; }
+  .checkout-top h3 { margin: 5px 0 0; font-size: 20px; }
+  .secure-tag { display: inline-flex; align-items: center; gap: 5px; padding: 6px 9px; border-radius: 999px; background: var(--green-soft); color: var(--green); font-size: 10px; font-weight: 700; }
+  .checkout-steps { display: flex; align-items: center; gap: 8px; padding: 20px 0 16px; }
+  .checkout-step { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .checkout-step i { display: grid; place-items: center; width: 23px; height: 23px; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--muted); font-style: normal; font-size: 10px; }
+  .checkout-step.is-active { color: var(--blue); }
+  .checkout-step.is-active i { border-color: var(--blue); background: var(--blue); color: #fff; }
+  .checkout-step.is-done { color: var(--green); }
+  .checkout-step.is-done i { border-color: var(--green); background: var(--green); color: #fff; }
+  .checkout-step-line { height: 1px; flex: 1; min-width: 12px; background: var(--line); }
+  .checkout-body { display: grid; gap: 14px; padding: 18px 22px 20px; }
+  .checkout-section-title { justify-content: space-between; }
+  .checkout-section-title h4 { margin: 0; font-size: 14px; }
+  .checkout-section-title span { color: var(--muted); font-size: 11px; }
+  .option-stack { display: grid; gap: 8px; }
+  .option-card { position: relative; display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 11px; cursor: pointer; transition: border-color 160ms ease, background 160ms ease; }
+  .option-card:hover, .option-card:has(input:checked) { border-color: var(--blue-line); background: #fbfbff; }
+  .option-card input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .option-card input:focus-visible ~ .option-radio { outline: 3px solid var(--blue); outline-offset: 2px; }
+  .option-radio { width: 16px; height: 16px; border: 1px solid var(--line-strong); border-radius: 50%; }
+  .option-card input:checked ~ .option-radio { border: 5px solid var(--blue); }
+  .option-copy { min-width: 0; }
+  .option-copy strong, .option-copy small { display: block; }
+  .option-copy strong { font-size: 12px; }
+  .option-copy small { margin-top: 3px; color: var(--muted); font-size: 10.5px; }
+  .option-price, .option-icon { color: var(--blue); font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .option-price.is-free { color: var(--green); }
+  .checkout-field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .checkout-field { display: grid; gap: 5px; }
+  .checkout-field.full { grid-column: 1 / -1; }
+  .checkout-field { color: var(--ink-soft); font-size: 11.5px; font-weight: 600; }
+  .checkout-field input { width: 100%; padding: 10px; border: 1px solid var(--line-strong); border-radius: 9px; background: #fff; color: var(--ink); font: inherit; font-size: 12px; }
+  .checkout-field input:focus { border-color: var(--blue); outline: 0; box-shadow: 0 0 0 3px rgba(0, 0, 190, .08); }
+  .review-box { display: grid; gap: 8px; padding: 12px; border-radius: 11px; background: var(--bg); }
+  .review-row { justify-content: space-between; font-size: 11.5px; }
+  .review-row span { color: var(--muted); }
+  .review-row strong { text-align: right; }
+  .review-row.total { padding-top: 8px; border-top: 1px solid var(--line); font-size: 14px; }
+  .safety-inline { display: flex; gap: 7px; align-items: flex-start; margin: 0; color: var(--muted); font-size: 10.5px; line-height: 1.45; }
+  .safety-inline pm-icon { flex: none; width: 15px !important; height: 15px !important; color: var(--blue); }
+  .checkout-actions { padding-top: 2px; }
+  .checkout-actions .button-primary { flex: 1; min-width: 160px; }
+  .checkout-note { display: flex; align-items: center; gap: 5px; margin: 0; color: var(--muted); font-size: 10px; }
+  .pix-box { display: grid; gap: 6px; padding: 12px; border: 1px dashed var(--blue-line); border-radius: 11px; background: #fbfbff; color: var(--blue); }
+  .pix-box code { color: var(--ink-soft); font: 10px/1.4 ui-monospace, monospace; overflow-wrap: anywhere; }
+  .checkout-choice legend {
+    font-size: 12px;
+    font-weight: 700;
+    padding-top: 16px;
+  }
+  .checkout-choice label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+  }
+  .checkout-choice input {
+    accent-color: var(--blue);
+    margin: 0;
+  }
+  .dialog-body > .primary {
+    margin-top: 18px;
+    width: 100%;
+  }
+  .kit-origin {
+    font-size: 9px;
+    color: var(--blue);
+  }
+  .kit-line .badge {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 999px;
+    margin-top: 3px;
+  }
+  .badge-success {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+  }
+  .badge-warning {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+  }
+  .kit-blockers-alert {
+    margin: 12px 0 8px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    font-size: 12px;
+    color: #92400e;
+    .blocker-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      pm-icon {
+        width: 16px !important;
+        height: 16px !important;
+        color: #d97706;
+      }
+    }
+    ul {
+      margin: 0 0 8px 18px;
+      padding: 0;
+      list-style-type: disc;
+      li {
+        margin-bottom: 2px;
+      }
+    }
+    .blocker-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 4px 10px;
+      margin-top: 4px;
+      pm-icon {
+        width: 14px !important;
+        height: 14px !important;
+      }
+    }
+  }
+  .kit-discount {
+    color: var(--green);
+  }
+  pm-kit-panel {
+    display: block;
+    min-width: 0;
+  }
+  pm-product-card {
+    display: flex;
+    flex: none;
+  }
+  pm-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+  .new-care-icon pm-icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .rail-help-icon pm-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .intent-arrow pm-icon {
+    width: 16px !important;
+    height: 16px !important;
+  }
+  .intent-icon pm-icon {
+    width: 21px !important;
+    height: 21px !important;
+  }
+  .trust-item pm-icon {
+    width: 15px !important;
+    height: 15px !important;
+    color: var(--blue);
+  }
+  .composer-note pm-icon {
+    width: 11px !important;
+    height: 11px !important;
+  }
+  .composer-note {
+    min-height: calc(1.4em + 2px);
+  }
+  .panel-edit pm-icon,
+  .kit-line-remove pm-icon {
+    width: 13px !important;
+    height: 13px !important;
+  }
+  .care-chip pm-icon {
+    width: 11px !important;
+    height: 11px !important;
+    color: var(--blue);
+  }
+  .pharm-avatar pm-icon {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .qty pm-icon {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .product-add pm-icon {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .qty output {
+    min-width: 18px;
+    text-align: center;
+    font-size: 10.5px;
+    font-weight: 700;
+  }
+  .toast:not(.visible) {
+    display: none;
+  }
+  .trust-row button {
+    padding: 0;
+  }
+  .user-bubble {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .prose {
+    overflow-wrap: anywhere;
+  }
+  .agent-avatar pm-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .assistant-text {
+    display: block;
+  }
+  .tool-list {
+    display: grid;
+    gap: 6px;
+    font-size: 11.5px;
+    color: var(--green);
+  }
+  .tool-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .tool-list .tool-failed {
+    color: var(--amber);
+  }
+  .spinning {
+    animation: pm-spin 1.2s linear infinite;
+  }
+  .thinking {
+    display: flex;
+    gap: 4px;
+    .composer-icon.is-listening {
+      background: var(--red-soft);
+      color: var(--red-deep);
+      box-shadow: 0 0 0 2px var(--red);
+    }
+    .voice-status,
+    .input-error {
+      max-width: 900px;
+      margin: 8px auto;
+      font-size: 12px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    .voice-status {
+      color: var(--green);
+    }
+    padding: 12px 0;
+  }
+  .thinking > span:not(.sr-only) {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+    animation: blink 1.1s infinite ease-in-out;
+  }
+  .thinking > span:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .thinking > span:nth-child(3) {
+    animation-delay: 240ms;
+  }
+  .interrupted {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .message-actions .icon-button {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    color: var(--muted-2);
+  }
+  .suggestions {
+    display: flex;
+    gap: 6px;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2px 0 9px;
+    overflow: auto;
+  }
+  .suggestions button {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 11.5px;
+  }
+  .suggestions button pm-icon {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .error {
+    background: var(--red-soft);
+    color: var(--red-deep);
+    border-radius: var(--r-md);
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+  .error button,
+  .resume,
+  .latest {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .error button {
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .resume {
+    padding: 0 0 10px;
+    color: var(--blue);
+  }
+  .latest {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    transform: translateX(-50%);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: white;
+    padding: 8px 12px;
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+  }
+  .counter {
+    max-width: 900px;
+    margin: 3px auto;
+    text-align: right;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .stop {
+    background: var(--ink);
+  }
+  .dialog {
+    overflow-y: auto;
+  }
+  .dialog-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .dialog-header p {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--muted-2);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .dialog-header h2 {
+    font-size: 22px;
+    line-height: 1.15;
+  }
+  .dialog-header .icon-button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .dialog.drawer-dialog {
+    overflow-y: auto;
+  }
+  .drawer-head .icon-button {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  .drawer-dialog .dialog-body {
+    display: flex;
+    flex: 1;
+    padding: 0;
+  }
+  .drawer-dialog .drawer-note {
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+  }
+  .drawer-dialog nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  .drawer-new {
+    flex: none;
+  }
+  .dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 9px;
+    margin-top: 18px;
+  }
+  .primary,
+  .secondary {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .primary {
+    background: var(--blue);
+    color: white;
+  }
+  .secondary {
+    border: 1px solid var(--line-strong);
+    background: white;
+    color: var(--ink-soft);
+  }
+  .profile-form label {
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+  .profile-form label small {
+    float: right;
+    font-weight: 400;
+    color: var(--muted);
+  }
+  .profile-form input,
+  .profile-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    font-size: 14px;
+    background: white;
+  }
+  .privacy-note {
+    font-size: 11.5px;
+    color: var(--muted);
+    line-height: 1.5;
+    margin: 12px 0;
+  }
+  .help-content {
+    display: grid;
+    gap: 16px;
+    font-size: 13.5px;
+  }
+  .help-content h3 {
+    font-size: 20px;
+  }
+  .review-lines {
+    margin: 16px 0;
+  }
+  .review-lines li {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 12px;
+  }
+  .review-lines strong {
+    white-space: nowrap;
+  }
+  .review-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+  }
+  .review-total strong {
+    font-size: 22px;
+  }
+
+  .checkout-agent-widget {
+    border: 1px solid #1455d933;
+    background: linear-gradient(180deg, #f8faff 0%, #ffffff 100%);
+    margin: 8px 0;
+  }
+  .widget-kicker-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .widget-kicker-row .badge {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #3730a3;
+    font-weight: 600;
+  }
+  .widget-kicker-row .badge[data-status='READY'] {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .widget-kicker-row .badge[data-status='COMPLETED'] {
+    background: #e0f2fe;
+    color: #0369a1;
+  }
+  .widget-kicker-row .badge[data-status='CANCELED'] {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+  .checkout-summary-lines {
+    padding: 12px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: rgba(243, 246, 254, 0.6);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+  }
+  .summary-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .summary-line .line-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--muted);
+  }
+  .voice-hint {
+    padding: 10px 22px;
+    font-size: 12px;
+    color: #1e40af;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    line-height: 1.4;
+    pm-icon {
+      flex-shrink: 0;
+    }
+    em {
+      font-style: normal;
+      font-weight: 600;
+      color: #1d4ed8;
+    }
+  }
+  .checkout-completed-notice {
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #166534;
+    background: #f0fdf4;
+    font-size: 13px;
+  }
+
+  .hands-free-btn {
+    transition: all 0.2s ease;
+    &.is-hands-free {
+      background: #4338ca !important;
+      color: white !important;
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+      animation: pm-pulse-glow 2s infinite ease-in-out;
+    }
+    &.is-speaking {
+      background: #0284c7 !important;
+      color: white !important;
+    }
+  }
+
+  .hands-free-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #e0e7ff 0%, #eef2ff 100%);
+    border: 1px solid #c7d2fe;
+    border-radius: var(--r-md, 10px);
+    font-size: 12px;
+    color: #312e81;
+
+    pm-icon {
+      flex-shrink: 0;
+      color: #4338ca;
+    }
+
+    .hands-free-label {
+      flex: 1;
+      strong {
+        color: #3730a3;
+      }
+    }
+
+    .hands-free-exit {
+      background: white;
+      border: 1px solid #c7d2fe;
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #4338ca;
+      cursor: pointer;
+      &:hover {
+        background: #f5f3ff;
+      }
+    }
+  }
+}
+@keyframes pm-pulse-glow {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.5); }
+  50% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(99, 102, 241, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+}
+@keyframes pm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.pm-spinner {
+  animation: pm-spin 0.8s linear infinite;
+  display: inline-block;
+}
+@media (max-width: 860px) {
+  .boopay-chat-page .dialog-header {
+    padding: 18px 16px 12px;
+  }
+  .boopay-chat-page .composer-icon[data-action='attach'] {
+    display: inline-flex;
+  }
+}
+
+
+/* === Boopay Brand Identity Overrides (Canva Referencias.pdf) === */
+.boopay-chat-page {
+  --blue: #032541;
+  --blue-dark: #021a2e;
+  --blue-deep: #032541;
+  --blue-night: #011526;
+  --blue-soft: #eaf4fb;
+  --blue-line: #cbe1f0;
+  --lime: #85FA2E;
+  --lime-deep: #68d317;
+  --lime-soft: #eefde0;
+  --cyan: #00DAFA;
+  --cyan-deep: #00a8c2;
+  --cyan-soft: #e5fbff;
+  --red: #85FA2E;
+  --red-deep: #68d317;
+  --red-soft: #eefde0;
+  --ink: #032541;
+  --ink-soft: #173a56;
+  --muted: #4b657c;
+  --muted-2: #6c8499;
+  --line: #dce6f0;
+  --line-strong: #c5d5e5;
+  --bg: #f3f7fb;
+  --bg-warm: #f9fbfd;
+  --surface: #ffffff;
+  --green: #0a7b46;
+  --green-soft: #e6f9ed;
+  --font: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Chewy', 'Poppins', sans-serif;
+}
+
+.boopay-chat-page .rail {
+  background:
+    radial-gradient(circle at 90% 8%, rgba(0, 218, 250, 0.16), transparent 36%),
+    radial-gradient(circle at 12% 92%, rgba(133, 250, 46, 0.14), transparent 38%),
+    linear-gradient(180deg, #032541 0%, #021a2e 100%);
+  border-right: 1px solid rgba(0, 218, 250, 0.16);
+}
+
+.boopay-chat-page .brand-plate {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(0, 218, 250, 0.24);
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px 14px;
+}
+
+.boopay-chat-page .brand-plate img {
+  width: 132px;
+  height: auto;
+}
+
+.boopay-chat-page .new-care {
+  background: rgba(133, 250, 46, 0.12);
+  border-color: rgba(133, 250, 46, 0.42);
+}
+
+.boopay-chat-page .new-care:hover {
+  background: rgba(133, 250, 46, 0.22);
+  border-color: #85FA2E;
+}
+
+.boopay-chat-page .new-care-icon {
+  background: #85FA2E;
+  color: #032541;
+  font-weight: 800;
+}
+
+.boopay-chat-page .journey-step.is-active .step-mark {
+  background: #85FA2E;
+  color: #032541;
+  border-color: #85FA2E;
+  box-shadow: 0 0 0 4px rgba(133, 250, 46, 0.22);
+}
+
+.boopay-chat-page .journey-step.is-done .step-mark {
+  background: #00DAFA;
+  color: #032541;
+  border-color: #00DAFA;
+}
+
+.boopay-chat-page .rail-help-icon {
+  background: #85FA2E;
+  color: #032541;
+  font-weight: 800;
+}
+
+.boopay-chat-page .live-mark {
+  background: #85FA2E;
+  box-shadow: 0 0 0 4px rgba(133, 250, 46, 0.28);
+}
+
+.boopay-chat-page .welcome h2 em {
+  color: #032541;
+  background: linear-gradient(90deg, rgba(133, 250, 46, 0.45), rgba(0, 218, 250, 0.35));
+  padding: 0 8px;
+  border-radius: 8px;
+  font-style: normal;
+}
+
+.boopay-chat-page .title-plus {
+  color: #00DAFA;
+}
+
+.boopay-chat-page .agent-avatar {
+  background: #032541;
+  border: 2px solid #85FA2E;
+  color: #85FA2E;
+}
+
+.boopay-chat-page .pharm-avatar {
+  background: #032541;
+  border: 2px solid #00DAFA;
+  color: #85FA2E;
+}
+
+.boopay-chat-page .button-primary,
+.boopay-chat-page .dialog .primary,
+.boopay-chat-page .product-add:hover {
+  background: #032541;
+  color: #85FA2E;
+  border-color: #032541;
+  font-weight: 700;
+}
+
+.boopay-chat-page .panel-cta.button-primary {
+  background: #85FA2E;
+  color: #032541;
+  border: 1.5px solid #6bd61b;
+  font-weight: 800;
+  box-shadow: 0 10px 24px rgba(133, 250, 46, 0.28);
+}
+
+.boopay-chat-page .panel-cta.button-primary:hover:not(:disabled) {
+  background: #96ff47;
+}
+
+.boopay-chat-page .send-button {
+  background: #032541;
+  color: #85FA2E;
+}
+
+.boopay-chat-page .kit-badge {
+  background: #85FA2E;
+  color: #032541;
+  font-weight: 800;
+}
+
+/* Modal overlay support when rendering <dialog open class="dialog"> in React */
+.boopay-chat-page .dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(3, 37, 65, 0.58);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.boopay-chat-page .dialog-backdrop .dialog {
+  position: relative;
+  margin: 0;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.boopay-chat-page .connector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.boopay-chat-page .connector-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.78);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.boopay-chat-page .connector-btn.is-active {
+  background: rgba(0, 218, 250, 0.16);
+  border-color: #00DAFA;
+  color: #ffffff;
+}
+
+.boopay-chat-page .connector-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.boopay-chat-page .connector-btn.is-active .connector-dot {
+  background: #85FA2E;
+  box-shadow: 0 0 8px #85FA2E;
+}
+
+.boopay-chat-page .geo-score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #032541;
+  color: #85FA2E;
+  font-size: 11px;
+  font-weight: 700;
+}
