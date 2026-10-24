@@ -127,10 +127,12 @@ def run_desktop_e2e(playwright) -> Path:
     assert page.locator(".kit-lines .kit-line").count() == 4, "4 bundle items must be in bag"
     page.screenshot(path=str(EVIDENCE_DIR / "mvp-02-discovery-and-kit.png"))
 
-    # 5. Run GEO Readiness Audit in chat
-    page.locator("button", has_text="Auditar sinais GEO no chat").click()
-    page.locator(".agent-widget", has_text="Auditoria de Prontidão Agêntica").wait_for(timeout=15000)
-    page.wait_for_timeout(1000)
+    # 5. Open Terms and Guarantee Modal
+    page.locator("button", has_text="Ver termos e garantias").click()
+    page.wait_for_selector(".dialog", timeout=5000)
+    page.wait_for_timeout(700)
+    page.locator(".dialog-header .icon-button").click()
+    page.wait_for_timeout(600)
 
     # 6. Open 3-Step Invisible Checkout Modal
     page.locator(".panel-cta").click()
@@ -215,7 +217,7 @@ def run_mobile_e2e(playwright) -> Path:
     page.locator(".mobile-kit-btn").click()
     page.wait_for_selector(".dialog", timeout=5000)
     page.wait_for_timeout(700)
-    page.locator(".dialog .primary", has_text="Fechar pedido").click()
+    page.locator(".dialog .primary").click()
     page.wait_for_selector(".checkout-steps", timeout=10000)
     page.wait_for_timeout(700)
 

@@ -14,6 +14,36 @@ npm run dev
 npm run dev:web
 ```
 
+### Especificações Técnicas & Arquitetura de Engenharia
+
+> [!NOTE]
+> Conforme diretriz de UX do produto, **termos técnicos de infraestrutura e criptografia não são expostos na interface visual do comprador final** (que experimenta um fluxo simples de e-commerce conversacional). Toda a especificação de engenharia, protocolos e modelos está formalmente documentada abaixo:
+
+1. **Motor de Inteligência Artificial & Streaming em Tempo Real**:
+   - **Provedor**: Groq Cloud API com aceleração LPU (baixa latência).
+   - **Modelo de Linguagem**: qwen/qwen3.8-27b (Qwen 2.5 / 3.8 27B Instruct).
+   - **Protocolo de Transporte**: Server-Sent Events (SSE) via POST /api/chat/stream, viabilizando digitação progressiva e respostas sem bloqueio.
+
+2. **Protocolos de E-commerce Agêntico (UCP / ACP)**:
+   - **Universal Commerce Protocol (UCP)**: Padronização de esquemas de catálogo, intenções de busca e fechamento transacional para agentes autônomos.
+   - **Agentic Commerce Protocol (ACP)**: Interface de negociação de sacola, cálculo determinístico de descontos progressivos e autorização de pedidos entre canais de conversação e lojas parceiras (WooCommerce, Shopify, VTEX).
+
+3. **Integridade Criptográfica & Cotações Determinísticas (SHA-256)**:
+   - Toda cotação de produto, combo ou sacola recebe uma assinatura criptográfica determinística SHA-256 (quoteHash).
+   - O backend valida a integridade do hash antes de autorizar qualquer transação na sessão de checkout, impedindo desvios de preço, alteração de descontos por alucinação ou manipulação concorrente.
+
+4. **Prontidão GEO (Generative Engine Optimization)**:
+   - Estruturação semântica avançada para motores de busca generativos e agentes de compras: JSON-LD Schema.org (Product, Offer), GTIN/EAN, políticas explícitas de troca/devolução e atributos técnicos detalhados.
+   - Cálculo determinístico de **GEO Score (0 a 100)** para indexação preferencial em canais agênticos.
+
+5. **Guarda-Rails & Confirmação Humana Obrigatória**:
+   - O checkout conversacional pré-carrega os dados de entrega (CEP/ViaCEP) e método de pagamento preferencial.
+   - Para prevenir compras acidentais decorrentes de alucinações de agentes, **a confirmação humana explícita é mandatória** antes da captura do pagamento.
+
+6. **Catálogo & Combos Promocionais**:
+   - Itens individuais e kits inteligentes (ex: *Combo Viagem & Rotina Smart* a R$ 659,00 com 13% de desconto) calculados pelo backend com rastreabilidade completa.
+
+
 ## Planejamento e acordos do time
 
 Entrega final: **04/11/2026**; versão integrada, testes, documentação e pacote prontos até **03/11**, America/Fortaleza. O plano contém **83 tarefas na entrega** e **2 futuras**; datas/contagens não comprovam capacidade ou conclusão.

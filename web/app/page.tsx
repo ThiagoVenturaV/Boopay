@@ -8,6 +8,7 @@ import {
   ArrowRight,
   ArrowUp,
   Bot,
+  Gift,
   Check,
   ChevronDown,
   ChevronRight,
@@ -211,25 +212,25 @@ const STORE_CONNECTORS: Array<{
   {
     id: 'demo',
     name: 'Boopay Demo',
-    protocol: 'UCP · Catálogo Local',
+    protocol: 'Catálogo Próprio',
     statusLabel: '12 SKUs Ativos',
   },
   {
     id: 'woocommerce',
     name: 'WooCommerce',
-    protocol: 'HMAC Sync + REST v3',
+    protocol: 'Sincronização Direta',
     statusLabel: 'Plugin Conectado',
   },
   {
     id: 'shopify',
     name: 'Shopify',
-    protocol: 'Storefront MCP',
+    protocol: 'Conexão Storefront',
     statusLabel: 'Adapter Ready',
   },
   {
     id: 'vtex',
     name: 'VTEX IO',
-    protocol: 'OrderForm API',
+    protocol: 'Integração Oficial',
     statusLabel: 'Adapter Ready',
   },
 ];
@@ -238,8 +239,8 @@ const QUICK_SUGGESTIONS = [
   'Montar kit de corrida urbana com desconto',
   'Mochila + fone ANC para trabalho remoto',
   'Equipamentos para setup home office',
-  'Auditar prontidão GEO do catálogo',
-  'Fechar compra no chat',
+  'Quais são os itens mais vendidos?',
+  'Ver opções para viagem',
 ];
 
 function formatBRL(cents: number): string {
@@ -305,12 +306,12 @@ export default function BoopayConversationalCheckoutPage() {
       totalCents: 73710,
     },
     {
-      id: 'conv-geo',
-      title: 'Auditoria de Prontidão GEO',
+      id: 'conv-presente',
+      title: 'Sugestões de Presentes & Kits',
       updatedAt: '23 out',
-      preview: 'Score 96/100 · 12 SKUs elegíveis',
-      itemCount: 0,
-      totalCents: 0,
+      preview: 'Kit Café V60 + Garrafa Térmica',
+      itemCount: 2,
+      totalCents: 27450,
     },
   ]);
   const [activeConvId, setActiveConvId] = useState<string>('conv-corrida');
@@ -580,7 +581,7 @@ export default function BoopayConversationalCheckoutPage() {
           content: '',
           createdAt: nowIso,
           streaming: true,
-          toolBanner: 'Consultando catálogo enriquecido para IA (GEO)...',
+          toolBanner: 'Consultando catálogo de produtos disponíveis...',
         },
       ]);
       scrollToBottom();
@@ -901,7 +902,7 @@ export default function BoopayConversationalCheckoutPage() {
         {
           id: makeClientKey('order-confirmed'),
           role: 'assistant',
-          content: `Pedido **${confirmedOrder.id}** confirmado com sucesso via Checkout Invisível Boopay! O pagamento foi aprovado e seu pedido já entrou no fluxo logístico.`,
+          content: `Pedido **${confirmedOrder.id}** confirmado com sucesso no Boopay! O pagamento foi aprovado e seu pedido já entrou no fluxo de entrega.`,
           createdAt: new Date().toISOString(),
           orderWidget: confirmedOrder,
         },
@@ -978,7 +979,6 @@ export default function BoopayConversationalCheckoutPage() {
                   width={132}
                   height={38}
                 />
-                <span className="geo-score-badge">GEO 96%</span>
               </a>
 
               <button
@@ -1041,8 +1041,8 @@ export default function BoopayConversationalCheckoutPage() {
                           void sendMessage('Preciso de um kit para viagem e rotina híbrida');
                         } else if (c.title.includes('Home Office')) {
                           void sendMessage('Me recomende um kit para meu setup home office');
-                        } else if (c.title.includes('GEO')) {
-                          void sendMessage('Auditar prontidão GEO e protocolos agênticos do catálogo');
+                        } else if (c.title.includes('Presente')) {
+                          void sendMessage('Me mostre opções de presentes e kits especiais');
                         }
                       }
                     }}
@@ -1081,8 +1081,8 @@ export default function BoopayConversationalCheckoutPage() {
               >
                 <span className="step-mark">{journeyStep > 1 ? <Check size={14} /> : '1'}</span>
                 <span className="step-copy">
-                  <strong>Descoberta & GEO</strong>
-                  <small>Catálogo pronto para IA</small>
+                  <strong>Escolha de Produtos</strong>
+                  <small>Recomendações sob medida</small>
                 </span>
               </li>
               <li
@@ -1099,8 +1099,8 @@ export default function BoopayConversationalCheckoutPage() {
               <li className={`journey-step ${journeyStep === 3 ? 'is-active' : ''}`}>
                 <span className="step-mark">3</span>
                 <span className="step-copy">
-                  <strong>Checkout Invisível</strong>
-                  <small>Confirmar e receber no chat</small>
+                  <strong>Finalização Segura</strong>
+                  <small>Revise e conclua seu pedido</small>
                 </span>
               </li>
             </ol>
@@ -1127,16 +1127,16 @@ export default function BoopayConversationalCheckoutPage() {
           <div className="rail-bottom">
             <section className="rail-help">
               <span className="rail-help-icon"><Zap size={16} /></span>
-              <strong>Checkout Invisível & GEO</strong>
+              <strong>Compra Segura Boopay</strong>
               <p>
-                Cotação determinística com assinatura SHA-256 e confirmação humana obrigatória.
+                Preços e estoque garantidos com confirmação transparente antes de qualquer cobrança.
               </p>
               <button
                 className="rail-help-btn"
                 type="button"
                 onClick={() => setActiveDialog('help')}
               >
-                Ver arquitetura
+                Como funciona
               </button>
             </section>
 
@@ -1155,7 +1155,7 @@ export default function BoopayConversationalCheckoutPage() {
               <ChevronRight size={16} className="rail-user-chev" />
             </button>
 
-            <p className="rail-demo">{isLiveMode ? 'Boopay · Modo Ao Vivo (Groq Qwen 3.8 27B) · UCP/ACP' : 'Boopay MVP · Groq (Qwen 3.8 27B) · UCP / ACP'}</p>
+            <p className="rail-demo">Boopay · Atendimento & Checkout Seguro</p>
           </div>
         </aside>
 
@@ -1183,23 +1183,9 @@ export default function BoopayConversationalCheckoutPage() {
             </button>
 
             <div className="chat-heading">
-              <span className="live-mark" aria-hidden="true" />
               <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <h1>Compra Assistida Boopay</h1>
-                  <button
-                    type="button"
-                    className={`live-mode-badge ${isLiveMode ? 'is-live' : 'is-off'}`}
-                    onClick={() => setIsLiveMode((prev) => !prev)}
-                    title={isLiveMode ? 'Modo Ao Vivo Ativo: Transmissão contínua SSE e IA instantânea' : 'Ativar Modo Ao Vivo'}
-                    aria-pressed={isLiveMode}
-                  >
-                    <span className="live-dot-pulse" aria-hidden="true" />
-                    <span>{isLiveMode ? 'Ao Vivo' : 'Padrão'}</span>
-                    <Radio size={12} />
-                  </button>
-                </div>
-                <p>Groq · Qwen 3.8 27B · Catálogo GEO (96/100) · Checkout Invisível</p>
+                <h1>Atendimento Conversacional Boopay</h1>
+                <p>Compre direto no chat · Entrega rápida · Pagamento seguro</p>
               </div>
             </div>
 
@@ -1387,23 +1373,22 @@ export default function BoopayConversationalCheckoutPage() {
                     type="button"
                     onClick={() =>
                       void sendMessage(
-                        'Auditar prontidão GEO e protocolos agênticos do catálogo'
+                        'Quero ver presentes e kits especiais com desconto'
                       )
                     }
                   >
                     <span className="intent-top">
-                      <span className="intent-icon"><Bot size={22} strokeWidth={2.2} /></span>
+                      <span className="intent-icon"><Gift size={22} strokeWidth={2.2} /></span>
                       <span className="intent-arrow"><ArrowRight size={16} /></span>
                     </span>
-                    <h3>Auditoria de Prontidão Agêntica (GEO)</h3>
+                    <h3>Presentes & Combos com Desconto</h3>
                     <p>
-                      Inspecione sinais JSON-LD, GTIN/EAN, estoque em tempo real e compatibilidade
-                      UCP/ACP.
+                      Descubra kits montados com café gourmet, caneca térmica e organizadores exclusivos.
                     </p>
                     <span className="intent-thumbs" aria-hidden="true">
                       <img
                         className="intent-thumb"
-                        src="/brand/boo-eyes.svg"
+                        src="/products/coffee-kit.png"
                         alt=""
                         width={40}
                         height={40}
@@ -1413,14 +1398,14 @@ export default function BoopayConversationalCheckoutPage() {
                 </div>
 
                 <div className="trust-row">
-                  <span className="trust-item"><ShieldCheck size={15} style={{ marginRight: 6, color: '#00DAFA' }} /> Cotação autoritativa SHA-256</span>
-                  <span className="trust-item"><Check size={15} style={{ marginRight: 6, color: '#85FA2E' }} /> Você confirma cada etapa</span>
+                  <span className="trust-item"><ShieldCheck size={15} style={{ marginRight: 6, color: '#00DAFA' }} /> Preço e estoque garantidos</span>
+                  <span className="trust-item"><Check size={15} style={{ marginRight: 6, color: '#85FA2E' }} /> Confirmação segura no chat</span>
                   <button
                     className="trust-item"
                     type="button"
                     onClick={() => setActiveDialog('help')}
                   >
-                    <Zap size={15} style={{ marginRight: 6, color: '#00DAFA' }} /> Protocolos UCP / ACP ativos
+                    <Zap size={15} style={{ marginRight: 6, color: '#00DAFA' }} /> Como funciona a compra
                   </button>
                 </div>
               </section>
@@ -1452,7 +1437,7 @@ export default function BoopayConversationalCheckoutPage() {
                       </span>
                       <div className="assistant-body">
                         <div className="assistant-meta">
-                          <strong>Boopay AI · Qwen 3.8 27B (Groq)</strong>
+                          <strong>Assistente Boopay</strong>
                           <span>Agora</span>
                         </div>
 
@@ -1494,7 +1479,7 @@ export default function BoopayConversationalCheckoutPage() {
                                     />
                                   </button>
                                   <span className="product-brand">
-                                    {prod.brand} · GEO {prod.geoScore}
+                                    {prod.brand} · {prod.category}
                                   </span>
                                   <h3 className="product-name">
                                     <button
@@ -1607,13 +1592,13 @@ export default function BoopayConversationalCheckoutPage() {
                               <div className="agent-widget-head">
                                 <div className="widget-kicker-row">
                                   <span className="widget-kicker">
-                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ShieldCheck size={14} /> Protocolo Universal (UCP / ACP)</span>
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ShieldCheck size={14} /> Compra Segura Boopay</span>
                                   </span>
-                                  <span className="geo-score-badge">
-                                    Hash #{message.checkoutWidget.quoteHash.slice(0, 8)}
+                                  <span className="status-pill" style={{ background: '#eefde0', color: '#166534', padding: '3px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700 }}>
+                                    Pronto para Revisão
                                   </span>
                                 </div>
-                                <h3>Sessão de Checkout Invisível</h3>
+                                <h3>Finalizar Compra</h3>
                                 <p>
                                   Total garantido:{' '}
                                   <strong>{formatBRL(message.checkoutWidget.totalCents)}</strong>
@@ -1625,7 +1610,7 @@ export default function BoopayConversationalCheckoutPage() {
                                   type="button"
                                   onClick={() => void openInvisibleCheckout()}
                                 >
-                                  Revisar e confirmar no painel <ArrowRight size={16} style={{ marginLeft: 6 }} />
+                                  Revisar e Pagar <ArrowRight size={16} style={{ marginLeft: 6 }} />
                                 </button>
                               </div>
                             </section>
@@ -1648,8 +1633,7 @@ export default function BoopayConversationalCheckoutPage() {
                                   {formatBRL(message.orderWidget.totalCents)}
                                 </h3>
                                 <p>
-                                  Protocolo {message.orderWidget.protocol.toUpperCase()} · Vínculo{' '}
-                                  {message.orderWidget.externalOrderId}
+                                  Código de rastreamento: {message.orderWidget.externalOrderId}
                                 </p>
                               </div>
 
@@ -1687,25 +1671,24 @@ export default function BoopayConversationalCheckoutPage() {
                             </section>
                           )}
 
-                          {/* Inline GEO Audit Widget */}
+                          {/* Inline Catalog Status Widget */}
                           {message.geoAudit && (
                             <section className="agent-widget">
                               <div className="agent-widget-head">
                                 <div className="widget-kicker-row">
                                   <span className="widget-kicker">
-                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Bot size={15} /> Auditoria de Prontidão Agêntica (GEO)</span>
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><Bot size={15} /> Catálogo Boopay</span>
                                   </span>
-                                  <span className="geo-score-badge">
-                                    Score Médio {message.geoAudit.overallScore}/100
+                                  <span className="status-pill" style={{ background: '#eefde0', color: '#166534', padding: '3px 8px', borderRadius: 999, fontSize: 11, fontWeight: 700 }}>
+                                    Pronta Entrega
                                   </span>
                                 </div>
                                 <h3>
                                   {message.geoAudit.eligibleCount} de{' '}
-                                  {message.geoAudit.totalCount} SKUs prontos para agentes
+                                  {message.geoAudit.totalCount} produtos disponíveis
                                 </h3>
                                 <p>
-                                  Protocolos suportados:{' '}
-                                  {message.geoAudit.protocols.join(' · ')}
+                                  Itens com pronta entrega, garantia de fábrica e nota fiscal.
                                 </p>
                               </div>
                             </section>
@@ -1721,22 +1704,7 @@ export default function BoopayConversationalCheckoutPage() {
 
           {/* ==================== COMPOSER AREA ==================== */}
           <div className="composer-area">
-            {isLiveMode && (
-              <div className="live-telemetry">
-                <div className="live-telemetry-left">
-                  <span className="live-telemetry-pill">
-                    <Radio size={13} style={{ color: '#85FA2E' }} /> Modo Ao Vivo
-                  </span>
-                  <span>·</span>
-                  <span>Groq Qwen 3.8 27B</span>
-                  <span>·</span>
-                  <span className="live-telemetry-ping">24ms (SSE Ativo)</span>
-                </div>
-                <span style={{ fontSize: 10.5, color: '#00DAFA', fontWeight: 700 }}>
-                  Cotação SHA-256 Sincronizada
-                </span>
-              </div>
-            )}
+
 
             {liveAudioActive && (
               <div className="live-audio-dock">
@@ -1816,8 +1784,8 @@ export default function BoopayConversationalCheckoutPage() {
                 className={`composer-icon ${liveAudioActive ? 'is-listening' : ''}`}
                 type="button"
                 onClick={toggleLiveVoice}
-                title={liveAudioActive ? 'Parar escuta de voz' : 'Conversa ao vivo por voz'}
-                aria-label={liveAudioActive ? 'Parar escuta de voz' : 'Conversa ao vivo por voz'}
+                title={liveAudioActive ? 'Parar microfone' : 'Falar por microfone'}
+                aria-label={liveAudioActive ? 'Parar microfone' : 'Falar por microfone'}
               >
                 <Mic size={18} />
               </button>
@@ -1854,8 +1822,7 @@ export default function BoopayConversationalCheckoutPage() {
             </form>
 
             <p className="composer-note">
-              <ShieldCheck size={14} style={{ marginRight: 6, display: 'inline-block', verticalAlign: 'middle' }} /> Checkout Invisível Boopay · Preços e descontos validados deterministicamente pelo
-              servidor com confirmação humana explícita.
+              <ShieldCheck size={14} style={{ marginRight: 6, display: 'inline-block', verticalAlign: 'middle' }} /> Compra Segura Boopay · Preços e estoque garantidos com confirmação antes do pagamento.
             </p>
           </div>
         </section>
@@ -1998,8 +1965,7 @@ export default function BoopayConversationalCheckoutPage() {
                     Fechar pedido <ArrowRight size={16} style={{ marginLeft: 6 }} />
                   </button>
                   <p className="panel-note">
-                    Cotação #{cart?.quoteHash.slice(0, 8)} · Confirmação explícita no próximo
-                    passo.
+                    Preço e estoque garantidos · Você revisa todos os dados antes de pagar.
                   </p>
                 </>
               )}
@@ -2025,38 +1991,30 @@ export default function BoopayConversationalCheckoutPage() {
                 <span className="care-chip"><Truck size={13} style={{ marginRight: 4 }} /> Entrega Expressa</span>
               </div>
               <p className="care-note">
-                O Checkout Invisível pré-carrega seu CEP e preferência de pagamento para agilizar o
-                fechamento em 3 passos.
+                Preenchemos automaticamente seu endereço e pagamento para você finalizar seu pedido com rapidez e segurança.
               </p>
             </section>
 
-            {/* PAINEL 3: PRONTIDÃO AGÊNTICA & GEO */}
-            <section className="pharm-card" aria-label="Prontidão Agêntica e GEO">
+            {/* PAINEL 3: GARANTIA & BENEFÍCIOS */}
+            <section className="pharm-card" aria-label="Garantia e Benefícios">
               <div className="pharm-card-top">
                 <span className="pharm-avatar">
-                  <img src="/brand/boo-eyes.svg" alt="" width={22} height={15} />
+                  <ShieldCheck size={20} color="#00DAFA" />
                 </span>
                 <div>
-                  <strong>Prontidão Agêntica (GEO)</strong>
-                  <small>
-                    {activeConnector.name} · {activeConnector.protocol}
-                  </small>
+                  <strong>Garantia & Compra Segura</strong>
+                  <small>Proteção total ao consumidor</small>
                 </div>
               </div>
               <p>
-                Catálogo sincronizado com JSON-LD Schema.org, GTIN/EAN e disponibilidade em tempo
-                real para agentes de IA.
+                Todos os produtos contam com nota fiscal, garantia oficial de fábrica e política de troca grátis em até 30 dias.
               </p>
               <button
                 className="button button-secondary"
                 type="button"
-                onClick={() =>
-                  void sendMessage(
-                    'Auditar prontidão GEO e protocolos agênticos do catálogo'
-                  )
-                }
+                onClick={() => setActiveDialog('help')}
               >
-                Auditar sinais GEO no chat
+                Ver termos e garantias
               </button>
             </section>
           </div>
@@ -2078,9 +2036,9 @@ export default function BoopayConversationalCheckoutPage() {
                   <p>Boopay · Checkout Conversacional</p>
                   <h2 id="modal-title">
                     {activeDialog === 'checkout' && 'Vamos conferir e fechar seu pedido?'}
-                    {activeDialog === 'product' && 'Detalhes e Sinais GEO do Produto'}
+                    {activeDialog === 'product' && 'Detalhes do Produto'}
                     {activeDialog === 'profile' && 'Preferências de Entrega & Pagamento'}
-                    {activeDialog === 'help' && 'Arquitetura GEO & Checkout Invisível'}
+                    {activeDialog === 'help' && 'Como Funciona o Boopay'}
                     {activeDialog === 'voice' && 'Comando de Voz Boopay'}
                     {activeDialog === 'new' && 'Iniciar nova conversa?'}
                     {activeDialog === 'menu' && 'Navegação Boopay'}
@@ -2105,12 +2063,12 @@ export default function BoopayConversationalCheckoutPage() {
                       <div className="checkout-top">
                         <div>
                           <span className="widget-kicker">
-                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ShieldCheck size={14} /> Protocolo Universal (UCP / ACP)</span>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><ShieldCheck size={14} /> Ambiente Seguro Criptografado</span>
                           </span>
-                          <h3>Checkout Invisível</h3>
+                          <h3>Finalização do Pedido</h3>
                         </div>
                         <span className="secure-tag">
-                          Hash #{checkoutSession?.quoteHash?.slice(0, 8) || 'SHA256'}
+                          <ShieldCheck size={13} style={{ marginRight: 4, display: 'inline-block', verticalAlign: 'middle' }} /> Compra Protegida
                         </span>
                       </div>
 
@@ -2375,7 +2333,7 @@ export default function BoopayConversationalCheckoutPage() {
                               </strong>
                             </div>
                             <div className="review-row total">
-                              <span>Total Autoritativo</span>
+                              <span>Total a Pagar</span>
                               <strong>{formatBRL(checkoutSession?.totalCents || 0)}</strong>
                             </div>
                           </div>
@@ -2400,7 +2358,7 @@ export default function BoopayConversationalCheckoutPage() {
                               onChange={(e) => setExplicitHumanCheck(e.target.checked)}
                             />
                             <span>
-                              <strong>Confirmação Humana Explícita:</strong> Confirmo que
+                              <strong>Confirmação do Pedido:</strong> Confirmo que
                               revisei os itens, o endereço ({postalCode}) e autorizo o fechamento
                               do pedido no valor de{' '}
                               <strong>{formatBRL(checkoutSession?.totalCents || 0)}</strong>.
@@ -2445,8 +2403,7 @@ export default function BoopayConversationalCheckoutPage() {
                     </div>
                     <div>
                       <p className="detail-brand">
-                        {selectedProduct.brand} · {selectedProduct.category} · GEO{' '}
-                        {selectedProduct.geoScore}/100
+                        {selectedProduct.brand} · {selectedProduct.category}
                       </p>
                       <h3 className="detail-name">{selectedProduct.name}</h3>
                       <p className="detail-price">
@@ -2504,20 +2461,18 @@ export default function BoopayConversationalCheckoutPage() {
                   </form>
                 )}
 
-                {/* MODAL: HELP / ARQUITETURA */}
+                {/* MODAL: HELP / COMO FUNCIONA */}
                 {activeDialog === 'help' && (
                   <div className="help-content">
-                    <h3>Duas Frentes Integradas: GEO + Checkout Invisível</h3>
+                    <h3>Como Funciona o Boopay</h3>
                     <p>
-                      1. <strong>Catálogo Pronto para IA (GEO)</strong>: Sincronizamos produtos do
-                      WooCommerce (via plugin HMAC) e conectores de e-commerce estruturando GTIN,
-                      JSON-LD e disponibilidade em tempo real.
+                      1. <strong>Atendimento Inteligente</strong>: Converse em linguagem natural, tire dúvidas sobre tamanhos, materiais e especificações, e receba recomendações de produtos e kits com descontos exclusivos.
                     </p>
                     <p>
-                      2. <strong>Checkout Invisível com Guarda-Rails (Groq · Qwen 3.8 27B)</strong>: O
-                      agente roda sobre a API da Groq com o modelo <code>qwen/qwen3.8-27b</code>,
-                      enquanto preço, estoque e descontos vêm exclusivamente da cotação determinística
-                      SHA-256 com confirmação humana explícita obrigatória.
+                      2. <strong>Compra Segura e Transparente</strong>: Seu endereço e forma de pagamento são preenchidos com facilidade, garantindo que você revise todos os itens e valores antes de qualquer confirmação de compra.
+                    </p>
+                    <p>
+                      3. <strong>Garantia & Rastreamento</strong>: Após confirmar seu pedido, você recebe atualizações de envio e rastreio em tempo real diretamente na conversa.
                     </p>
                     <button
                       className="secondary"
@@ -2539,7 +2494,7 @@ export default function BoopayConversationalCheckoutPage() {
                       {[
                         'Quero montar um kit de corrida de rua e academia',
                         'Preciso de mochila impermeável e fone ANC',
-                        'Auditar prontidão GEO do catálogo',
+                        'Quero ver kits com desconto',
                         'Quero fechar compra no Pix',
                       ].map((cmd) => (
                         <button
@@ -2599,7 +2554,7 @@ export default function BoopayConversationalCheckoutPage() {
                         type="button"
                         onClick={() => void openInvisibleCheckout()}
                       >
-                        Fechar pedido no Checkout Invisível <ArrowRight size={16} style={{ marginLeft: 6 }} />
+                        Finalizar Compra <ArrowRight size={16} style={{ marginLeft: 6 }} />
                       </button>
                     )}
                     <button

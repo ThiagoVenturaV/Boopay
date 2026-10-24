@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Boopay — Checkout Conversacional & Catálogo Pronto para IA (GEO)',
+  title: 'Boopay — Atendimento Inteligente & Checkout Conversacional',
   description:
-    'Transforme conversas com IA em compras concluídas. Catálogo otimizado para agentes (GEO) + Checkout Invisível no próprio chat com confirmação explícita.',
+    'Compre direto no chat com atendimento inteligente, kits personalizados e finalização segura em poucos passos com confirmação explícita.',
   icons: {
     icon: '/brand/boo-eyes.svg',
   },

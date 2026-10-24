@@ -279,16 +279,16 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
     title: 'Combo Viagem & Rotina Smart (4 itens)',
     subtitle: 'Mochila Impermeável 24L + Powerbank MagSafe 30W + Organizador de Cabos + Garrafa Térmica 750ml',
     goal: 'viagem, embarque de bordo, rotina híbrida e organização',
-    badge: '12% OFF no combo sugerido pela IA',
-    discountPct: 12,
+    badge: '13% OFF no combo sugerido pela IA',
+    discountPct: 13,
     originalTotalCents: 75690,
-    bundlePriceCents: 66600,
+    bundlePriceCents: 65900,
     items: [
       {
         productId: 'boo-prod-02',
         name: 'Mochila Impermeável commuter 24L Tech',
         brand: 'KeyCore Gear',
-        priceCents: 28070,
+        priceCents: 28000,
         qty: 1,
         imageUrl: '/products/commuter-backpack.png',
         category: 'Viagem & Rotina'
@@ -297,7 +297,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         productId: 'boo-prod-06',
         name: 'Powerbank UltraSlim MagSafe 10.000mAh 30W',
         brand: 'KeyCore Gear',
-        priceCents: 19270,
+        priceCents: 19000,
         qty: 1,
         imageUrl: '/products/powerbank-mag.png',
         category: 'Tech & Setup'
@@ -306,7 +306,7 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         productId: 'boo-prod-04',
         name: 'Garrafa Térmica Inox Vacuum 750ml',
         brand: 'BooLab Athletics',
-        priceCents: 10550,
+        priceCents: 10400,
         qty: 1,
         imageUrl: '/products/thermo-bottle.png',
         category: 'Viagem & Rotina'
@@ -315,13 +315,13 @@ export const DEMO_BUNDLES: CatalogBundle[] = [
         productId: 'boo-prod-07',
         name: 'Necessaire & Organizador de Cabos Pro',
         brand: 'KeyCore Gear',
-        priceCents: 8710,
+        priceCents: 8500,
         qty: 1,
         imageUrl: '/products/cable-organizer.png',
         category: 'Viagem & Rotina'
       }
     ],
-    whyRecommended: 'Seleção completa compatível com normas de cabine aérea (mochila 24L + powerbank 37Wh) com 12% de desconto progressivo.',
+    whyRecommended: 'Seleção completa compatível com normas de cabine aérea (mochila 24L + powerbank 37Wh) com 13% de desconto progressivo.',
     source: 'demo'
   },
   {
