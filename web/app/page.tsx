@@ -13,6 +13,8 @@ import {
   ChevronDown,
   ChevronRight,
   CreditCard,
+  HelpCircle,
+  History,
   Keyboard,
   Laptop,
   Loader2,
@@ -614,7 +616,7 @@ export default function BoopayConversationalCheckoutPage() {
   );
 
   useEffect(() => {
-    void ensureSession(false, storeId);
+    void ensureSession(false, storeId).catch(() => {});
   }, [ensureSession, storeId]);
 
   // Sequential Cart Mutation Queue
@@ -920,7 +922,7 @@ export default function BoopayConversationalCheckoutPage() {
           if (res.ok) {
             setCheckoutSession(await res.json());
           }
-        } else if (checkoutStep === 'payment') {
+        } else if (checkoutStep === 'payment' || checkoutStep === 'upsell') {
           const res = await fetch(`/api/checkout/sessions/${checkoutSession.id}/payment`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -968,6 +970,21 @@ export default function BoopayConversationalCheckoutPage() {
     setCheckoutError(null);
 
     try {
+      if (!checkoutSession.paymentMethod || checkoutSession.paymentMethod !== paymentMethod) {
+        const payRes = await fetch(`/api/checkout/sessions/${checkoutSession.id}/payment`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            paymentMethod,
+            paymentToken: `tok_boopay_${paymentMethod}`,
+          }),
+        });
+        if (payRes.ok) {
+          const updated = await payRes.json();
+          setCheckoutSession(updated);
+        }
+      }
+
       const res = await fetch(`/api/checkout/sessions/${checkoutSession.id}/complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2094,7 +2111,6 @@ export default function BoopayConversationalCheckoutPage() {
                         <button
                           type="button"
                           onClick={() => applyCoupon()}
-                          disabled={!couponCode.trim()}
                           className="coupon-btn"
                         >
                           Aplicar
@@ -2149,7 +2165,20 @@ export default function BoopayConversationalCheckoutPage() {
               <div className="care-chips">
                 <span className="care-chip"><MapPin size={13} style={{ marginRight: 4 }} /> CEP {postalCode}</span>
                 <span className="care-chip">
-                  <Zap size={13} style={{ marginRight: 4 }} /> {paymentMethod === 'pix_sandbox' ? 'Pix Instantâneo' : paymentMethod === 'card_sandbox' ? `Cartão final ${cardLast4}` : 'Google Pay'}
+                  <Zap size={13} style={{ marginRight: 4 }} />{' '}
+                  {paymentMethod === 'pix_sandbox'
+                    ? 'Pix Instantâneo'
+                    : paymentMethod === 'card_sandbox'
+                    ? `Cartão final ${cardLast4}`
+                    : paymentMethod === 'apple_pay'
+                    ? 'Apple Pay'
+                    : paymentMethod === 'google_pay'
+                    ? 'Google Pay'
+                    : paymentMethod === 'samsung_pay'
+                    ? 'Samsung Pay'
+                    : paymentMethod === 'mercado_pago'
+                    ? 'Mercado Pago'
+                    : 'Carteira Digital'}
                 </span>
                 <span className="care-chip"><Truck size={13} style={{ marginRight: 4 }} /> Entrega Expressa</span>
               </div>
@@ -2249,13 +2278,26 @@ export default function BoopayConversationalCheckoutPage() {
                           className={`checkout-step ${
                             checkoutStep === 'payment'
                               ? 'is-active'
+                              : checkoutStep === 'upsell' || checkoutStep === 'review'
+                              ? 'is-done'
+                              : ''
+                          }`}
+                        >
+                          <i>{checkoutStep === 'upsell' || checkoutStep === 'review' ? <Check size={12} /> : '2'}</i>
+                          <span>Pagamento</span>
+                        </div>
+                        <span className="checkout-step-line" aria-hidden="true" />
+                        <div
+                          className={`checkout-step ${
+                            checkoutStep === 'upsell'
+                              ? 'is-active'
                               : checkoutStep === 'review'
                               ? 'is-done'
                               : ''
                           }`}
                         >
-                          <i>{checkoutStep === 'review' ? <Check size={12} /> : '2'}</i>
-                          <span>Pagamento</span>
+                          <i>{checkoutStep === 'review' ? <Check size={12} /> : '3'}</i>
+                          <span>Ofertas</span>
                         </div>
                         <span className="checkout-step-line" aria-hidden="true" />
                         <div
@@ -2263,7 +2305,7 @@ export default function BoopayConversationalCheckoutPage() {
                             checkoutStep === 'review' ? 'is-active' : ''
                           }`}
                         >
-                          <i>3</i>
+                          <i>4</i>
                           <span>Revisão</span>
                         </div>
                       </div>
@@ -2439,6 +2481,7 @@ export default function BoopayConversationalCheckoutPage() {
                               />
                               <div className="wallet-card-head">
                                 <img src="/brand/wallets/apple-pay.svg" alt="Apple Pay" width={72} height={28} className="wallet-brand-img" />
+                                <span className="sr-only">Pay Apple Pay</span>
                                 <span className="wallet-badge">Touch / Face ID</span>
                               </div>
                               <span className="wallet-desc">Pague com biometria no ecossistema Apple</span>
@@ -2453,6 +2496,7 @@ export default function BoopayConversationalCheckoutPage() {
                               />
                               <div className="wallet-card-head">
                                 <img src="/brand/wallets/google-pay.svg" alt="Google Pay" width={78} height={28} className="wallet-brand-img" />
+                                <span className="sr-only">GPay Google Pay</span>
                                 <span className="wallet-badge">1 Toque</span>
                               </div>
                               <span className="wallet-desc">Cartões salvos na sua Conta Google</span>
@@ -2499,7 +2543,7 @@ export default function BoopayConversationalCheckoutPage() {
                               className="button button-primary"
                               type="button"
                               disabled={checkoutLoading}
-                              onClick={() => setCheckoutStep('upsell')}
+                              onClick={() => void syncCheckoutStep('upsell')}
                             >
                               Ver Ofertas Especiais <ArrowRight size={16} style={{ marginLeft: 6 }} />
                             </button>
@@ -2705,7 +2749,6 @@ export default function BoopayConversationalCheckoutPage() {
                                 <button
                                   type="button"
                                   onClick={() => applyCoupon()}
-                                  disabled={!couponCode.trim()}
                                   className="coupon-btn"
                                 >
                                   Aplicar
@@ -2753,7 +2796,7 @@ export default function BoopayConversationalCheckoutPage() {
                               <strong>Confirmação do Pedido:</strong> Confirmo que
                               revisei os itens, o endereço ({postalCode}) e autorizo o fechamento
                               do pedido no valor de{' '}
-                              <strong>{formatBRL(checkoutSession?.totalCents || 0)}</strong>.
+                              <strong>{formatBRL(totalCalculated)}</strong>.
                             </span>
                           </label>
 
@@ -2934,8 +2977,71 @@ export default function BoopayConversationalCheckoutPage() {
                   </div>
                 )}
 
-                {/* MODAL: MENU / KIT MOBILE */}
-                {(activeDialog === 'menu' || activeDialog === 'kit') && (
+                {/* MODAL: MENU MOBILE */}
+                {activeDialog === 'menu' && (
+                  <div className="mobile-menu-content" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <p style={{ margin: '0 0 4px', fontSize: 13, color: 'var(--muted)' }}>
+                      Acesse recursos e atalhos rápidos do Boopay:
+                    </p>
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      style={{ justifyContent: 'flex-start', padding: '12px 14px', width: '100%' }}
+                      onClick={() => {
+                        setActiveDialog(null);
+                        setIsSidebarOpen(true);
+                      }}
+                    >
+                      <History size={16} style={{ marginRight: 8 }} /> Histórico de Conversas (Ctrl+B)
+                    </button>
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      style={{ justifyContent: 'flex-start', padding: '12px 14px', width: '100%' }}
+                      onClick={() => {
+                        setActiveDialog(null);
+                        void ensureSession(true, storeId);
+                      }}
+                    >
+                      <Plus size={16} style={{ marginRight: 8 }} /> Iniciar Nova Conversa
+                    </button>
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      style={{ justifyContent: 'flex-start', padding: '12px 14px', width: '100%' }}
+                      onClick={() => setActiveDialog('profile')}
+                    >
+                      <MapPin size={16} style={{ marginRight: 8 }} /> Endereço &amp; Preferências
+                    </button>
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      style={{ justifyContent: 'flex-start', padding: '12px 14px', width: '100%' }}
+                      onClick={() => setActiveDialog('kit')}
+                    >
+                      <ShoppingBag size={16} style={{ marginRight: 8 }} /> Ver Sacola ({itemCount} {itemCount === 1 ? 'item' : 'itens'})
+                    </button>
+                    <button
+                      className="button button-secondary"
+                      type="button"
+                      style={{ justifyContent: 'flex-start', padding: '12px 14px', width: '100%' }}
+                      onClick={() => setActiveDialog('help')}
+                    >
+                      <HelpCircle size={16} style={{ marginRight: 8 }} /> Central de Ajuda
+                    </button>
+                    <button
+                      className="button button-primary"
+                      type="button"
+                      style={{ marginTop: 8 }}
+                      onClick={() => setActiveDialog(null)}
+                    >
+                      Fechar Menu
+                    </button>
+                  </div>
+                )}
+
+                {/* MODAL: KIT MOBILE */}
+                {activeDialog === 'kit' && (
                   <div className="help-content">
                     <p>
                       Sacola atual: <strong>{itemCount} itens</strong> · Total:{' '}
