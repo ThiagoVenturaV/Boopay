@@ -40,7 +40,7 @@ const deliverySchema = z.object({
 });
 
 const paymentSchema = z.object({
-  paymentMethod: z.enum(['pix_sandbox', 'card_sandbox', 'google_pay_sandbox']),
+  paymentMethod: z.enum(['pix_sandbox', 'card_sandbox', 'google_pay_sandbox', 'apple_pay', 'google_pay', 'samsung_pay', 'mercado_pago']),
   paymentToken: z.string().optional()
 });
 

@@ -39,7 +39,7 @@ export interface CheckoutSessionView {
   deliveryType: 'express' | 'standard' | 'pickup' | null;
   cep: string | null;
   address: DeliverySelection['address'] | null;
-  paymentMethod: 'pix_sandbox' | 'card_sandbox' | 'google_pay_sandbox' | null;
+  paymentMethod: 'pix_sandbox' | 'card_sandbox' | 'google_pay_sandbox' | 'apple_pay' | 'google_pay' | 'samsung_pay' | 'mercado_pago' | null;
   paymentToken: string | null;
   subtotalCents: number;
   discountCents: number;
@@ -567,7 +567,7 @@ export class CheckoutService {
   async setPayment(
     sessionId: string,
     input: {
-      paymentMethod: 'pix_sandbox' | 'card_sandbox' | 'google_pay_sandbox';
+      paymentMethod: 'pix_sandbox' | 'card_sandbox' | 'google_pay_sandbox' | 'apple_pay' | 'google_pay' | 'samsung_pay' | 'mercado_pago';
       paymentToken?: string;
     }
   ): Promise<CheckoutSessionView> {

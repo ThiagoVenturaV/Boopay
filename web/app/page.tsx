@@ -565,21 +565,28 @@ export default function BoopayConversationalCheckoutPage() {
             ? window.localStorage.getItem('boopay_conversation_id')
             : null;
 
-        const sessionRes = await fetch('/api/conversations', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            conversationId: storedId || undefined,
-            storeSource: targetStoreId,
-            cep: postalCode,
-          }),
-        });
-
-        if (!sessionRes.ok) {
-          throw new Error('Falha ao criar sessão conversacional');
+        let sessionData: { conversationId: string; cart?: CartSnapshot | null } | null = null;
+        try {
+          const sessionRes = await fetch('/api/conversations', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              conversationId: storedId || undefined,
+              storeSource: targetStoreId,
+              cep: postalCode,
+            }),
+          });
+          if (sessionRes.ok) {
+            sessionData = await sessionRes.json();
+          }
+        } catch {
+          // Fallback gracioso
         }
 
-        const sessionData = await sessionRes.json();
+        if (!sessionData || !sessionData.conversationId) {
+          const fallbackId = storedId || ('conv_' + Math.random().toString(36).substring(2, 10));
+          sessionData = { conversationId: fallbackId, cart: null };
+        }
         setConversationId(sessionData.conversationId);
         setCart(sessionData.cart || null);
 
@@ -2395,7 +2402,9 @@ export default function BoopayConversationalCheckoutPage() {
                                 <strong>Pix Instantâneo</strong>
                                 <small>QR Code e Copia e Cola gerados na hora · Aprovação em 2s</small>
                               </span>
-                              <span className="option-icon"><QrCode size={18} color="#00DAFA" /></span>
+                              <span className="wallet-badge-img-box">
+                                <img src="/brand/wallets/pix.svg" alt="Pix" width={56} height={20} className="wallet-mini-logo" />
+                              </span>
                             </label>
 
                             <label className={`option-card ${paymentMethod === 'card_sandbox' ? 'is-selected' : ''}`}>
@@ -2410,7 +2419,10 @@ export default function BoopayConversationalCheckoutPage() {
                                 <strong>Cartão de Crédito</strong>
                                 <small>Visa final {cardLast4} · Em até 12x sem juros</small>
                               </span>
-                              <span className="option-icon"><CreditCard size={18} color="#6366f1" /></span>
+                              <span className="wallet-card-badges">
+                                <img src="/brand/wallets/visa.svg" alt="Visa" width={34} height={20} />
+                                <img src="/brand/wallets/mastercard.svg" alt="Mastercard" width={30} height={20} />
+                              </span>
                             </label>
                           </div>
 
@@ -2426,7 +2438,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 onChange={() => setPaymentMethod('apple_pay')}
                               />
                               <div className="wallet-card-head">
-                                <span className="wallet-brand apple-brand">Pay</span>
+                                <img src="/brand/wallets/apple-pay.svg" alt="Apple Pay" width={72} height={28} className="wallet-brand-img" />
                                 <span className="wallet-badge">Touch / Face ID</span>
                               </div>
                               <span className="wallet-desc">Pague com biometria no ecossistema Apple</span>
@@ -2440,7 +2452,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 onChange={() => setPaymentMethod('google_pay')}
                               />
                               <div className="wallet-card-head">
-                                <span className="wallet-brand google-brand">GPay</span>
+                                <img src="/brand/wallets/google-pay.svg" alt="Google Pay" width={78} height={28} className="wallet-brand-img" />
                                 <span className="wallet-badge">1 Toque</span>
                               </div>
                               <span className="wallet-desc">Cartões salvos na sua Conta Google</span>
@@ -2454,7 +2466,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 onChange={() => setPaymentMethod('samsung_pay')}
                               />
                               <div className="wallet-card-head">
-                                <span className="wallet-brand samsung-brand">Samsung Pay</span>
+                                <img src="/brand/wallets/samsung-pay.svg" alt="Samsung Pay" width={92} height={26} className="wallet-brand-img" />
                                 <span className="wallet-badge">Knox Secure</span>
                               </div>
                               <span className="wallet-desc">Tokenização e biometria em aparelhos Galaxy</span>
@@ -2468,7 +2480,7 @@ export default function BoopayConversationalCheckoutPage() {
                                 onChange={() => setPaymentMethod('mercado_pago')}
                               />
                               <div className="wallet-card-head">
-                                <span className="wallet-brand mp-brand">Mercado Pago</span>
+                                <img src="/brand/wallets/mercado-pago.svg" alt="Mercado Pago" width={96} height={26} className="wallet-brand-img" />
                                 <span className="wallet-badge">Saldo / Cartão</span>
                               </div>
                               <span className="wallet-desc">Saldo em conta ou Linha de Crédito</span>
@@ -2624,18 +2636,43 @@ export default function BoopayConversationalCheckoutPage() {
                             </div>
                             <div className="review-row">
                               <span>Forma de Pagamento</span>
-                              <strong>
-                                {paymentMethod === 'pix_sandbox'
-                                  ? 'Pix Instantâneo (QR Code)'
-                                  : paymentMethod === 'card_sandbox'
-                                  ? `Cartão de Crédito •••• ${cardLast4}`
-                                  : paymentMethod === 'apple_pay'
-                                  ? 'Apple Pay (Face ID)'
-                                  : paymentMethod === 'google_pay'
-                                  ? 'Google Pay (1 Toque)'
-                                  : paymentMethod === 'samsung_pay'
-                                  ? 'Samsung Pay (Knox)'
-                                  : 'Mercado Pago'}
+                              <strong className="review-payment-display">
+                                {paymentMethod === 'pix_sandbox' && (
+                                  <>
+                                    <img src="/brand/wallets/pix.svg" alt="Pix" width={42} height={18} />
+                                    <span>Pix Instantâneo</span>
+                                  </>
+                                )}
+                                {paymentMethod === 'apple_pay' && (
+                                  <>
+                                    <img src="/brand/wallets/apple-pay.svg" alt="Apple Pay" width={48} height={20} />
+                                    <span>Apple Pay</span>
+                                  </>
+                                )}
+                                {paymentMethod === 'google_pay' && (
+                                  <>
+                                    <img src="/brand/wallets/google-pay.svg" alt="Google Pay" width={52} height={20} />
+                                    <span>Google Pay</span>
+                                  </>
+                                )}
+                                {paymentMethod === 'samsung_pay' && (
+                                  <>
+                                    <img src="/brand/wallets/samsung-pay.svg" alt="Samsung Pay" width={64} height={20} />
+                                    <span>Samsung Pay</span>
+                                  </>
+                                )}
+                                {paymentMethod === 'mercado_pago' && (
+                                  <>
+                                    <img src="/brand/wallets/mercado-pago.svg" alt="Mercado Pago" width={64} height={20} />
+                                    <span>Mercado Pago</span>
+                                  </>
+                                )}
+                                {paymentMethod === 'card_sandbox' && (
+                                  <>
+                                    <img src="/brand/wallets/visa.svg" alt="Visa" width={32} height={18} />
+                                    <span>Cartão Visa final {cardLast4}</span>
+                                  </>
+                                )}
                               </strong>
                             </div>
                             <div className="review-row total">
