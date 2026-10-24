@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "build": "tsc --noEmit",
@@ -15,10 +14,12 @@
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
     "package:plugin": "node scripts/build-plugin.mjs",
+    "demo:plugin": "node scripts/build-plugin-demo.mjs",
     "qa:wordpress": "tsx scripts/qa-wordpress.ts",
     "qa:browser": "tsx scripts/serve-browser-qa.ts",
     "qa:evidence": "node scripts/record-backend-evidence.mjs",
-    "qa:plugin": "node scripts/qa-plugin.mjs"
+    "qa:plugin": "node scripts/qa-plugin.mjs",
+    "contrib:check": "node scripts/contributor-preflight.mjs"
   },
   "keywords": [],
   "author": "",
@@ -34,6 +35,4 @@
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"
   }
-  
-  
 }

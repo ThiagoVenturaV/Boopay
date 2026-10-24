@@ -6,6 +6,8 @@ import { boopayRoutes } from './http/routes';
 import { connectionRoutes } from './http/connection-routes';
 import { AccessError, CredentialService, equalSecret } from './security/credentials';
 import { verifySignedRequest } from './security/signed-request';
+import { TenantAccess } from './security/tenant-context';
+import { operatorRoutes } from './http/operator-routes';
 import { RequestMetrics } from './observability/metrics';
 import { bearer } from './http/connection-routes';
 
@@ -21,6 +23,8 @@ export function buildApp(options: { db: PrismaClient; credentialKey: string; adm
   });
   const metrics = new RequestMetrics();
   const credentials = new CredentialService(options.db, options.credentialKey, options.now);
+  const tenantAccess = new TenantAccess(options.db, options.now);
+
   app.addHook('onRequest', async request => { request.boopayStartedAt = process.hrtime.bigint(); });
   app.addHook('onSend', async (request, reply, payload) => {
     reply.header('x-request-id', request.id);
@@ -38,6 +42,7 @@ export function buildApp(options: { db: PrismaClient; credentialKey: string; adm
     reply.header('Cache-Control', 'no-store');
     return metrics.snapshot();
   });
+
   app.removeContentTypeParser('application/json');
   const parseJson = app.getDefaultJsonParser('error', 'error');
   app.addContentTypeParser('application/json', { parseAs: 'buffer' }, (request, body, done) => {
@@ -58,6 +63,7 @@ export function buildApp(options: { db: PrismaClient; credentialKey: string; adm
     return reply.code(500).send({ error: 'internal_error' });
   });
   connectionRoutes(app, credentials, options.adminToken);
+  operatorRoutes(app, credentials, tenantAccess, options.adminToken);
   app.register(boopayRoutes, { db: options.db });
-  return { app, credentials };
+  return { app, credentials, tenantAccess };
 }
