@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: boopay-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: boopay
+      POSTGRES_PASSWORD: boopay_secret_local
+      POSTGRES_DB: boopay
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./catalogo.sql:/docker-entrypoint-initdb.d/01-catalogo.sql:ro
+
+volumes:
+  pgdata:

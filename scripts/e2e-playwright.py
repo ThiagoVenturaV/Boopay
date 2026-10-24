@@ -143,9 +143,23 @@ def run_desktop_e2e(playwright) -> Path:
     page.locator(".checkout-actions .button-primary").click()
     page.wait_for_timeout(800)
 
-    # Step 2 (Payment) -> Step 3 (Review)
+    # Step 2 (Payment) -> Choose Digital Wallet (Apple Pay) & advance to Step 3 (Upsell)
+    page.locator(".wallet-card", has_text="Pay").click()
+    page.wait_for_timeout(600)
     page.locator(".checkout-actions .button-primary").click()
     page.wait_for_timeout(800)
+
+    # Step 3 (Upsell) -> Add an exclusive checkout offer & advance to Step 4 (Review)
+    page.locator(".upsell-add-btn").first.click()
+    page.wait_for_timeout(600)
+    page.locator(".checkout-actions .button-primary").click()
+    page.wait_for_timeout(800)
+
+    # Step 4 (Review) -> Apply Discount Coupon (BOOPAY10)
+    page.locator(".dialog .coupon-input").fill("BOOPAY10")
+    page.locator(".dialog .coupon-btn").click()
+    page.wait_for_selector(".dialog .coupon-applied-badge", timeout=5000)
+    page.wait_for_timeout(700)
 
     # Guard-rail test: attempt confirm without explicit checkbox
     page.locator(".checkout-actions .button-primary").click()
@@ -221,7 +235,9 @@ def run_mobile_e2e(playwright) -> Path:
     page.wait_for_selector(".checkout-steps", timeout=10000)
     page.wait_for_timeout(700)
 
-    # Step 1 -> Step 2 -> Step 3
+    # Step 1 (Delivery) -> Step 2 (Payment) -> Step 3 (Upsell) -> Step 4 (Review)
+    page.locator(".checkout-actions .button-primary").click()
+    page.wait_for_timeout(700)
     page.locator(".checkout-actions .button-primary").click()
     page.wait_for_timeout(700)
     page.locator(".checkout-actions .button-primary").click()

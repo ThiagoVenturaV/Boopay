@@ -4172,3 +4172,371 @@ html, body {
   margin-top: 8px;
   margin-bottom: 6px;
 }
+
+
+/* ==================== COUPON COMPONENT ==================== */
+.coupon-container {
+  margin: 10px 0;
+}
+
+.coupon-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 4px 6px 4px 10px;
+  transition: border-color 140ms ease;
+}
+
+.coupon-input-group:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0, 0, 190, 0.08);
+}
+
+.coupon-icon {
+  color: var(--muted);
+  flex: none;
+}
+
+.coupon-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  text-transform: uppercase;
+}
+
+.coupon-input::placeholder {
+  text-transform: none;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.coupon-btn {
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--r-sm);
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 140ms ease;
+  flex: none;
+}
+
+.coupon-btn:hover:not(:disabled) {
+  background: var(--blue);
+}
+
+.coupon-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.coupon-applied-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #eefde0;
+  border: 1px solid #86efac;
+  border-radius: var(--r-md);
+  padding: 8px 12px;
+}
+
+.coupon-applied-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #166534;
+}
+
+.coupon-remove-btn {
+  background: transparent;
+  border: none;
+  color: #166534;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coupon-remove-btn:hover {
+  background: rgba(22, 101, 52, 0.15);
+}
+
+.coupon-error-text {
+  font-size: 11.5px;
+  color: #dc2626;
+  margin: 4px 0 0 4px;
+  font-weight: 500;
+}
+
+/* ==================== DIGITAL WALLETS ==================== */
+.payment-group-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.wallet-options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 600px) {
+  .wallet-options-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.wallet-card {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 140ms ease;
+  position: relative;
+  user-select: none;
+}
+
+.wallet-card input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.wallet-card:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.wallet-card.is-selected {
+  border-color: #032541;
+  background: #f0f7ff;
+  box-shadow: 0 0 0 2px #00DAFA;
+}
+
+.wallet-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.wallet-brand {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.apple-brand {
+  color: #000000;
+}
+
+.google-brand {
+  color: #4285F4;
+}
+
+.samsung-brand {
+  color: #1428A0;
+}
+
+.mp-brand {
+  color: #009EE3;
+}
+
+.wallet-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--ink);
+}
+
+.wallet-card.is-selected .wallet-badge {
+  background: #032541;
+  color: #ffffff;
+}
+
+.wallet-desc {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* ==================== UPSELL SCREEN ==================== */
+.upsell-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #032541;
+  background: #85FA2E;
+  padding: 4px 10px;
+  border-radius: 999px;
+  box-shadow: 0 1px 4px rgba(133, 250, 46, 0.3);
+}
+
+.upsell-items-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 14px 0 20px;
+}
+
+.upsell-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: #ffffff;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-lg);
+  transition: all 160ms ease;
+}
+
+.upsell-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 14px rgba(12, 15, 45, 0.06);
+}
+
+.upsell-card.is-added {
+  border-color: #85FA2E;
+  background: #fbfef7;
+  box-shadow: 0 0 0 2px rgba(133, 250, 46, 0.35);
+}
+
+.upsell-media {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--r-md);
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.upsell-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.upsell-tag {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 2px 5px;
+  border-radius: 4px;
+}
+
+.upsell-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.upsell-name-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.upsell-name-row strong {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.upsell-brand {
+  font-size: 11px;
+  color: var(--muted);
+  flex: none;
+}
+
+.upsell-desc {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.35;
+  margin: 0;
+}
+
+.upsell-price-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.upsell-price-col {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.upsell-old-price {
+  font-size: 11.5px;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.upsell-deal-price {
+  font-size: 14.5px;
+  color: #032541;
+  font-weight: 800;
+}
+
+.upsell-add-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 140ms ease;
+  display: inline-flex;
+  align-items: center;
+}
+
+.upsell-add-btn:hover {
+  background: #032541;
+  border-color: #032541;
+  color: #ffffff;
+}
+
+.upsell-add-btn.is-added {
+  background: #166534;
+  border-color: #166534;
+  color: #ffffff;
+}
