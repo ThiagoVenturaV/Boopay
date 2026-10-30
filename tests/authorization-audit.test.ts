@@ -4,7 +4,7 @@ import { mkdtempSync, rmSync, writeFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { randomBytes } from 'node:crypto';
+import { randomBytes, randomUUID } from 'node:crypto';
 import { PrismaClient } from '@prisma/client';
 import { buildApp } from '../src/app';
 import { CredentialService } from '../src/security/credentials';
@@ -135,7 +135,7 @@ test('RB-068 Auditoria de Autorização, Isolamento Multitenant e Proteção de 
 
   await t.test('2. Proteção contra Tampering e Replay em Assinatura HMAC', async () => {
     const rawBody = Buffer.from(
-      JSON.stringify({ version: 1, event_id: 'evt-001', merchant_id: merchantA.id, items: [] }),
+      JSON.stringify({ version: 1, event_id: randomUUID(), merchant_id: merchantA.id, items: [] }),
       'utf8'
     );
     const nowSec = Math.floor(Date.now() / 1000);
@@ -187,7 +187,7 @@ test('RB-068 Auditoria de Autorização, Isolamento Multitenant e Proteção de 
 
     // 2.2 Tampering de payload (corpo adulterado com assinatura antiga)
     const tamperedBody = Buffer.from(
-      JSON.stringify({ version: 1, event_id: 'evt-002', merchant_id: merchantB.id, items: [] }),
+      JSON.stringify({ version: 1, event_id: randomUUID(), merchant_id: merchantB.id, items: [] }),
       'utf8'
     );
     const newNonce = randomBytes(16).toString('hex');
