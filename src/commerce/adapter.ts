@@ -537,5 +537,13 @@ export function createCommerceAdapter(db: PrismaClient, sourceOverride?: string)
       consumerSecret: process.env.WOO_CONSUMER_SECRET
     });
   }
+  if (mode === 'vtex') {
+    const { VtexCommerceAdapter } = require('../connectors/vtex/checkout');
+    return new VtexCommerceAdapter(db, {
+      accountName: process.env.VTEX_ACCOUNT,
+      appKey: process.env.VTEX_APP_KEY,
+      appToken: process.env.VTEX_APP_TOKEN
+    });
+  }
   return new DemoCommerceAdapter(db);
 }
